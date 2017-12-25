@@ -6,4 +6,6 @@ MXBoard is the training/testing visualization user interface for [MXNet](https:/
 
 ## 2. How to Install
 
-## 3. Thirdparty Dependency
+## 3. Architecture
+
+## 4. Thirdparty Dependency
