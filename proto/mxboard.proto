@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+message TaskParameter {
+    required TaskId id = 1;
+}
+
+message TaskId {
+    required string task_id = 1;
+}
+
+message TaskState {
+    required int32 state_code = 1 [default = 0];
+    required string state_desc = 2 [default = 'OK_TO_RUN'];
+}
+
+service MXNetService {
+    rpc startTask(TaskParameter) returns(TaskState){};
+    rpc stopTask(TaskId) returns(TaskState){};
+}
