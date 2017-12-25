@@ -18,6 +18,7 @@ class XMLParser(object):
 
         mongo_config['host'] = mongo_element.getElementsByTagName('host')[0].firstChild.data
         mongo_config['port'] = mongo_element.getElementsByTagName('port')[0].firstChild.data
+        mongo_config['task-db'] = mongo_element.getElementsByTagName('task-db')[0].firstChild.data
         mongo_config['train-db'] = mongo_element.getElementsByTagName('train-db')[0].firstChild.data
         mongo_config['test-db'] = mongo_element.getElementsByTagName('test-db')[0].firstChild.data
 
