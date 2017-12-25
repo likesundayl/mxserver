@@ -16,4 +16,8 @@
         <log-backup-count>5</log-backup-count>
         <log-level>INFO</log-level>
     </log-conf>
+    <storage-conf>
+        <symbol-json-root></symbol-json-root>
+        <params-root></params-root>
+    </storage-conf>
 </mxboard>
