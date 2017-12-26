@@ -4,15 +4,15 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import time
-import grpc
-
-from concurrent import futures
 from multiprocessing import Queue
+
+import grpc
+from concurrent import futures
+
+from backend.mxboard.log.logger_generator import get_logger
+from backend.mxboard.proto import mxboard_pb2_grpc
 from backend.mxboard.rpc.mxnet_service import MXNetService
 from backend.mxboard.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
-from backend.mxboard.proto import mxboard_pb2_grpc
-from backend.mxboard.log.logger_generator import get_logger
-
 
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_server')

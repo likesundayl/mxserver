@@ -5,8 +5,9 @@
 # ------------------------------
 import json
 
-from backend.mxboard.util.xml_parser import mxboard_storage_config
 from mxnet import symbol as sym
+
+from backend.mxboard.util.xml_parser import mxboard_storage_config
 
 
 def create_symbol(symbol_name, net_define_json):

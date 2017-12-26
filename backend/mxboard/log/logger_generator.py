@@ -3,12 +3,11 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
-import time
 import logging
 import logging.handlers as log_handlers
+import time
 
 from backend.mxboard.util.xml_parser import mxboard_log_config
-
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = '../../../log/mxboard-server-' + current_date + '-log.txt'

@@ -4,10 +4,9 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 from backend.mxboard.log.logger_generator import get_logger
-from backend.mxboard.symbol.symbol_creater import create_symbol
 from backend.mxboard.proto import mxboard_pb2
 from backend.mxboard.proto.mxboard_pb2_grpc import MXNetServiceServicer
-
+from backend.mxboard.symbol.symbol_creater import create_symbol
 
 SYMBOL_CREATE_STATE_CODES = [0, 1]
 SYMBOL_CREATE_STATES = ['SUCCESSFUL', 'FAILED']

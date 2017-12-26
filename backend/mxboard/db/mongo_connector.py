@@ -4,6 +4,7 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 from pymongo import MongoClient
+
 from backend.mxboard.util.xml_parser import mxboard_mongo_config
 
 
