@@ -10,6 +10,7 @@ from backend.mxboard.executor import Executor
 
 class ExecutorProcess(Process):
     def __init__(self, process_id, task_desc):
+        super(ExecutorProcess, self).__init__()
         self._process_id = process_id
         self._logger = get_logger('executor_process_%s' % process_id)
         self._executor = self._init_executor(task_desc)
