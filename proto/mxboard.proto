@@ -13,6 +13,8 @@ message SymbolCreateState {
 
 message TaskParameter {
     required TaskId id = 1;
+    // the task_desc should be a JSON
+    required string task_desc = 2;
 }
 
 message TaskId {
