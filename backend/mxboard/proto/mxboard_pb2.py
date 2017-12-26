@@ -19,10 +19,86 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='mxboard.proto',
   package='',
   syntax='proto2',
-  serialized_pb=_b('\n\rmxboard.proto\"$\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"A\n\tTaskState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x02 \x02(\t:\tOK_TO_RUN2\\\n\x0cMXNetService\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
+  serialized_pb=_b('\n\rmxboard.proto\";\n\x0fSymbolParameter\x12\x13\n\x0bsymbol_name\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x02 \x02(\t\"J\n\x11SymbolCreateState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x02 \x02(\t:\nSUCCESSFUL\"$\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"A\n\tTaskState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x02 \x02(\t:\tOK_TO_RUN2\x94\x01\n\x0cMXNetService\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
 )
 
 
+
+
+_SYMBOLPARAMETER = _descriptor.Descriptor(
+  name='SymbolParameter',
+  full_name='SymbolParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='symbol_name', full_name='SymbolParameter.symbol_name', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='symbol_desc', full_name='SymbolParameter.symbol_desc', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=17,
+  serialized_end=76,
+)
+
+
+_SYMBOLCREATESTATE = _descriptor.Descriptor(
+  name='SymbolCreateState',
+  full_name='SymbolCreateState',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='state_code', full_name='SymbolCreateState.state_code', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=True, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='state_desc', full_name='SymbolCreateState.state_desc', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=True, default_value=_b("SUCCESSFUL").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=78,
+  serialized_end=152,
+)
 
 
 _TASKPARAMETER = _descriptor.Descriptor(
@@ -51,8 +127,8 @@ _TASKPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=17,
-  serialized_end=53,
+  serialized_start=154,
+  serialized_end=190,
 )
 
 
@@ -82,8 +158,8 @@ _TASKID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=55,
-  serialized_end=80,
+  serialized_start=192,
+  serialized_end=217,
 )
 
 
@@ -120,15 +196,31 @@ _TASKSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=82,
-  serialized_end=147,
+  serialized_start=219,
+  serialized_end=284,
 )
 
 _TASKPARAMETER.fields_by_name['id'].message_type = _TASKID
+DESCRIPTOR.message_types_by_name['SymbolParameter'] = _SYMBOLPARAMETER
+DESCRIPTOR.message_types_by_name['SymbolCreateState'] = _SYMBOLCREATESTATE
 DESCRIPTOR.message_types_by_name['TaskParameter'] = _TASKPARAMETER
 DESCRIPTOR.message_types_by_name['TaskId'] = _TASKID
 DESCRIPTOR.message_types_by_name['TaskState'] = _TASKSTATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+SymbolParameter = _reflection.GeneratedProtocolMessageType('SymbolParameter', (_message.Message,), dict(
+  DESCRIPTOR = _SYMBOLPARAMETER,
+  __module__ = 'mxboard_pb2'
+  # @@protoc_insertion_point(class_scope:SymbolParameter)
+  ))
+_sym_db.RegisterMessage(SymbolParameter)
+
+SymbolCreateState = _reflection.GeneratedProtocolMessageType('SymbolCreateState', (_message.Message,), dict(
+  DESCRIPTOR = _SYMBOLCREATESTATE,
+  __module__ = 'mxboard_pb2'
+  # @@protoc_insertion_point(class_scope:SymbolCreateState)
+  ))
+_sym_db.RegisterMessage(SymbolCreateState)
 
 TaskParameter = _reflection.GeneratedProtocolMessageType('TaskParameter', (_message.Message,), dict(
   DESCRIPTOR = _TASKPARAMETER,
@@ -159,13 +251,22 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=149,
-  serialized_end=241,
+  serialized_start=287,
+  serialized_end=435,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='createSymbol',
+    full_name='MXNetService.createSymbol',
+    index=0,
+    containing_service=None,
+    input_type=_SYMBOLPARAMETER,
+    output_type=_SYMBOLCREATESTATE,
+    options=None,
+  ),
   _descriptor.MethodDescriptor(
     name='startTask',
     full_name='MXNetService.startTask',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_TASKPARAMETER,
     output_type=_TASKSTATE,
@@ -174,7 +275,7 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='stopTask',
     full_name='MXNetService.stopTask',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_TASKID,
     output_type=_TASKSTATE,

@@ -1,5 +1,16 @@
 syntax = "proto2";
 
+message SymbolParameter {
+    required string symbol_name = 1;
+    // the symbol_desc should be a JSON defined by frontend
+    required string symbol_desc = 2;
+}
+
+message SymbolCreateState {
+    required int32 state_code = 1 [default = 0];
+    required string state_desc = 2 [default = 'SUCCESSFUL'];
+}
+
 message TaskParameter {
     required TaskId id = 1;
 }
@@ -14,6 +25,7 @@ message TaskState {
 }
 
 service MXNetService {
+    rpc createSymbol(SymbolParameter) returns(SymbolCreateState){};
     rpc startTask(TaskParameter) returns(TaskState){};
     rpc stopTask(TaskId) returns(TaskState){};
 }
