@@ -11,7 +11,7 @@ from backend.mxboard.util.xml_parser import mxboard_log_config
 
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
-log_file = '../../../log/' + current_date + '-log.txt'
+log_file = '../../../log/mxboard-server-' + current_date + '-log.txt'
 
 
 def get_logger(logger_name):
