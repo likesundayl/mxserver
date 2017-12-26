@@ -20,8 +20,8 @@
         <log-level>INFO</log-level>
     </log-conf>
     <storage-conf>
-        <symbol-json-root></symbol-json-root>
-        <params-root></params-root>
+        <symbol-json-root>../model_zoo/</symbol-json-root>
+        <params-root>../params_zoo</params-root>
     </storage-conf>
     <task-queue-conf>
         <queue-max-size>10</queue-max-size>

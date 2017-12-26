@@ -47,6 +47,15 @@ class XMLParser(object):
 
         return log_config
 
+    def storage_config(self):
+        storage_config = {}
+
+        storage_element = self._root.getElementsByTagName('storage-conf')[0]
+        storage_config['symbol-json-root'] = storage_element.getElementsByTagName('symbol-json-root')[0].firstChild.data
+        storage_config['params-root'] = storage_element.getElementsByTagName('params-root')[0].firstChild.data
+
+        return storage_config
+
     def task_queue_config(self):
         task_queue_config = {}
 
@@ -69,6 +78,7 @@ xml_parser = XMLParser()
 mxboard_mongo_config = xml_parser.mongo_config()
 mxboard_rpc_config = xml_parser.rpc_config()
 mxboard_log_config = xml_parser.log_config()
+mxboard_storage_config = xml_parser.storage_config()
 mxboard_task_queue_config = xml_parser.task_queue_config()
 mxboard_data_download_config = xml_parser.data_download_config()
 
