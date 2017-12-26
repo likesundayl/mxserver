@@ -30,6 +30,9 @@ class XMLParser(object):
 
         rpc_config['host'] = rpc_element.getElementsByTagName('host')[0].firstChild.data
         rpc_config['port'] = rpc_element.getElementsByTagName('port')[0].firstChild.data
+        rpc_config['max-thread-num'] = rpc_element.getElementsByTagName('max-thread-num')[0].firstChild.data
+        rpc_config['one-day-time-in-seconds'] = rpc_element.getElementsByTagName('one-day-time-in-seconds')[0]\
+            .firstChild.data
 
         return rpc_config
 
@@ -44,9 +47,28 @@ class XMLParser(object):
 
         return log_config
 
+    def task_queue_config(self):
+        task_queue_config = {}
+
+        task_element = self._root.getElementsByTagName('task-queue-conf')[0]
+        task_queue_config['queue-max-size'] = task_element.getElementsByTagName('queue-max-size')[0].firstChild.data
+        task_queue_config['wait-time-out'] = task_element.getElementsByTagName('wait-time-out')[0].firstChild.data
+
+        return task_queue_config
+
+    def data_download_config(self):
+        data_download_config = {}
+
+        data_element = self._root.getElementsByTagName('data-download-conf')[0]
+        data_download_config['max-retry-num'] = data_element.getElementsByTagName('max-retry-num')[0].firstChild.data
+
+        return data_download_config
+
 
 xml_parser = XMLParser()
 mxboard_mongo_config = xml_parser.mongo_config()
 mxboard_rpc_config = xml_parser.rpc_config()
 mxboard_log_config = xml_parser.log_config()
+mxboard_task_queue_config = xml_parser.task_queue_config()
+mxboard_data_download_config = xml_parser.data_download_config()
 

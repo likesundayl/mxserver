@@ -8,8 +8,9 @@ from backend.mxboard.proto.mxboard_pb2_grpc import MXNetServiceServicer
 
 
 class MXNetService(MXNetServiceServicer):
-    def __init__(self):
+    def __init__(self, task_queue):
         self._logger = get_logger('mxnet_service')
+        self._queue = task_queue
 
     def startTask(self, request, context):
         pass

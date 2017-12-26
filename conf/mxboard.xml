@@ -10,6 +10,8 @@
     <rpc-conf>
         <host>127.0.0.1</host>
         <port>50051</port>
+        <max-thread-num>4</max-thread-num>
+        <one-day-time-in-seconds>86400</one-day-time-in-seconds>
     </rpc-conf>
     <log-conf>
         <log-format>%(asctime)s - %(filename)s-%(lineno)s[%(levelname)s]: %(message)s</log-format>
@@ -21,4 +23,11 @@
         <symbol-json-root></symbol-json-root>
         <params-root></params-root>
     </storage-conf>
+    <task-queue-conf>
+        <queue-max-size>10</queue-max-size>
+        <wait-time-out>10</wait-time-out>
+    </task-queue-conf>
+    <data-download-conf>
+        <max-retry-num>5</max-retry-num>
+    </data-download-conf>
 </mxboard>
