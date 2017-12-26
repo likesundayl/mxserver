@@ -12,6 +12,9 @@ class MXNetService(MXNetServiceServicer):
         self._logger = get_logger('mxnet_service')
         self._queue = task_queue
 
+    def createSymbol(self, request, context):
+        pass
+
     def startTask(self, request, context):
         pass
 
