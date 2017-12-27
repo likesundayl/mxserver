@@ -37,5 +37,5 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             main_logger.warn('MXNet server has been stopped!')
             server.stop(0)
-    except StandardError:
-        main_logger.error('The mxnet_server can not be started!')
+    except StandardError as e:
+        main_logger.error('The mxnet_server can not be started! Because %s' % e.message)
