@@ -14,6 +14,10 @@ from backend.mxboard.log.logger_generator import get_logger
 from backend.mxboard.proto import mxboard_pb2_grpc
 from backend.mxboard.rpc.mxnet_service import MXNetService
 from backend.mxboard.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
+from backend.config import EXCEPTION_MSG_LEVEL
+if EXCEPTION_MSG_LEVEL == 'DETAILED':
+    import traceback
+
 
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_server')
@@ -37,5 +41,11 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             main_logger.warn('MXNet server has been stopped!')
             server.stop(0)
-    except StandardError as e:
-        main_logger.error('The mxnet_server can not be started! Because %s' % e.message)
+    except StandardError, e:
+        if EXCEPTION_MSG_LEVEL == 'DETAILED':
+            exception_msg = traceback.format_exc()
+        elif EXCEPTION_MSG_LEVEL == 'BASIC':
+            exception_msg = repr(e)
+        else:
+            exception_msg = str(e)
+        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg)
