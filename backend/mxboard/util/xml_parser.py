@@ -4,8 +4,8 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import xml.dom.minidom as xdm
-
-xml_path = '../../../conf/mxboard.xml'
+from backend.config import CONFIG_XML_PATH
+xml_path = CONFIG_XML_PATH
 
 
 class XMLParser(object):
