@@ -14,13 +14,20 @@ log_file = '../../../log/mxboard-server-' + current_date + '-log.txt'
 
 
 def get_logger(logger_name):
-    handler = log_handlers.RotatingFileHandler(filename=log_file,
-                                               maxBytes=long(mxboard_log_config['log-max-bytes']),
-                                               backupCount=int(mxboard_log_config['log-backup-count']))
+    file_handler = log_handlers.RotatingFileHandler(filename=log_file,
+                                                    maxBytes=long(mxboard_log_config['log-max-bytes']),
+                                                    backupCount=int(mxboard_log_config['log-backup-count']))
+    console_handler = logging.StreamHandler()
+
     formatter = logging.Formatter(mxboard_log_config['log-format'])
-    handler.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
     logger = logging.getLogger(logger_name)
-    logger.addHandler(handler)
+
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
     level = mxboard_log_config['log-level']
     if level == 'INFO':
         logger.setLevel(logging.INFO)
