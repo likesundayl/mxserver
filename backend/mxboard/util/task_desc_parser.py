@@ -23,7 +23,7 @@ def parse_task_desc(task_desc):
     net_symbol = sym.load(net_full_path)
 
     #############################################################
-    # Prepare data
+    # Prepare data(including data and label config)
     #############################################################
     data_dict = task_dict['data']
 
