@@ -5,7 +5,7 @@
 # ------------------------------
 import json
 import os.path as osp
-from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, optimizer as opt
+from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Context
 from backend.mxboard.util.xml_parser import mxboard_storage_config
 
 
@@ -21,6 +21,12 @@ def parse_task_desc(task_desc):
     net_name = task_dict['net']
     net_full_path = osp.join(symbol_root_path, net_name + '.json')
     net_symbol = sym.load(net_full_path)
+
+    #############################################################
+    # Prepare ctx
+    #############################################################
+    ctx_config = task_dict['ctx']
+    ctx_list = _generate_ctx(ctx_config)
 
     #############################################################
     # Prepare data(including data and label config)
@@ -45,7 +51,29 @@ def parse_task_desc(task_desc):
     opt_dict = task_dict['optimizer']
     optimizer = _generate_optimizer(opt_dict)
 
-    return net_symbol, data_dict, initializer, lr_scheduler, optimizer
+    return net_symbol, ctx_list, data_dict, initializer, lr_scheduler, optimizer
+
+
+def get_data_and_label_names(data_config_dict):
+    label_config = data_config_dict['label']
+    label_names = [label['label_name'] for label in label_config]
+    data_config = data_config_dict['data_name_shapes']
+    data_names = [data['data_name'] for data in data_config]
+    return data_names, label_names
+
+
+def _generate_ctx(ctx_config):
+    ctx_list = []
+
+    for ctx in ctx_config:
+        name = ctx['device_name']
+        if name == 'cpu':
+            ctx_list.append(Context(device_type=name, device_id=0))
+            return ctx_list
+        else:
+            device_id = int(ctx['device_id'])
+            ctx_list.append(Context(device_type='gpu', device_id=device_id))
+    return ctx_list
 
 
 def _generate_initializer(init_dict):

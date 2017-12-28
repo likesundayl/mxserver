@@ -1,0 +1,34 @@
+{
+  "net": "alexnet_10",
+  "ctx": [
+    {"device_name": "gpu", "device_id": "0"}
+  ],
+  "data": {
+    "target": "train",
+    "data_name_shapes": [
+      {
+        "name": "data",
+        "shapes": ["3", "128", "128"]
+      }
+    ],
+    "label": [
+      {
+        "label_name": "softmax_label",
+        "label_width": "1"
+      }
+    ],
+    "train_config": {
+      "data_config": {
+        "batch_size": "32",
+        "shuffle": "0",
+        "train_set": ["rec", "idx"],
+        "val_set": ["rec", "idx"]
+      }
+    },
+    "test_config": {
+      "data_config": {
+        "datas": ["xxx.jpg", "yyy.jpg", "zzz.jpg"]
+      }
+    }
+  }
+}
