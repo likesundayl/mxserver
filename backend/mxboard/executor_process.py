@@ -26,6 +26,11 @@ class ExecutorProcess(Process):
         self._task_progress_list = []
 
     def run(self):
+        self._task_progress_recorder.insert_one({
+            'task_id': self._process_id,
+            'task_progresses': []
+        })
+
         symbol, ctx_list, data_dict, initializer, lr_scheduler, optimizer = parse_task_desc(self._task_desc)
         data_names, label_names = get_data_and_label_names(data_dict)
         # TODO:
