@@ -31,5 +31,29 @@ class TaskProgressRecorder(MongoConnector):
     def update_one(self, task_id, msg):
         self._collection.update_one(
             {'task_id': task_id},
-            {'$set': {}}
+            {'$set': {'task_progresses': msg}}
+        )
+
+
+class TrainLogRecorder(MongoConnector):
+    def __init__(self):
+        super(TrainLogRecorder, self).__init__()
+        self._collection = self._client.get_database('train-db').get_collection('train-log')
+
+    def update_one(self, task_id, msg):
+        self._collection.update_one(
+            {'task_id': task_id},
+            {'$set': {'train_eval_messages': msg}}
+        )
+
+
+class TestLogRecorder(MongoConnector):
+    def __init__(self):
+        super(TestLogRecorder, self).__init__()
+        self._collection = self._client.get_database('test-db').get_collection('test-log')
+
+    def update_one(self, task_id, msg):
+        self._collection.update_one(
+            {'task_id': task_id},
+            {'$set': {'test_eval_messages': msg}}
         )
