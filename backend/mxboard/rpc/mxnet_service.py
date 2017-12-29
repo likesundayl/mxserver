@@ -62,6 +62,8 @@ class MXNetService(MXNetServiceServicer):
             try:
                 executor_process.terminate()
                 self._logger.warn('mxnet_service has terminated the task with id: %s' % task_id)
+                # After terminate, the key-value should be deleted
+                del self._task_dict[task_id]
                 return mxboard_pb2.TaskState(state_code=0, state_desc='TASK_TERMINATED_SUCCESSFULLY')
             except StandardError, e:
                 if EXCEPTION_MSG_LEVEL == 'DETAILED':
