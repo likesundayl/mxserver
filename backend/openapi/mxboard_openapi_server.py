@@ -16,20 +16,26 @@ app = Flask(__name__)
 
 @app.route('/train', methods=['POST'])
 def train():
-    # TODO:
-    return jsonify({})
+    return jsonify(__task_state_2_json(__execute()))
 
 
 @app.route('/test', methods=['POST'])
 def test():
-    # TODO:
-    return jsonify({})
+    return jsonify(__execute())
 
 
 @app.route('/stop', methods=['POST'])
 def stop():
     return jsonify(
         __task_state_2_json(stub.stopTask(mxboard_pb2.TaskId(id=__get_stop_task_id()))))
+
+
+def __execute():
+    task_json = request.json
+    task_id = task_json['task_id']
+    task_desc = task_json['task_desc']
+    task_state = stub.startTask(mxboard_pb2.TaskParameter(id=mxboard_pb2.TaskId(task_id=task_id), task_desc=task_desc))
+    return task_state
 
 
 def __get_stop_task_id():
