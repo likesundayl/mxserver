@@ -46,4 +46,4 @@ def __task_state_2_json(task_state):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
