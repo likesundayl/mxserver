@@ -3,16 +3,40 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+import logging
+import logging.handlers as log_handlers
+import time
 import grpc
 from flask import Flask, request, jsonify
 from backend.mxboard.proto import mxboard_pb2, mxboard_pb2_grpc
-from backend.mxboard.log.logger_generator import get_logger
+from backend.mxboard.util.xml_parser import mxboard_log_config
+
+current_date = time.strftime('%Y-%m-%d', time.localtime())
+log_file = '../../log/mxboard-openapi-server-' + current_date + '-log.txt'
+
+file_handler = log_handlers.RotatingFileHandler(filename=log_file,
+                                                maxBytes=long(mxboard_log_config['log-max-bytes']),
+                                                backupCount=int(mxboard_log_config['log-backup-count']))
+console_handler = logging.StreamHandler()
+
+formatter = logging.Formatter(mxboard_log_config['log-format'])
+file_handler.setFormatter(formatter)
+console_handler.setFormatter(formatter)
+
+openapi_logger = logging.getLogger('mxboard_openapi_server')
+
+openapi_logger.addHandler(console_handler)
+openapi_logger.addHandler(file_handler)
+
+level = mxboard_log_config['log-level']
+if level == 'INFO':
+    openapi_logger.setLevel(logging.INFO)
+elif level == 'DEBUG':
+    openapi_logger.setLevel(logging.DEBUG)
 
 # TODO:
 channel = grpc.insecure_channel('127.0.0.1:50051')
 stub = mxboard_pb2_grpc.MXNetServiceStub(channel)
-
-openapi_logger = get_logger('mxboard_openapi')
 
 app = Flask(__name__)
 
@@ -25,8 +49,8 @@ def train():
     return jsonify(__task_state_2_json(__execute()))
 
 
-@app.route('/test', methods=['POST'])
-def test():
+@app.route('/predict', methods=['POST'])
+def predict():
     task_json = request.json
     task_id = task_json['task_id']
     openapi_logger.info('The mxboard_openapi_server receives a request to start a test task with id: %s' % task_id)

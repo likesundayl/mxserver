@@ -41,6 +41,7 @@ class XMLParser(object):
         log_config = {}
 
         log_element = self._root.getElementsByTagName('log-conf')[0]
+        log_config['log-file-root'] = log_element.getElementsByTagName('log-file-root')[0].firstChild.data
         log_config['log-format'] = log_element.getElementsByTagName('log-format')[0].firstChild.data
         log_config['log-max-bytes'] = log_element.getElementsByTagName('log-max-bytes')[0].firstChild.data
         log_config['log-backup-count'] = log_element.getElementsByTagName('log-backup-count')[0].firstChild.data

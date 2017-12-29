@@ -3,6 +3,7 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+import os.path as osp
 import logging
 import logging.handlers as log_handlers
 import time
@@ -10,7 +11,7 @@ import time
 from backend.mxboard.util.xml_parser import mxboard_log_config
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
-log_file = '../../../log/mxboard-server-' + current_date + '-log.txt'
+log_file = osp.join(mxboard_log_config['log-file-root'], 'mxboard-server-' + current_date + '-log.txt')
 
 
 def get_logger(logger_name):
