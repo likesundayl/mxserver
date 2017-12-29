@@ -22,8 +22,9 @@ message TaskId {
 }
 
 message TaskState {
-    required int32 state_code = 1 [default = 0];
-    required string state_desc = 2 [default = 'OK_TO_RUN'];
+    required string task_id = 1;
+    required int32 state_code = 2 [default = 0];
+    required string state_desc = 3 [default = 'OK_TO_RUN'];
 }
 
 service MXNetService {

@@ -46,10 +46,10 @@ class MXNetService(MXNetServiceServicer):
             self._task_dict[task_id] = executor_process
             self._logger.info('mxnet_service has put an ExecutorProcess instance to task queue')
 
-            return mxboard_pb2.TaskState(state_code=0, state_desc='OK_TO_RUN')
+            return mxboard_pb2.TaskState(task_id=task_id, state_code=0, state_desc='OK_TO_RUN')
         except Full:
             self._logger.warn('The task queue is full right now!')
-            return mxboard_pb2.TaskState(state_code=1, state_desc='FULL_QUEUE')
+            return mxboard_pb2.TaskState(task_id=task_id, state_code=1, state_desc='FULL_QUEUE')
 
     def stopTask(self, request, context):
         task_id = request.id
@@ -57,14 +57,14 @@ class MXNetService(MXNetServiceServicer):
         executor_process = self._task_dict.get(task_id)
         if executor_process is None:
             self._logger.warn('mxnet_service can not find a task with id: %s' % task_id)
-            return mxboard_pb2.TaskState(state_code=1, state_desc='TASK_NOT_EXIST')
+            return mxboard_pb2.TaskState(task_id=task_id, state_code=1, state_desc='TASK_NOT_EXIST')
         else:
             try:
                 executor_process.terminate()
                 self._logger.warn('mxnet_service has terminated the task with id: %s' % task_id)
                 # After terminate, the key-value should be deleted
                 del self._task_dict[task_id]
-                return mxboard_pb2.TaskState(state_code=0, state_desc='TASK_TERMINATED_SUCCESSFULLY')
+                return mxboard_pb2.TaskState(task_id=task_id, state_code=0, state_desc='TASK_TERMINATED_SUCCESSFULLY')
             except StandardError, e:
                 if EXCEPTION_MSG_LEVEL == 'DETAILED':
                     exception_msg = traceback.format_exc()
@@ -74,7 +74,7 @@ class MXNetService(MXNetServiceServicer):
                     exception_msg = str(e)
                 self._logger.warn('mxnet_service can not terminate the task with id: %s! Because %s' %
                                   (task_id, exception_msg))
-                return mxboard_pb2.TaskState(state_code=1, state_desc='TASK_TERMINATED_FAILED')
+                return mxboard_pb2.TaskState(task_id=task_id, state_code=1, state_desc='TASK_TERMINATED_FAILED')
 
 
 
