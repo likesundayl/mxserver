@@ -19,7 +19,6 @@ from backend.mxboard.util.xml_parser import mxboard_rpc_config, mxboard_task_que
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
     import traceback
 
-
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_server')
 

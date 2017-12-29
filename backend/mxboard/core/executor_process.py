@@ -11,6 +11,7 @@ from backend.mxboard.io.data_loader import load_data_iter_rec
 from backend.mxboard.db.mongo_connector import TaskProgressRecorder
 from backend.mxboard.util.time_getter import get_time
 from backend.config import EXCEPTION_MSG_LEVEL
+
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
     import traceback
 
@@ -70,4 +71,3 @@ class ExecutorProcess(Process):
     def _update_task_state(self, task_state_desc):
         self._task_progress_list.append({'time': get_time(), 'task_state': task_state_desc})
         self._task_progress_recorder.update_one(self._process_id, self._task_progress_list)
-

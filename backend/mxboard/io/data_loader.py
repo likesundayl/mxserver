@@ -47,4 +47,3 @@ def load_data_iter_rec(data_config_dict):
         test_datas = test_config['data_config']['datas']
         # TODO:
         return None
-

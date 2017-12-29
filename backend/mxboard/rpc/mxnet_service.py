@@ -102,6 +102,3 @@ class MXNetService(MXNetServiceServicer):
             'action_name': action_name
         }
         self._user_action_recorder.insert_one(action_desc)
-
-
-

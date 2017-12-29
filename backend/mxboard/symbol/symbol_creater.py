@@ -28,4 +28,3 @@ def create_symbol(symbol_name, net_define_json):
         return symbol_store_path
     except StandardError:
         return None
-

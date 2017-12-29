@@ -11,7 +11,6 @@ from backend.mxboard.proto import mxboard_pb2, mxboard_pb2_grpc
 channel = grpc.insecure_channel('127.0.0.1:50051')
 stub = mxboard_pb2_grpc.MXNetServiceStub(channel)
 
-
 app = Flask(__name__)
 
 
@@ -48,4 +47,3 @@ def __task_state_2_json(task_state):
 
 if __name__ == '__main__':
     app.run()
-

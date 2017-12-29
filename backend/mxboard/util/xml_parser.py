@@ -5,6 +5,7 @@
 # ------------------------------
 import xml.dom.minidom as xdm
 from backend.config import CONFIG_XML_PATH
+
 xml_path = CONFIG_XML_PATH
 
 
@@ -31,7 +32,7 @@ class XMLParser(object):
         rpc_config['host'] = rpc_element.getElementsByTagName('host')[0].firstChild.data
         rpc_config['port'] = rpc_element.getElementsByTagName('port')[0].firstChild.data
         rpc_config['max-thread-num'] = rpc_element.getElementsByTagName('max-thread-num')[0].firstChild.data
-        rpc_config['one-day-time-in-seconds'] = rpc_element.getElementsByTagName('one-day-time-in-seconds')[0]\
+        rpc_config['one-day-time-in-seconds'] = rpc_element.getElementsByTagName('one-day-time-in-seconds')[0] \
             .firstChild.data
 
         return rpc_config
@@ -81,4 +82,3 @@ mxboard_log_config = xml_parser.log_config()
 mxboard_storage_config = xml_parser.storage_config()
 mxboard_task_queue_config = xml_parser.task_queue_config()
 mxboard_data_download_config = xml_parser.data_download_config()
-

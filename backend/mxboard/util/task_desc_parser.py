@@ -8,7 +8,6 @@ import os.path as osp
 from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Context
 from backend.mxboard.util.xml_parser import mxboard_storage_config
 
-
 symbol_root_path = mxboard_storage_config['symbol-json-root']
 
 
@@ -118,4 +117,3 @@ def _generate_optimizer(opt_dict):
 
     op_param_tuple = (op_type, kvstore, (base_lr, momentum, weight_decay))
     return op_param_tuple
-

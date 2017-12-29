@@ -10,7 +10,6 @@ from Queue import Empty
 
 from backend.mxboard.log.logger_generator import get_logger
 
-
 _logger = get_logger('executor_process_manager')
 
 
