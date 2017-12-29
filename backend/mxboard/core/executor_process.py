@@ -25,6 +25,9 @@ class ExecutorProcess(Process):
         self._task_desc = task_desc
         self._task_progress_list = []
 
+    def task_id(self):
+        return self._process_id
+
     def run(self):
         self._task_progress_recorder.insert_one({
             'task_id': self._process_id,

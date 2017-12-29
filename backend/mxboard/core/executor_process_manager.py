@@ -25,9 +25,11 @@ class ExecutorProcessManager(Process):
         while True:
             try:
                 executor_process = self._task_queue.get_nowait()
+                task_id = executor_process.task_id()
                 _logger.info(
-                    'executor_process_manager gets an ExecutorProcess instance from task queue, now start it')
-                executor_process.run()
+                    'executor_process_manager gets an ExecutorProcess instance with task_id: %s from task queue, '
+                    'now start it' % task_id)
+                executor_process.start()
             except Empty:
                 _logger.warn('The task queue is empty right now!')
             _logger.info('The executor_process_manager will sleep for 5 seconds')
