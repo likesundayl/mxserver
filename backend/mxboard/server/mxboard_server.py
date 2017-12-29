@@ -9,12 +9,13 @@ from multiprocessing import Queue
 import grpc
 from concurrent import futures
 
-from backend.mxboard.executor_process_manager import ExecutorProcessManager
+from backend.config import EXCEPTION_MSG_LEVEL
 from backend.mxboard.log.logger_generator import get_logger
+from backend.mxboard.core.executor_process_manager import ExecutorProcessManager
 from backend.mxboard.proto import mxboard_pb2_grpc
 from backend.mxboard.rpc.mxnet_service import MXNetService
 from backend.mxboard.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
-from backend.config import EXCEPTION_MSG_LEVEL
+
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
     import traceback
 
