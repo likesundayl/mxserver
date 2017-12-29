@@ -23,6 +23,18 @@ class MongoConnector(object):
         self._client.close()
 
 
+class TaskConfigRecorder(MongoConnector):
+    def __init__(self):
+        super(TaskConfigRecorder, self).__init__()
+        self._collection = self._client.get_database('basic-db').get_collection('task-config')
+
+
+class UserActionRecorder(MongoConnector):
+    def __init__(self):
+        super(UserActionRecorder, self).__init__()
+        self._collection = self._client.get_database('basic-db').get_collection('user-action')
+
+
 class TaskProgressRecorder(MongoConnector):
     def __init__(self):
         super(TaskProgressRecorder, self).__init__()

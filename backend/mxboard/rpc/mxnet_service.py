@@ -6,10 +6,12 @@
 from Queue import Full
 
 from backend.mxboard.log.logger_generator import get_logger
+from backend.mxboard.db.mongo_connector import TaskConfigRecorder, UserActionRecorder
 from backend.mxboard.core.executor_process import ExecutorProcess
 from backend.mxboard.proto import mxboard_pb2
 from backend.mxboard.proto.mxboard_pb2_grpc import MXNetServiceServicer
 from backend.mxboard.symbol.symbol_creater import create_symbol
+from backend.mxboard.util.time_getter import get_time
 from backend.config import EXCEPTION_MSG_LEVEL
 
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
@@ -23,12 +25,18 @@ class MXNetService(MXNetServiceServicer):
     def __init__(self, task_queue):
         self._logger = get_logger('mxnet_service')
         self._queue = task_queue
+        self._task_config_recorder = TaskConfigRecorder()
+        self._user_action_recorder = UserActionRecorder()
         self._task_dict = {}
 
     def createSymbol(self, request, context):
+        symbol_id = request.symbol_id
         symbol_name = request.symbol_name
         symbol_desc = request.symbol_desc
+
         self._logger.info('mxnet_service has received a new request to create a new symbol with name:%s' % symbol_name)
+        self._record_user_action(symbol_id, 'create_symbol')
+
         if create_symbol(symbol_name, symbol_desc):
             return mxboard_pb2.SymbolCreateState(state_code=SYMBOL_CREATE_STATE_CODES[0],
                                                  state_desc=SYMBOL_CREATE_STATES[0])
@@ -38,8 +46,15 @@ class MXNetService(MXNetServiceServicer):
 
     def startTask(self, request, context):
         task_id = request.id
+
         self._logger.info('mxnet_service has received a new request to start a new task with id:%s' % task_id)
+        self._record_user_action(task_id, 'start_task')
+
         task_desc = request.task_desc
+
+        # Put basic task config to MongoDB
+        self._task_config_recorder.insert_one(task_desc)
+
         executor_process = ExecutorProcess(process_id=task_id, task_desc=task_desc)
         try:
             self._queue.put_nowait(executor_process)
@@ -53,7 +68,10 @@ class MXNetService(MXNetServiceServicer):
 
     def stopTask(self, request, context):
         task_id = request.id
+
         self._logger.info('mxnet_service has received a new request to stop the task with id:%s' % task_id)
+        self._record_user_action(task_id, 'stop_task')
+
         executor_process = self._task_dict.get(task_id)
         if executor_process is None:
             self._logger.warn('mxnet_service can not find a task with id: %s' % task_id)
@@ -76,6 +94,14 @@ class MXNetService(MXNetServiceServicer):
                                   (task_id, exception_msg))
                 return mxboard_pb2.TaskState(task_id=task_id, state_code=1, state_desc='TASK_TERMINATED_FAILED')
 
+    def _record_user_action(self, task_id, action_name):
+        action_occur_time = get_time()
+        action_desc = {
+            'action_obj_id': task_id,
+            'action_time': action_occur_time,
+            'action_name': action_name
+        }
+        self._user_action_recorder.insert_one(action_desc)
 
 
 
