@@ -88,8 +88,5 @@ def __task_state_2_json(task_state):
 
 
 if __name__ == '__main__':
-    try:
-        openapi_logger.info('The mxboard_openapi_server has been started')
-        app.run(host='0.0.0.0')
-    except KeyboardInterrupt:
-        openapi_logger.warn('The mxboard_openapi_server has been stopped manually!')
+    openapi_logger.info('The mxboard_openapi_server has been started')
+    app.run(host='0.0.0.0')
