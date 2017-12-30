@@ -9,6 +9,12 @@ from multiprocessing import Queue
 import grpc
 from concurrent import futures
 
+import sys
+current_dir = sys.path[0]
+index = current_dir.index('backend')
+module_dir = current_dir[0:index]
+sys.path.append(module_dir)
+
 from backend.config import EXCEPTION_MSG_LEVEL
 from backend.mxboard.log.logger_generator import get_logger
 from backend.mxboard.core.executor_process_manager import ExecutorProcessManager

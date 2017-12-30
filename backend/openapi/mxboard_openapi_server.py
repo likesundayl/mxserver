@@ -8,8 +8,15 @@ import logging.handlers as log_handlers
 import time
 import grpc
 from flask import Flask, request, jsonify
+import sys
+current_dir = sys.path[0]
+index = current_dir.index('backend')
+module_dir = current_dir[0:index]
+sys.path.append(module_dir)
+
 from backend.mxboard.proto import mxboard_pb2, mxboard_pb2_grpc
 from backend.mxboard.util.xml_parser import mxboard_log_config
+
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = '../../log/mxboard-openapi-server-' + current_date + '-log.txt'

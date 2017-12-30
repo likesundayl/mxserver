@@ -36,3 +36,8 @@ def get_logger(logger_name):
         logger.setLevel(logging.DEBUG)
 
     return logger
+
+
+a = 'home/womow/wuzhenan/ld'
+index = a.index('/ld')
+print a[0:index]
