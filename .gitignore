@@ -2,4 +2,3 @@
 /.idea/
 /log/*.txt
 *.pyc
-/proto/example_task_desc.json
