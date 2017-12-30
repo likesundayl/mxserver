@@ -14,9 +14,30 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 
 ### 3.1 train
 
-### 3.2 test
+* URL: `ip_address:5000/train`
+* Method: `POST`
+* Param type: `JSON`
+* Param example: please refer to *example_task_desc.json* in folder proto
+* Return type: `JSON`
+* Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
+
+### 3.2 predict
+
+* URL: `ip_address:5000/predict`
+* Method: `POST`
+* Param type: `JSON`
+* Param example: please refer to *example_task_desc.json* in folder proto
+* Return type: `JSON`
+* Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
 
 ### 3.3 stop
+
+* URL: `ip_address:5000/stop`
+* Method: `POST`
+* Param type: `JSON`
+* Param example: `{"task_id": "19700101"}`
+* Return type: `JSON`
+* Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "STOP_SUCCESSFULLY"}`
 
 ## 4. Thirdparty Dependency
 
