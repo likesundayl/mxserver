@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='mxboard.proto',
   package='',
   syntax='proto2',
-  serialized_pb=_b('\n\rmxboard.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"J\n\x11SymbolCreateState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x02 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN2\x94\x01\n\x0cMXNetService\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
+  serialized_pb=_b('\n\rmxboard.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"]\n\x11SymbolCreateState\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x03 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN2\x94\x01\n\x0cMXNetService\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
 )
 
 
@@ -78,15 +78,22 @@ _SYMBOLCREATESTATE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='state_code', full_name='SymbolCreateState.state_code', index=0,
-      number=1, type=5, cpp_type=1, label=2,
+      name='symbol_id', full_name='SymbolCreateState.symbol_id', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='state_code', full_name='SymbolCreateState.state_code', index=1,
+      number=2, type=5, cpp_type=1, label=2,
       has_default_value=True, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='state_desc', full_name='SymbolCreateState.state_desc', index=1,
-      number=2, type=9, cpp_type=9, label=2,
+      name='state_desc', full_name='SymbolCreateState.state_desc', index=2,
+      number=3, type=9, cpp_type=9, label=2,
       has_default_value=True, default_value=_b("SUCCESSFUL").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -104,7 +111,7 @@ _SYMBOLCREATESTATE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=97,
-  serialized_end=171,
+  serialized_end=190,
 )
 
 
@@ -141,8 +148,8 @@ _TASKPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=173,
-  serialized_end=228,
+  serialized_start=192,
+  serialized_end=247,
 )
 
 
@@ -172,8 +179,8 @@ _TASKID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=230,
-  serialized_end=255,
+  serialized_start=249,
+  serialized_end=274,
 )
 
 
@@ -217,8 +224,8 @@ _TASKSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=257,
-  serialized_end=339,
+  serialized_start=276,
+  serialized_end=358,
 )
 
 _TASKPARAMETER.fields_by_name['id'].message_type = _TASKID
@@ -272,8 +279,8 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=342,
-  serialized_end=490,
+  serialized_start=361,
+  serialized_end=509,
   methods=[
   _descriptor.MethodDescriptor(
     name='createSymbol',
