@@ -1,8 +1,9 @@
 # MXBoard
 
-MXBoard is the training/testing visualization user interface for [MXNet](https://github.com/apache/incubator-mxnet). And
-it is designed to support `image classification` and `object detection` training/test task now. After I finish the basic
-parts, I will consider to make it possible to support other deep learning task.
+MXBoard is the training/testing visualization user interface for [MXNet](https://github.com/apache/incubator-mxnet)
+(currently based `mxnet-0.11.0`). And it is designed to support `image classification` and `object detection` 
+training/test task now. After I finish the basic parts, I will consider to make it possible to support other deep 
+learning tasks.
 
 ## 1. How to Use
 
