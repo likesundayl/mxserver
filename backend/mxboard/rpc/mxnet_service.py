@@ -17,6 +17,7 @@ from backend.config import EXCEPTION_MSG_LEVEL
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
     import traceback
 
+MAX_TRY_TIMES = 5
 # symbol state codes and states descs
 SYMBOL_CREATE_STATE_CODES = [0, 1]
 SYMBOL_CREATE_STATES = ['SUCCESSFUL', 'FAILED']
@@ -38,7 +39,8 @@ class MXNetService(MXNetServiceServicer):
         symbol_name = request.symbol_name
         symbol_desc = request.symbol_desc
 
-        self._logger.info('mxnet_service has received a new request to create a new symbol with name:%s' % symbol_name)
+        self._logger.info('The mxnet_service has received a new request to create a new symbol with name:%s' %
+                          symbol_name)
         self._record_user_action(symbol_id, 'create_symbol')
 
         if create_symbol(symbol_name, symbol_desc):
@@ -53,7 +55,7 @@ class MXNetService(MXNetServiceServicer):
     def startTask(self, request, context):
         task_id = request.id
 
-        self._logger.info('mxnet_service has received a new request to start a new task with id:%s' % task_id)
+        self._logger.info('The mxnet_service has received a new request to start a new task with id:%s' % task_id)
         self._record_user_action(task_id, 'start_task')
 
         task_desc = request.task_desc
@@ -62,17 +64,24 @@ class MXNetService(MXNetServiceServicer):
         self._task_config_recorder.insert_one(task_desc)
 
         executor_process = ExecutorProcess(process_id=task_id, task_desc=task_desc)
-        try:
-            self._queue.put_nowait(executor_process)
-            self._task_dict[task_id] = executor_process
-            self._logger.info('mxnet_service has put an ExecutorProcess instance to task queue')
+        try_times = 1
+        while try_times <= MAX_TRY_TIMES:
+            try:
+                self._queue.put_nowait(executor_process)
+                self._task_dict[task_id] = executor_process
+                self._logger.info('The mxnet_service has put an ExecutorProcess instance to task queue')
 
-            return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
-                                         state_desc=TASK_STATES[0])
-        except Full:
-            self._logger.warn('The task queue is full right now!')
-            return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
-                                         state_desc=TASK_STATES[1])
+                return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
+                                             state_desc=TASK_STATES[0])
+            except Full:
+                self._logger.warn('The mxnet_service can not put an ExecutorProcess instance to task queue because task'
+                                  ' queue is full right now! Try again, totally try %d times!' % try_times)
+            try_times += 1
+
+        self._logger.error('The mxnet_service failed to put an ExecutorProcess instance to task queue because task is '
+                           'full for too long!')
+        return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
+                                     state_desc=TASK_STATES[1])
 
     def stopTask(self, request, context):
         task_id = request.id
