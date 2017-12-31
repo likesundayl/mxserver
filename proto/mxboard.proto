@@ -8,8 +8,9 @@ message SymbolParameter {
 }
 
 message SymbolCreateState {
-    required int32 state_code = 1 [default = 0];
-    required string state_desc = 2 [default = 'SUCCESSFUL'];
+    required string symbol_id = 1;
+    required int32 state_code = 2 [default = 0];
+    required string state_desc = 3 [default = 'SUCCESSFUL'];
 }
 
 message TaskParameter {
