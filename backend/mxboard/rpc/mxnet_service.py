@@ -75,7 +75,7 @@ class MXNetService(MXNetServiceServicer):
                                              state_desc=TASK_STATES[0])
             except Full:
                 self._logger.warn('The mxnet_service can not put an ExecutorProcess instance to task queue because task'
-                                  ' queue is full right now! Try again, totally try %d times!' % try_times)
+                                  ' queue is full right now! Try again, totally has tried %d times!' % try_times)
             try_times += 1
 
         self._logger.error('The mxnet_service failed to put an ExecutorProcess instance to task queue because task is '
