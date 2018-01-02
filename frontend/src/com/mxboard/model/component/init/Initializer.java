@@ -11,5 +11,5 @@ package com.mxboard.model.component.init;
  * @version 1.0
  */
 public abstract class Initializer {
-	
+	protected String type;
 }
