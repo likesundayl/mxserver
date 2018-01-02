@@ -12,4 +12,5 @@ package com.mxboard.model.component.init;
  */
 public abstract class Initializer {
 	protected String type;
+	public abstract String toJSON();
 }

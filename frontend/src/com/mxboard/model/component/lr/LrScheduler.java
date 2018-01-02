@@ -12,4 +12,5 @@ package com.mxboard.model.component.lr;
  */
 public abstract class LrScheduler {
 	protected String type;
+	public abstract String toJSON();
 }

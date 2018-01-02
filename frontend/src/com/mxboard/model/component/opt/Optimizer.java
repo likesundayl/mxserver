@@ -14,4 +14,5 @@ public abstract class Optimizer {
 	protected String type;
 	protected float baseLr = 0.01f;
 	protected float weightDecay = 0f;
+	public abstract String toJSON();
 }
