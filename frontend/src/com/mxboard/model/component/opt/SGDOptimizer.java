@@ -12,4 +12,24 @@ package com.mxboard.model.component.opt;
  */
 public class SGDOptimizer extends Optimizer {
 	private float momentum = 0.9f;
+	
+	public SGDOptimizer(float baseLr, float momentum, float weightDecay) {
+		super(baseLr, weightDecay);
+		this.type = "sgd";
+		this.momentum = momentum;
+	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"opt_config\": {")
+				.append("\"base_lr\": \"")
+				.append(baseLr).append("\", \"weight_decay\": \"")
+				.append(weightDecay).append("\", \"momentum\": \"")
+				.append(momentum).append("\"}}");
+		
+		return builder.toString();
+	}
 }

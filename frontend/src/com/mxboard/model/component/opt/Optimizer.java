@@ -14,5 +14,11 @@ public abstract class Optimizer {
 	protected String type;
 	protected float baseLr = 0.01f;
 	protected float weightDecay = 0f;
+	
+	public Optimizer(float baseLr, float weightDecay) {
+		this.baseLr = baseLr > 0 ? baseLr : -baseLr;
+		this.weightDecay = weightDecay > 0 ? weightDecay : -weightDecay;
+	}
+	
 	public abstract String toJSON();
 }
