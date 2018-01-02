@@ -22,4 +22,17 @@ public class OrthogonalInitializer extends Initializer {
 		this.scale = scale > 0 ? scale : -scale;
 		this.randType = randType;
 	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"init_config\": {")
+				.append("\"scale\": \"")
+				.append(scale).append("\", \"rand_type\": \"")
+				.append(randType).append("\"}}");
+		
+		return builder.toString();
+	}
 }

@@ -21,4 +21,16 @@ public class UniformInitializer extends Initializer {
 		this.type = "Uniform";
 		this.scale = scale > 0 ? scale : -scale;
 	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"init_config\": {")
+				.append("\"scale\": \"")
+				.append(scale).append("\"}}");
+		
+		return builder.toString();
+	}
 }

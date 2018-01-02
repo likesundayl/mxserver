@@ -20,4 +20,16 @@ public class NormalInitializer extends Initializer {
 	public NormalInitializer(float sigma) {
 		this.sigma = sigma > 0 ? sigma : -sigma;
 	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"init_config\": {")
+				.append("\"sigma\": \"")
+				.append(sigma).append("\"}}");
+		
+		return builder.toString();
+	}
 }
