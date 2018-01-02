@@ -10,6 +10,10 @@ package com.mxboard.model.component;
  * @time 2018年1月2日 上午9:53:34
  * @version 1.0
  */
-public class Data {
-
+public class DataParam {
+	private int batchSize;
+	private String name = "data";
+	private int[] shapes;
+	private String trainRecPath;
+	private String valRecPath;
 }

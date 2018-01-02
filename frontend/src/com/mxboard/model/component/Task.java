@@ -3,12 +3,6 @@
  */
 package com.mxboard.model.component;
 
-import com.mxboard.model.component.init.Initializer;
-import com.mxboard.model.component.lr.LrScheduler;
-import com.mxboard.model.component.net.Net;
-//import com.mxboard.model.component.net.Symbol;
-import com.mxboard.model.component.opt.Optimizer;
-
 /**
  * <tt>Task.java</tt><br>
  * 
@@ -19,12 +13,6 @@ import com.mxboard.model.component.opt.Optimizer;
 public class Task {
 	private int id;
 	private boolean forTraining = true;
-	private Net net;
-//	private Symbol symbol;
-	private Data data;
-	private Label label;
-	private Initializer initializer;
-	private Optimizer optimizer;
-	private LrScheduler lrScheduler;
-	
+	private TrainParam trainParam;
+	private TestParam testParam;
 }

@@ -13,6 +13,12 @@ package com.mxboard.model.component.opt;
 public class SGDOptimizer extends Optimizer {
 	private float momentum = 0.9f;
 	
+	public SGDOptimizer() {
+		super(0.01f, 0.0005f);
+		this.type = "sgd";
+		this.momentum = 0.9f;
+	}
+	
 	public SGDOptimizer(float baseLr, float momentum, float weightDecay) {
 		super(baseLr, weightDecay);
 		this.type = "sgd";

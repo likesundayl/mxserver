@@ -10,6 +10,7 @@ package com.mxboard.model.component;
  * @time 2018年1月2日 上午9:53:40
  * @version 1.0
  */
-public class Label {
-
+public class LabelParam {
+	private String name = "softmax_label";
+	private int[] shapes = {1};
 }
