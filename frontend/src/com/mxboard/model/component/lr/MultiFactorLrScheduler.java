@@ -38,4 +38,28 @@ public class MultiFactorLrScheduler extends LrScheduler {
 			this.steps = steps;
 		}
 	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"lr_scheduler_config\": {")
+				.append("\"factor\": \"")
+				.append(factor).append("\", \"steps\": [");
+		for(int i = 0 ; i < steps.length ; i++) {
+			builder.append("\"").append(steps[i]).append("\"");
+			if (i != steps.length - 1) {
+				builder.append(", ");
+			}
+		}
+		builder.append("]}}");
+		
+		return builder.toString();
+	}
+	
+	public static void main(String[] args) {
+		LrScheduler scheduler = new MultiFactorLrScheduler(10, 20, 30);
+		System.out.println(scheduler.toJSON());
+	}
 }

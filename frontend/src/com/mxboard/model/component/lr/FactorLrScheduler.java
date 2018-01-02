@@ -26,4 +26,18 @@ public class FactorLrScheduler extends LrScheduler {
 		this.factor = factor > 0 ? factor : -factor;
 		this.stopFactorLr = stopFactorLr > 0 ? stopFactorLr : -stopFactorLr;
 	}
+
+	@Override
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"type\": \"")
+				.append(type).append("\", \"lr_scheduler_config\": {")
+				.append("\"step\": \"")
+				.append(step).append("\", \"factor\": \"")
+				.append(factor).append("\", \"stop_factor_lr\": \"")
+				.append(stopFactorLr).append("\"}}");
+		
+		return builder.toString();
+	}
 }
