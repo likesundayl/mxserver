@@ -4,13 +4,14 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 from multiprocessing import Process
-from backend.mxboard.log.logger_generator import get_logger
-from backend.mxboard.executor import Executor
-from backend.mxboard.util.task_desc_parser import parse_task_desc, get_data_and_label_names
-from backend.mxboard.io.data_loader import load_data_iter_rec
-from backend.mxboard.db.mongo_connector import TaskProgressRecorder
-from backend.mxboard.util.time_getter import get_time
+
 from backend.config import EXCEPTION_MSG_LEVEL
+from backend.mxboard.core.executor import Executor
+from backend.mxboard.db.mongo_connector import TaskProgressRecorder
+from backend.mxboard.io.data_loader import load_data_iter_rec
+from backend.mxboard.log.logger_generator import get_logger
+from backend.mxboard.util.task_desc_parser import parse_task_desc, get_data_and_label_names
+from backend.mxboard.util.time_getter import get_time
 
 if EXCEPTION_MSG_LEVEL == 'DETAILED':
     import traceback
