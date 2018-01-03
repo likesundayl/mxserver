@@ -27,27 +27,29 @@ def parse_task_desc(task_desc):
     ctx_config = task_dict['ctx']
     ctx_list = _generate_ctx(ctx_config)
 
+    train_config = task_dict['train_param']
+
     #############################################################
     # Prepare data(including data and label config)
     #############################################################
-    data_dict = task_dict['data']
+    data_dict = train_config['data']
 
     #############################################################
     # Prepare initializer
     #############################################################
-    init_dict = task_dict['initializer']
+    init_dict = train_config['initializer']
     initializer = _generate_initializer(init_dict)
 
     #############################################################
     # Prepare lr_scheduler
     #############################################################
-    ls_dict = task_dict['lr_scheduler']
+    ls_dict = train_config['lr_scheduler']
     lr_scheduler = _generate_lr_scheduler(ls_dict)
 
     #############################################################
     # Prepare optimizer
     #############################################################
-    opt_dict = task_dict['optimizer']
+    opt_dict = train_config['optimizer']
     optimizer = _generate_optimizer(opt_dict)
 
     return net_symbol, ctx_list, data_dict, initializer, lr_scheduler, optimizer
@@ -77,7 +79,7 @@ def _generate_ctx(ctx_config):
 
 def _generate_initializer(init_dict):
     init_type = init_dict['type']
-    init_param = init_dict['param']
+    init_param = init_dict['init_config']
 
     # currently Uniform, Normal, Xavier, MSRAPrelu are supported
     if init_type == 'Uniform':
@@ -98,19 +100,22 @@ def _generate_initializer(init_dict):
 
 def _generate_lr_scheduler(ls_dict):
     scheduler_type = ls_dict['type']
-    scheduler_param = ls_dict['param']
-    # currently just return a FactorScheduler
+    scheduler_param = ls_dict['lr_scheduler_config']
+    factor = float(scheduler_param['factor'])
     if scheduler_type == 'Factor':
         step = int(scheduler_param['step'])
-        factor = float(scheduler_param['factor'])
         stop_factor_lr = float(scheduler_param['stop_factor_lr'])
         return ls.FactorScheduler(step, factor, stop_factor_lr)
+    elif scheduler_type == 'MultiFactor':
+        steps = scheduler_param['steps']
+        step_list = [int(step) for step in steps]
+        return ls.MultiFactorScheduler(step=step_list, factor=factor)
 
 
 def _generate_optimizer(opt_dict):
     op_type = opt_dict['type'].lower()
     kvstore = opt_dict['kvstore']
-    op_param = opt_dict['param']
+    op_param = opt_dict['opt_config']
     base_lr = float(op_param['base_lr'])
     momentum = float(op_param['momentum'])
     weight_decay = float(op_param['weight_decay'])
