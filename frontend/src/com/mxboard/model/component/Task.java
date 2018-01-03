@@ -27,11 +27,14 @@ public class Task {
 		this.testParam = testParam;
 	}
 	
+	public String taskId() {
+		return id;
+	}
+	
 	public String toJSON() {
 		StringBuilder builder = new StringBuilder("{");
 		
-		builder.append("\"task_id\": \"")
-				.append(id).append("\", \"for_training\": \"")
+		builder.append("\"for_training\": \"")
 				.append(forTraining).append("\", \"net\": ")
 				.append(net.toJSON()).append(", ");
 		if(forTraining) {
