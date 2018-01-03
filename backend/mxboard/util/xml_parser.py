@@ -13,6 +13,15 @@ class XMLParser(object):
     def __init__(self):
         self._root = xdm.parse(xml_path).documentElement
 
+    def mxnet_config(self):
+        mxnet_config = {}
+        mxnet_element = self._root.getElementsByTagName('mxnet-conf')[0]
+
+        mxnet_config['rcnn-path'] = mxnet_element.getElementsByTagName('rcnn-path')[0].firstChild.data
+        # More mxnet config
+
+        return mxnet_config
+
     def mongo_config(self):
         mongo_config = {}
         mongo_element = self._root.getElementsByTagName('mongo-conf')[0]
@@ -77,6 +86,7 @@ class XMLParser(object):
 
 
 xml_parser = XMLParser()
+mxboard_mxnet_config = xml_parser.mxnet_config()
 mxboard_mongo_config = xml_parser.mongo_config()
 mxboard_rpc_config = xml_parser.rpc_config()
 mxboard_log_config = xml_parser.log_config()

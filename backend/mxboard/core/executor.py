@@ -3,7 +3,10 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+from backend.mxboard.util.xml_parser import mxboard_mxnet_config
 from mxnet.module import Module
+
+RCNN_PATH = mxboard_mxnet_config['rcnn-path']
 
 
 class Executor(Module):
