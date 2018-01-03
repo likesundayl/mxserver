@@ -12,4 +12,21 @@ package com.mxboard.model.component.net;
  */
 public class Symbol {
 	private String name;
+	
+	public Symbol(String name) {
+		this.name = name;
+	}
+	
+	public String toJSON() {
+		StringBuilder builder = new StringBuilder("{");
+		
+		builder.append("\"name\": \"").append(name).append("\"}");
+		
+		return builder.toString();
+	}
+	
+	public static void main(String[] args) {
+		Symbol symbol = new Symbol("AlexNet");
+		System.out.println(symbol.toJSON());
+	}
 }

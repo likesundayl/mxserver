@@ -3,6 +3,8 @@
  */
 package com.mxboard.model.component;
 
+import com.mxboard.model.component.net.Symbol;
+
 /**
  * <tt>Task.java</tt><br>
  * 
@@ -13,6 +15,7 @@ package com.mxboard.model.component;
 public class Task {
 	private int id;
 	private boolean forTraining = true;
+	private Symbol net;
 	private TrainParam trainParam;
 	private TestParam testParam;
 }

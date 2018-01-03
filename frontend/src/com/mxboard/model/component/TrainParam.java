@@ -20,13 +20,17 @@ import com.mxboard.model.component.opt.SGDOptimizer;
 public class TrainParam {
 	private int numEpoch = 250;
 	private String kvStore = "local";
+	private LabelParam labelParam = new LabelParam();
 	private LrScheduler lrScheduler = new FactorLrScheduler(10000);
 	private Optimizer optimizer = new SGDOptimizer();
 	private Initializer initializer = new NormalInitializer();
+	private DataParam dataParam;
 	private String savePrefix;
 	private int savePeriod;
 	
-	public TrainParam(int numEpoch, String kvStore, LrScheduler lrScheduler, Optimizer optimizer, Initializer initializer, String savePrefix, int savePeriod) {
+	public TrainParam(DataParam dataParam, LabelParam labelParam, int numEpoch, String kvStore, LrScheduler lrScheduler, Optimizer optimizer, Initializer initializer, String savePrefix, int savePeriod) {
+		this.dataParam = dataParam;
+		this.labelParam = labelParam;
 		this.numEpoch = numEpoch > 0 ? numEpoch : -numEpoch;
 		this.kvStore = kvStore;
 		this.lrScheduler = lrScheduler;
@@ -43,16 +47,13 @@ public class TrainParam {
 				.append(numEpoch).append("\", \"kvstore\": \"")
 				.append(kvStore).append("\", \"save_prefix\": \"")
 				.append(savePrefix).append("\", \"save_period\": \"")
-				.append(savePeriod).append("\", \"lr_scheduler\": ")
+				.append(savePeriod).append("\", \"data_param\": ")
+				.append(dataParam.toJSON()).append(", \"label_param\": ")
+				.append(labelParam.toJSON()).append(", \"lr_scheduler\": ")
 				.append(lrScheduler.toJSON()).append(", \"optimizer\": ")
 				.append(optimizer.toJSON()).append(", \"initializer\": ")
 				.append(initializer.toJSON()).append("}");
 		
 		return builder.toString();
-	}
-	
-	public static void main(String[] args) {
-		TrainParam trainParam = new TrainParam(10, "local", new FactorLrScheduler(1000), new SGDOptimizer(), new NormalInitializer(), "alex", 10);
-		System.out.println(trainParam.toJSON());
 	}
 }
