@@ -18,7 +18,7 @@ public class TestParam {
 		StringBuilder builder = new StringBuilder("{");
 		
 		builder.append("\"ckp\": ")
-				.append(ckp.toJSON()).append(", \"test_imgs\": ");
+				.append(ckp.toJSON()).append(", \"test_imgs\": [");
 		
 		for(int i = 0 ; i < testImgs.length ; i++) {
 			builder.append("\"").append(testImgs[i]).append("\"");
