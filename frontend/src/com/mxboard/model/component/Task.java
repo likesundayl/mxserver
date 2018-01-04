@@ -15,13 +15,15 @@ import com.mxboard.model.component.net.Symbol;
 public class Task {
 	private String id;
 	private boolean forTraining = true;
+	private Context context = new Context();
 	private Symbol net;
 	private TrainParam trainParam;
 	private TestParam testParam;
 	
-	public Task(String id, boolean forTraining, Symbol net, TrainParam trainParam, TestParam testParam) {
+	public Task(String id, boolean forTraining, Context context, Symbol net, TrainParam trainParam, TestParam testParam) {
 		this.id = id;
 		this.forTraining = forTraining;
+		this.context = context;
 		this.net = net;
 		this.trainParam = trainParam;
 		this.testParam = testParam;
@@ -36,7 +38,8 @@ public class Task {
 		
 		builder.append("\"for_training\": \"")
 				.append(forTraining).append("\", \"net\": ")
-				.append(net.toJSON()).append(", ");
+				.append(net.toJSON()).append(", \"context\": ")
+				.append(context.toJSON()).append(", ");
 		if(forTraining) {
 			builder.append("\"train_param\": ").append(trainParam.toJSON()).append("}");
 		} else {
