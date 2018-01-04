@@ -6,20 +6,16 @@
 import sys
 from backend.mxboard.util.xml_parser import mxboard_mxnet_config
 from mxnet.module import Module
+from mxnet import nd
+from mxnet import sym
 
 RCNN_PATH = mxboard_mxnet_config['rcnn-path']
 sys.path.append(RCNN_PATH)
 
 
-class Executor(Module):
-    def __init__(self, symbol, data_iters, ctx_list, initializer, lr_scheduler, optimizer, data_names, label_names):
-        super(Executor, self).__init__(symbol=symbol, data_names=data_names, label_names=label_names, logger=None,
-                                       context=ctx_list, work_load_list=None, fixed_param_names=None, state_names=None)
-        self._train_iter = data_iters[0]
-        if len(data_iters) == 2:
-            self._val_iter = data_iters[1]
-        else:
-            self._val_iter = None
+class Executor(object):
+    def __init__(self):
+        self._mod = None
 
     def execute(self):
         pass
@@ -57,34 +53,58 @@ register = Executor.register
 
 
 class Predictor(Executor):
-    def __init__(self):
-        pass
+    def __init__(self, sym_json_path, params_path):
+        super(Predictor, self).__init__()
+        self._mod = Predictor.load_check_point(sym_json_path=sym_json_path, params_path=params_path)
+
+    @staticmethod
+    def load_check_point(sym_json_path, params_path):
+        symbol = sym.load(sym_json_path)
+        save_dict = nd.load(params_path)
+        arg_params = {}
+        aux_params = {}
+        for k, v in save_dict.items():
+            tp, name = k.split(':', 1)
+            if tp == 'arg':
+                arg_params[name] = v
+            if tp == 'aux':
+                aux_params[name] = v
+        mod = Module(symbol=symbol)
+        mod._arg_params = arg_params
+        mod._aux_params = aux_params
+        mod.params_initialized = True
+        # TODO: There is a parameter named load_optimizer_states in Module.load
+        return mod
 
 
 @register(for_training=False)
 class Classifier(Predictor):
-    def __init__(self):
+    def __init__(self, sym_json_path, params_path):
+        super(Classifier, self).__init__(sym_json_path=sym_json_path, params_path=params_path)
         pass
 
 
 @register(for_training=False)
 class ObjectDetector(Predictor):
-    def __init__(self):
-        pass
+    def __init__(self, sym_json_path, params_path):
+        super(ObjectDetector, self).__init__(sym_json_path=sym_json_path, params_path=params_path)
 
 
 class Trainer(Executor):
     def __init__(self):
+        super(Trainer, self).__init__()
         pass
 
 
 @register(for_training=True)
 class ClassifyTrainer(Trainer):
     def __init__(self):
+        super(ClassifyTrainer, self).__init__()
         pass
 
 
 @register(for_training=True)
 class RCNNTrainer(Trainer):
     def __init__(self):
+        super(RCNNTrainer, self).__init__()
         pass
