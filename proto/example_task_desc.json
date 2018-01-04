@@ -1,6 +1,7 @@
 {
   "net": {"name": "alexnet_10"},
   "for_training": "0",
+  "target": "classify",
   "context": [
     {"device_name": "gpu", "device_id": "0"}
   ],

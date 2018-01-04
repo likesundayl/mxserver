@@ -9,58 +9,47 @@ from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Contex
 from backend.mxboard.util.xml_parser import mxboard_storage_config
 
 symbol_root_path = mxboard_storage_config['symbol-json-root']
+params_root_path = mxboard_storage_config['params-root']
 
 
 def parse_task_desc(task_desc):
     task_dict = json.loads(task_desc)
 
-    #############################################################
+    ##########################################
     # Prepare net
-    #############################################################
-    net_name = task_dict['net']
-    net_full_path = osp.join(symbol_root_path, net_name + '.json')
-    net_symbol = sym.load(net_full_path)
+    ##########################################
+    net_dict = task_dict['net']
+    net_name = net_dict['name']
+    # TODO: What if there is no such file?
+    net_symbol_json_path = osp.join(symbol_root_path, net_name)
 
-    #############################################################
-    # Prepare ctx
-    #############################################################
-    ctx_config = task_dict['ctx']
-    ctx_list = _generate_ctx(ctx_config)
+    for_training = True
+    if task_dict['for_training'] == '1':
+        for_training = False
 
-    train_config = task_dict['train_param']
+    exec_type = task_dict['target']
+    executor_dict = {}
 
-    #############################################################
-    # Prepare data(including data and label config)
-    #############################################################
-    data_dict = train_config['data']
+    if task_dict['for_training'] == '0':
+        # If for training, then get the symbol
+        executor_dict['symbol'] = sym.load(net_symbol_json_path)
+        executor_dict['train_config'] = task_dict['train_param']
+    else:
+        test_param = task_dict['test_param']
+        ckp = test_param['ckp']
+        executor_dict['sym_json_path'] = net_symbol_json_path
+        executor_dict['params_path'] = osp.join(params_root_path, '%s-%04d.params' % (ckp['prefix'], int(ckp['epoch'])))
 
-    #############################################################
-    # Prepare initializer
-    #############################################################
-    init_dict = train_config['initializer']
-    initializer = _generate_initializer(init_dict)
-
-    #############################################################
-    # Prepare lr_scheduler
-    #############################################################
-    ls_dict = train_config['lr_scheduler']
-    lr_scheduler = _generate_lr_scheduler(ls_dict)
-
-    #############################################################
-    # Prepare optimizer
-    #############################################################
-    opt_dict = train_config['optimizer']
-    optimizer = _generate_optimizer(opt_dict)
-
-    return net_symbol, ctx_list, data_dict, initializer, lr_scheduler, optimizer
+    return for_training, exec_type, executor_dict
 
 
-def get_data_and_label_names(data_config_dict):
-    label_config = data_config_dict['label']
-    label_names = [label['label_name'] for label in label_config]
-    data_config = data_config_dict['data_name_shapes']
-    data_names = [data['data_name'] for data in data_config]
-    return data_names, label_names
+def get_data_config(task_desc):
+    task_dict = json.loads(task_desc)
+    if task_dict['for_training'] == '0':
+        data_config = task_dict['train_param']['data_param']
+    else:
+        data_config = task_dict['test_param']['test_imgs']
+    return data_config
 
 
 def _generate_ctx(ctx_config):
