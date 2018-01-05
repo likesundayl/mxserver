@@ -32,7 +32,7 @@ public class RMSPropOptimizer extends Optimizer {
 		builder.append("\"type\": \"")
 				.append(type).append("\", \"opt_config\": {")
 				.append("\"base_lr\": \"")
-				.append(baseLr).append("\", \"weight_decay\": \"")
+				.append(baseLr).append("\", \"wd\": \"")
 				.append(weightDecay).append("\", \"gamma1\": \"")
 				.append(gamma1).append("\", \"gamma2\": \"")
 				.append(gamma2).append("\", \"epsilon\": \"")

@@ -30,7 +30,7 @@ public class AdamOptimizer extends Optimizer {
 		builder.append("\"type\": \"")
 				.append(type).append("\", \"opt_config\": {")
 				.append("\"base_lr\": \"")
-				.append(baseLr).append("\", \"weight_decay\": \"")
+				.append(baseLr).append("\", \"wd\": \"")
 				.append(weightDecay).append("\", \"beta1\": \"")
 				.append(beta1).append("\", \"beta2\": \"")
 				.append(beta2).append("\", \"epsilon\": \"")

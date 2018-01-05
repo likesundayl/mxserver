@@ -32,7 +32,7 @@ public class SGDOptimizer extends Optimizer {
 		builder.append("\"type\": \"")
 				.append(type).append("\", \"opt_config\": {")
 				.append("\"base_lr\": \"")
-				.append(baseLr).append("\", \"weight_decay\": \"")
+				.append(baseLr).append("\", \"wd\": \"")
 				.append(weightDecay).append("\", \"momentum\": \"")
 				.append(momentum).append("\"}}");
 		

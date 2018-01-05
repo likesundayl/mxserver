@@ -26,7 +26,7 @@ public class AdaGradOptimizer extends Optimizer {
 		builder.append("\"type\": \"")
 				.append(type).append("\", \"opt_config\": {")
 				.append("\"base_lr\": \"")
-				.append(baseLr).append("\", \"weight_decay\": \"")
+				.append(baseLr).append("\", \"wd\": \"")
 				.append(weightDecay).append("\", \"eps\": \"")
 				.append(eps).append("\"}}");
 		
