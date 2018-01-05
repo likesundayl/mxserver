@@ -4,7 +4,7 @@
 # @Author  : Terence Wu
 # @License : Copyright (c) Terence Wu
 from os import path as osp
-from backend.mxboard.db.mongo_connector import TrainLogRecorder
+from backend.mxboard.db.mongo_connector import TrainLogRecorder, ValLogRecorder
 from backend.mxboard.util.xml_parser import mxboard_storage_config
 from mxnet import nd, cpu
 
@@ -50,7 +50,7 @@ def do_checkpoint(prefix, period):
 class MongoEvalMsgRecorder(object):
     def __init__(self, task_id):
         self._task_id = task_id
-        self._train_log_recorder = TrainLogRecorder()
+        self._log_recorder = None
         self._eval_msgs = []
 
     def __call__(self, param):
@@ -63,6 +63,17 @@ class MongoEvalMsgRecorder(object):
         for name, value in metrics_result:
             msg[name] = value
         self._eval_msgs.append(msg)
-        self._train_log_recorder.update_one(self._task_id, self._eval_msgs)
+        self._log_recorder.update_one(self._task_id, self._eval_msgs)
 
+
+class MongoTrainEvalMsgRecorder(MongoEvalMsgRecorder):
+    def __init__(self, task_id):
+        super(MongoTrainEvalMsgRecorder, self).__init__(task_id=task_id)
+        self._log_recorder = TrainLogRecorder()
+
+
+class MongoValEvalMsgRecorder(MongoEvalMsgRecorder):
+    def __init__(self, task_id):
+        super(MongoValEvalMsgRecorder, self).__init__(task_id=task_id)
+        self._log_recorder = ValLogRecorder()
 

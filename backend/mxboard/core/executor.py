@@ -7,7 +7,7 @@ import sys
 from os import path as osp
 from backend.mxboard.util.xml_parser import mxboard_mxnet_config
 from backend.mxboard.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
-from backend.mxboard.core.callback import do_checkpoint
+from backend.mxboard.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
 from mxnet.module import Module
 from mxnet import nd
 from mxnet import sym
@@ -20,7 +20,8 @@ sys.path.append(RCNN_PATH)
 
 
 class Executor(object):
-    def __init__(self):
+    def __init__(self, task_id):
+        self._task_id = task_id
         self._mod = None
 
     def execute(self):
@@ -101,8 +102,8 @@ register = Executor.register
 
 
 class Predictor(Executor):
-    def __init__(self, sym_json_path, params_path, ctx_config=({"device_name": "gpu", "device_id": "0"},)):
-        super(Predictor, self).__init__()
+    def __init__(self, task_id, sym_json_path, params_path, ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+        super(Predictor, self).__init__(task_id=task_id)
         self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
 
@@ -115,8 +116,8 @@ class Predictor(Executor):
 
 @register(for_training=False)
 class Classifier(Predictor):
-    def __init__(self, sym_json_path, params_path):
-        super(Classifier, self).__init__(sym_json_path=sym_json_path, params_path=params_path)
+    def __init__(self, task_id, sym_json_path, params_path):
+        super(Classifier, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path)
         pass
 
     def _predict(self):
@@ -125,17 +126,17 @@ class Classifier(Predictor):
 
 @register(for_training=False)
 class ObjectDetector(Predictor):
-    def __init__(self, sym_json_path, params_path):
-        super(ObjectDetector, self).__init__(sym_json_path=sym_json_path, params_path=params_path)
+    def __init__(self, task_id, sym_json_path, params_path):
+        super(ObjectDetector, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path)
 
     def _predict(self):
         pass
 
 
 class Trainer(Executor):
-    def __init__(self, train_iter, init_config, lr_config, opt_config, save_prefix, save_period, val_iter=None,
+    def __init__(self, task_id, train_iter, init_config, lr_config, opt_config, save_prefix, save_period, val_iter=None,
                  eval_metrics=('acc',), begin_epoch=0, num_epoch=250, kvstore='local'):
-        super(Trainer, self).__init__()
+        super(Trainer, self).__init__(task_id=task_id)
         self._initializer = Trainer._prepare_initializer(init_config)
         self._lr_scheduler = Trainer._prepare_lr_scheduler(lr_config)
         self._opt_type, self._mxnet_opt_params = Trainer._prepare_optimizer(opt_config)
@@ -155,10 +156,13 @@ class Trainer(Executor):
         self._mod.init_optimizer(kvstore='local', optimizer=self._opt_type, optimizer_params=self._mxnet_opt_params,
                                  force_init=False)
         batch_end_callbacks = [
-
+            MongoTrainEvalMsgRecorder(task_id=self._task_id)
         ]
         epoch_end_callbacks = [
             do_checkpoint(self._save_prefix, self._save_period)
+        ]
+        score_end_callbacks = [
+            MongoValEvalMsgRecorder(task_id=self._task_id)
         ]
         self._mod.fit(train_data=self._train_iter,
                       eval_data=self._val_iter,
@@ -172,6 +176,8 @@ class Trainer(Executor):
                       aux_params=self._mod.aux_paramsarams,
                       batch_end_callback=batch_end_callbacks,
                       epoch_end_callback=epoch_end_callbacks,
+                      eval_end_callback=score_end_callbacks,
+                      eval_batch_end_callback=None,
                       kvstore=self._kvstore,
                       allow_missing=True)
 
@@ -204,9 +210,10 @@ class Trainer(Executor):
 
 @register(for_training=True)
 class ClassifyTrainer(Trainer):
-    def __init__(self, symbol, train_iter, ctx_config, data_names, label_names, init_config, lr_config, opt_config,
-                 resume_config, val_iter=None):
-        super(ClassifyTrainer, self).__init__(train_iter, init_config, lr_config, opt_config, val_iter=val_iter)
+    def __init__(self, task_id, symbol, train_iter, ctx_config, data_names, label_names, init_config, lr_config,
+                 opt_config, resume_config, val_iter=None):
+        super(ClassifyTrainer, self).__init__(task_id, train_iter, init_config, lr_config, opt_config,
+                                              val_iter=val_iter)
         self._mod = ClassifyTrainer._prepare_module(symbol=symbol, ctx_config=ctx_config, data_names=data_names,
                                                     label_names=label_names, resume_config=resume_config)
 
@@ -257,9 +264,10 @@ class ClassifyTrainer(Trainer):
 
 @register(for_training=True)
 class RCNNTrainer(Trainer):
-    def __init__(self, symbol, train_iter, ctx, data_names, label_names, init_config, lr_config, opt_config,
+    def __init__(self, task_id, symbol, train_iter, ctx, data_names, label_names, init_config, lr_config, opt_config,
                  resume_config, val_iter=None):
-        super(RCNNTrainer, self).__init__(train_iter, init_config, lr_config, opt_config, val_iter=val_iter)
+        super(RCNNTrainer, self).__init__(train_iter, init_config, lr_config, opt_config, val_iter=val_iter,
+                                          task_id=task_id)
         pass
 
     @staticmethod

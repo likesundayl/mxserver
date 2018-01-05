@@ -59,6 +59,18 @@ class TrainLogRecorder(MongoConnector):
         )
 
 
+class ValLogRecorder(MongoConnector):
+    def __init__(self):
+        super(ValLogRecorder, self).__init__()
+        self._collection = self._client.get_database('train-db').get_collection('val-log')
+
+    def update_one(self, task_id, msg):
+        self._collection.update_one(
+            {'task_id': task_id},
+            {'$set': {'val_eval_messages': msg}}
+        )
+
+
 class TestLogRecorder(MongoConnector):
     def __init__(self):
         super(TestLogRecorder, self).__init__()
