@@ -10,8 +10,10 @@
     "kvstore": "local",
     "save_prefix": "alex",
     "save_period": "50",
-    "is_resume": "1",
-    "ckp": {},
+    "resume_config": {
+      "is_resume": "1",
+      "ckp": {}
+    },
     "data_param": {
       "batch_size": "32",
       "name": "data",
