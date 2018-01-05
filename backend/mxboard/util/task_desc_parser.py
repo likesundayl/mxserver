@@ -52,7 +52,7 @@ def get_data_config(task_desc):
     return data_config
 
 
-def _generate_ctx(ctx_config):
+def generate_ctx(ctx_config):
     ctx_list = []
 
     for ctx in ctx_config:
@@ -66,7 +66,7 @@ def _generate_ctx(ctx_config):
     return ctx_list
 
 
-def _generate_initializer(init_dict):
+def generate_initializer(init_dict):
     init_type = init_dict['type']
     init_param = init_dict['init_config']
 
@@ -87,7 +87,7 @@ def _generate_initializer(init_dict):
         return init.MSRAPrelu(factor_type='avg', slope=slope)
 
 
-def _generate_lr_scheduler(ls_dict):
+def generate_lr_scheduler(ls_dict):
     scheduler_type = ls_dict['type']
     scheduler_param = ls_dict['lr_scheduler_config']
     factor = float(scheduler_param['factor'])
@@ -100,14 +100,3 @@ def _generate_lr_scheduler(ls_dict):
         step_list = [int(step) for step in steps]
         return ls.MultiFactorScheduler(step=step_list, factor=factor)
 
-
-def _generate_optimizer(opt_dict):
-    op_type = opt_dict['type'].lower()
-    kvstore = opt_dict['kvstore']
-    op_param = opt_dict['opt_config']
-    base_lr = float(op_param['base_lr'])
-    momentum = float(op_param['momentum'])
-    weight_decay = float(op_param['weight_decay'])
-
-    op_param_tuple = (op_type, kvstore, (base_lr, momentum, weight_decay))
-    return op_param_tuple
