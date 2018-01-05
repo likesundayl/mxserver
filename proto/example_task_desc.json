@@ -6,10 +6,12 @@
     {"device_name": "gpu", "device_id": "0"}
   ],
   "train_param": {
+    "begin_epoch": "0",
     "num_epoch": "250",
     "kvstore": "local",
     "save_prefix": "alex",
     "save_period": "50",
+    "eval_metrics": ["acc"],
     "resume_config": {
       "is_resume": "1",
       "ckp": {}
