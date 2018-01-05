@@ -27,7 +27,8 @@ class XMLParser(object):
         mongo_element = self._root.getElementsByTagName('mongo-conf')[0]
 
         mongo_config['host'] = mongo_element.getElementsByTagName('host')[0].firstChild.data
-        mongo_config['port'] = mongo_element.getElementsByTagName('port')[0].firstChild.data
+        mongo_config['port'] = int(mongo_element.getElementsByTagName('port')[0].firstChild.data)
+        mongo_config['basic-db'] = mongo_element.getElementsByTagName('port')[0].firstChild.data
         mongo_config['task-db'] = mongo_element.getElementsByTagName('task-db')[0].firstChild.data
         mongo_config['train-db'] = mongo_element.getElementsByTagName('train-db')[0].firstChild.data
         mongo_config['test-db'] = mongo_element.getElementsByTagName('test-db')[0].firstChild.data
@@ -39,10 +40,10 @@ class XMLParser(object):
         rpc_element = self._root.getElementsByTagName('rpc-conf')[0]
 
         rpc_config['host'] = rpc_element.getElementsByTagName('host')[0].firstChild.data
-        rpc_config['port'] = rpc_element.getElementsByTagName('port')[0].firstChild.data
-        rpc_config['max-thread-num'] = rpc_element.getElementsByTagName('max-thread-num')[0].firstChild.data
-        rpc_config['one-day-time-in-seconds'] = rpc_element.getElementsByTagName('one-day-time-in-seconds')[0] \
-            .firstChild.data
+        rpc_config['port'] = int(rpc_element.getElementsByTagName('port')[0].firstChild.data)
+        rpc_config['max-thread-num'] = int(rpc_element.getElementsByTagName('max-thread-num')[0].firstChild.data)
+        rpc_config['one-day-time-in-seconds'] = int(rpc_element.getElementsByTagName('one-day-time-in-seconds')[0] \
+            .firstChild.data)
 
         return rpc_config
 
@@ -52,8 +53,8 @@ class XMLParser(object):
         log_element = self._root.getElementsByTagName('log-conf')[0]
         log_config['log-file-root'] = log_element.getElementsByTagName('log-file-root')[0].firstChild.data
         log_config['log-format'] = log_element.getElementsByTagName('log-format')[0].firstChild.data
-        log_config['log-max-bytes'] = log_element.getElementsByTagName('log-max-bytes')[0].firstChild.data
-        log_config['log-backup-count'] = log_element.getElementsByTagName('log-backup-count')[0].firstChild.data
+        log_config['log-max-bytes'] = int(log_element.getElementsByTagName('log-max-bytes')[0].firstChild.data)
+        log_config['log-backup-count'] = int(log_element.getElementsByTagName('log-backup-count')[0].firstChild.data)
         log_config['log-level'] = log_element.getElementsByTagName('log-level')[0].firstChild.data
 
         return log_config
@@ -71,8 +72,8 @@ class XMLParser(object):
         task_queue_config = {}
 
         task_element = self._root.getElementsByTagName('task-queue-conf')[0]
-        task_queue_config['queue-max-size'] = task_element.getElementsByTagName('queue-max-size')[0].firstChild.data
-        task_queue_config['wait-time-out'] = task_element.getElementsByTagName('wait-time-out')[0].firstChild.data
+        task_queue_config['queue-max-size'] = int(task_element.getElementsByTagName('queue-max-size')[0].firstChild.data)
+        task_queue_config['wait-time-out'] = int(task_element.getElementsByTagName('wait-time-out')[0].firstChild.data)
 
         return task_queue_config
 
@@ -80,7 +81,7 @@ class XMLParser(object):
         data_download_config = {}
 
         data_element = self._root.getElementsByTagName('data-download-conf')[0]
-        data_download_config['max-retry-num'] = data_element.getElementsByTagName('max-retry-num')[0].firstChild.data
+        data_download_config['max-retry-num'] = int(data_element.getElementsByTagName('max-retry-num')[0].firstChild.data)
 
         return data_download_config
 

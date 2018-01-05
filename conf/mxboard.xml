@@ -6,6 +6,7 @@
     <mongo-conf>
         <host>127.0.0.1</host>
         <port>27017</port>
+        <basic-db>basic</basic-db>
         <task-db>task</task-db>
         <train-db>train</train-db>
         <test-db>test</test-db>
