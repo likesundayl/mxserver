@@ -33,7 +33,29 @@ def parse_task_desc(task_desc):
     if task_dict['for_training'] == '0':
         # If for training, then get the symbol
         executor_dict['symbol'] = sym.load(net_symbol_json_path)
-        executor_dict['train_config'] = task_dict['train_param']
+
+        train_config = task_dict['train_param']
+
+        # data names and label names
+        data_config = train_config['data_param']
+        label_config = train_config['label_param']
+        executor_dict['data_names'] = tuple(data_config['name'])
+        executor_dict['label_names'] = tuple(label_config['name'])
+
+        # context
+        executor_dict['ctx_config'] = task_dict['context']
+
+        # initializer
+        executor_dict['init_config'] = train_config['initializer']
+
+        # optimizer
+        executor_dict['opt_config'] = train_config['optimizer']
+
+        # lr scheduler
+        executor_dict['lr_config'] = train_config['lr_scheduler']
+
+        # resume config
+        executor_dict['resume_config'] = train_config['resume_config']
     else:
         test_param = task_dict['test_param']
         ckp = test_param['ckp']
@@ -63,7 +85,7 @@ def generate_ctx(ctx_config):
         else:
             device_id = int(ctx['device_id'])
             ctx_list.append(Context(device_type='gpu', device_id=device_id))
-    return ctx_list
+    return tuple(ctx_list)
 
 
 def generate_initializer(init_dict):
