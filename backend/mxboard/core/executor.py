@@ -4,10 +4,12 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import sys
+import numpy as np
 from os import path as osp
 from backend.mxboard.util.xml_parser import mxboard_mxnet_config
 from backend.mxboard.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
 from backend.mxboard.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
+from backend.mxboard.db.mongo_connector import TestLogRecorder
 from mxnet.module import Module
 from mxnet import nd
 from mxnet import sym
@@ -102,13 +104,19 @@ register = Executor.register
 
 
 class Predictor(Executor):
-    def __init__(self, task_id, sym_json_path, params_path, ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+    def __init__(self, task_id, sym_json_path, params_path, test_datas,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
         super(Predictor, self).__init__(task_id=task_id)
         self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
+        self._test_datas = test_datas
+        self._test_log_recorder = TestLogRecorder()
 
     def _predict(self):
-        pass
+        self._test_log_recorder.insert_one({
+            'task_id': self._task_id,
+            'test_eval_messages': []
+        })
 
     def execute(self):
         self._predict()
@@ -116,21 +124,32 @@ class Predictor(Executor):
 
 @register(for_training=False)
 class Classifier(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path):
-        super(Classifier, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path)
-        pass
+    def __init__(self, task_id, sym_json_path, params_path, test_datas,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+        super(Classifier, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
+                                         test_datas=test_datas, ctx_config=ctx_config)
 
     def _predict(self):
-        pass
+        super(Classifier, self)._predict()
+        test_eval_messages = []
+        for img, img_data_batch in self._test_datas.iteritems():
+            self._mod.forward(data_batch=img_data_batch, is_train=False)
+            prob = self._mod.get_outputs()[0].asnumpy()
+            prob = np.squeeze(prob)
+            test_eval_messages.append(dict(img=img, predict_probs=prob.tolist()))
+        self._test_log_recorder.update_one(self._task_id, test_eval_messages)
 
 
 @register(for_training=False)
 class ObjectDetector(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path):
-        super(ObjectDetector, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path)
+    def __init__(self, task_id, sym_json_path, params_path, test_datas,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+        super(ObjectDetector, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
+                                             test_datas=test_datas, ctx_config=ctx_config)
 
     def _predict(self):
-        pass
+        super(ObjectDetector, self)._predict()
+        # TODO: more work to do with object detection task
 
 
 class Trainer(Executor):
