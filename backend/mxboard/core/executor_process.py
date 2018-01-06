@@ -54,8 +54,7 @@ class ExecutorProcess(Process):
             else:
                 executor_dict['val_iter'] = data_iters[1]
         else:
-            # TODO:
-            pass
+            executor_dict['data_batch_list'] = data_iters
 
         try:
             executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_dict)
