@@ -21,9 +21,8 @@ from backend.mxboard.core.executor_process_manager import ExecutorProcessManager
 from backend.mxboard.proto import mxboard_pb2_grpc
 from backend.mxboard.rpc.mxnet_service import MXNetService
 from backend.mxboard.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
+from backend.mxboard.util.exception_handler import exception_msg
 
-if EXCEPTION_MSG_LEVEL == 'DETAILED':
-    import traceback
 
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_server')
@@ -48,10 +47,4 @@ if __name__ == '__main__':
             main_logger.warn('MXNet server has been stopped!')
             server.stop(0)
     except StandardError, e:
-        if EXCEPTION_MSG_LEVEL == 'DETAILED':
-            exception_msg = traceback.format_exc()
-        elif EXCEPTION_MSG_LEVEL == 'BASIC':
-            exception_msg = repr(e)
-        else:
-            exception_msg = str(e)
-        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg)
+        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg(EXCEPTION_MSG_LEVEL, e))
