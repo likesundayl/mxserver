@@ -3,47 +3,53 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+import cv2
+import numpy as np
+from mxnet import nd
+from collections import namedtuple
 from mxnet.image.image import ImageIter
-from mxnet.io import DataBatch
+
+Batch = namedtuple('Batch', ['data'])
 
 
-def load_data_iter_rec(data_config_dict):
-    target = data_config_dict['target']
-    label_name = data_config_dict['label'][0]['label_name']
-    label_width = int(data_config_dict['label'][0]['label_width'])
-    data_name = data_config_dict['data_name_shapes'][0]['data_name']
-    data_shapes = data_config_dict['data_name_shapes'][0]['shapes']
-    data_shape_list = [int(data_shape) for data_shape in data_shapes]
-    if target == 'train':
-        train_config = data_config_dict['train_config']
-        data_config = train_config['data_config']
-        batch_size = int(data_config['batch_size'])
-        if data_config['shuffle'] == '0':
-            shuffle = True
-        else:
-            shuffle = False
-        train_set_rec = data_config['train_set'][0]
-        if len(data_config['train_set']) == 2:
-            train_set_idx = data_config['train_set'][1]
-        else:
-            train_set_idx = None
-        train_iter = ImageIter(batch_size=batch_size, data_shape=tuple(data_shape_list), label_width=label_width,
-                               path_imgrec=train_set_rec, path_imgidx=train_set_idx, data_name=data_name,
-                               shuffle=shuffle, label_name=label_name)
-        if data_config.get('val_set') is None:
-            return [train_iter]
-        else:
-            val_set_rec = data_config['val_set'][0]
-            if len(data_config['val_set']) == 2:
-                val_set_idx = data_config['val_set'][1]
+def load_data(for_training, exec_type, data_config_dict):
+    if for_training:
+        if exec_type == 'classify':
+            batch_size = int(data_config_dict['batch_size'])
+            data_shapes = tuple([int(shape) for shape in data_config_dict['shapes']])
+            if data_config_dict['shuffle'] == '0':
+                shuffle = True
             else:
-                val_set_idx = None
-            val_iter = ImageIter(batch_size=batch_size, data_shape=tuple(data_shape_list), label_width=label_width,
-                                 path_imgrec=val_set_rec, path_imgidx=val_set_idx, data_name=data_name,
-                                 shuffle=shuffle, label_name=label_name)
-            return [train_iter, val_iter]
+                shuffle = False
+            file_path = data_config_dict['file_path']
+            train_rec = file_path['train_rec']
+            if shuffle:
+                train_idx = file_path.get('train_idx')
+                if train_idx is None:
+                    shuffle = False
+            train_iter = ImageIter(batch_size=batch_size, data_shape=data_shapes, shuffle=shuffle,
+                                   path_imgrec=train_rec, path_imgidx=train_idx)
+            val_rec = file_path.get('val_rec')
+            if val_rec is None:
+                return tuple(train_iter)
+            else:
+                val_iter = ImageIter(batch_size=batch_size, data_shape=data_shapes, shuffle=False, path_imgrec=val_rec)
+                return train_iter, val_iter
+        elif exec_type == 'detection':
+            # TODO:
+            pass
     else:
-        test_config = data_config_dict['test_config']
-        test_datas = test_config['data_config']['datas']
-        # TODO:
-        return None
+        test_datas = {}
+        img_list = data_config_dict['img_list']
+        img_shape = [int(shape) for shape in data_config_dict['img_shapes']]
+
+        for img in img_list:
+            cv_img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
+            if img is not None:
+                cv_img = cv2.resize(cv_img, (img_shape[0], img_shape[1]))
+                cv_img = np.swapaxes(cv_img, 0, 2)
+                cv_img = np.swapaxes(cv_img, 1, 2)
+                cv_img = cv_img[np.newaxis, :]
+            test_datas[img] = Batch([nd.array(cv_img)])
+
+        return test_datas

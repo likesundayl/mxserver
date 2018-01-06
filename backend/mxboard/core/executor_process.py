@@ -8,7 +8,7 @@ from multiprocessing import Process
 from backend.config import EXCEPTION_MSG_LEVEL
 from backend.mxboard.core.executor import Executor
 from backend.mxboard.db.mongo_connector import TaskProgressRecorder
-from backend.mxboard.io.data_loader import load_data_iter_rec
+from backend.mxboard.io.data_loader import load_data
 from backend.mxboard.log.logger_generator import get_logger
 from backend.mxboard.util.task_desc_parser import parse_task_desc, get_data_config
 from backend.mxboard.util.time_getter import get_time
@@ -40,7 +40,7 @@ class ExecutorProcess(Process):
 
         self._update_task_state('TASK_BEGIN_PREPARE_DATA')
         try:
-            data_iters = load_data_iter_rec(for_training, exec_type, data_config)
+            data_iters = load_data(for_training, exec_type, data_config)
             self._update_task_state('TASK_PREPARE_DATA_DONE')
         except StandardError, e:
             self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
