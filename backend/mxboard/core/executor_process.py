@@ -40,7 +40,7 @@ class ExecutorProcess(Process):
 
         self._update_task_state('TASK_BEGIN_PREPARE_DATA')
         try:
-            data_iters = load_data_iter_rec(for_training, data_config)
+            data_iters = load_data_iter_rec(for_training, exec_type, data_config)
             self._update_task_state('TASK_PREPARE_DATA_DONE')
         except StandardError, e:
             self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
