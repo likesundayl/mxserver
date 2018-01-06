@@ -5,6 +5,7 @@
   "context": [
     {"device_name": "gpu", "device_id": "0"}
   ],
+  "eval_metrics": ["acc"],
   "train_param": {
     "begin_epoch": "0",
     "num_epoch": "250",
@@ -18,11 +19,14 @@
     },
     "data_param": {
       "batch_size": "32",
+      "shuffle": "0",
       "name": "data",
       "shapes": ["3", "128", "128"],
       "file_path": {
-        "train": "train.rec",
-        "val": "val_rec"
+        "train_rec": "train.rec",
+        "train_idx": "train.idx",
+        "val_rec": "val.rec",
+        "val_idx": "val.idx"
       }
     },
     "label_param": {

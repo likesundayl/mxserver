@@ -30,6 +30,10 @@ def parse_task_desc(task_desc):
     exec_type = task_dict['target']
     executor_dict = {}
 
+    # eval metrics
+    eval_metrics = tuple(task_dict['eval_metrics'])
+    executor_dict['eval_metrics'] = eval_metrics
+
     if task_dict['for_training'] == '0':
         # If for training, then get the symbol
         executor_dict['symbol'] = sym.load(net_symbol_json_path)

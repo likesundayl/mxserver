@@ -12,9 +12,7 @@ from backend.mxboard.io.data_loader import load_data_iter_rec
 from backend.mxboard.log.logger_generator import get_logger
 from backend.mxboard.util.task_desc_parser import parse_task_desc, get_data_config
 from backend.mxboard.util.time_getter import get_time
-
-if EXCEPTION_MSG_LEVEL == 'DETAILED':
-    import traceback
+from backend.mxboard.util.exception_handler import exception_msg
 
 _logger = get_logger('executor_process')
 
@@ -40,9 +38,34 @@ class ExecutorProcess(Process):
         executor_dict['task_id'] = self._process_id
         data_config = get_data_config(self._task_desc)
 
-        # TODO: Prepare DataIters
+        self._update_task_state('TASK_BEGIN_PREPARE_DATA')
+        try:
+            data_iters = load_data_iter_rec(for_training, data_config)
+            self._update_task_state('TASK_PREPARE_DATA_DONE')
+        except StandardError, e:
+            self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
+            excep_msg = exception_msg(EXCEPTION_MSG_LEVEL, e)
+            _logger.error('Task_%s\'s DataIter instances creation failed! Because %s' % (self._process_id, excep_msg))
+            return
+        if for_training:
+            executor_dict['train_iter'] = data_iters[0]
+            if len(data_iters) == 1:
+                executor_dict['val_iter'] = None
+            else:
+                executor_dict['val_iter'] = data_iters[1]
+        else:
+            # TODO:
+            pass
 
-        executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_dict)
+        try:
+            executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_dict)
+            self._update_task_state('TASK_EXECUTOR_CREATION_DONE')
+            _logger.error('Task_%s\'s Executor instances creation done!' % self._process_id)
+        except StandardError, e:
+            self._update_task_state('TASK_EXECUTOR_CREATION_FAILED')
+            _logger.error('Task_%s\'s Executor instances creation failed! Because %s' %
+                          (self._process_id, exception_msg(EXCEPTION_MSG_LEVEL, e)))
+            return
 
         try:
             self._update_task_state('TASK_BEGIN_RUNNING')
@@ -52,14 +75,9 @@ class ExecutorProcess(Process):
             _logger.info('Task_%s running is done successfully' % self._process_id)
         except StandardError, e:
             self._update_task_state('TASK_TERMINATED_BY_INTERNAL_ERROR')
-            if EXCEPTION_MSG_LEVEL == 'DETAILED':
-                exception_msg = traceback.format_exc()
-            elif EXCEPTION_MSG_LEVEL == 'BASIC':
-                exception_msg = repr(e)
-            else:
-                exception_msg = str(e)
+            excep_msg = exception_msg(EXCEPTION_MSG_LEVEL, e)
             _logger.error('Task_%s has been terminated by server internal error! Because %s' %
-                          (self._process_id, exception_msg))
+                          (self._process_id, excep_msg))
 
     def terminate(self):
         super(ExecutorProcess, self).terminate()
