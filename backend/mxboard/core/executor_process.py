@@ -37,6 +37,7 @@ class ExecutorProcess(Process):
         })
 
         for_training, exec_type, executor_dict = parse_task_desc(self._task_desc)
+        executor_dict['task_id'] = self._process_id
         data_config = get_data_config(self._task_desc)
 
         # TODO: Prepare DataIters
