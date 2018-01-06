@@ -11,7 +11,7 @@ learning tasks.
 
 ### 2.1 General Architecture
 
-![](zongtijiagou.png)
+![](https://github.com/Harmonicahappy/mxboard/blob/master/zongtijiagou.PNG)
 
 ## 3. Open APIs
 
