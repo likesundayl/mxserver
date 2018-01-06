@@ -13,6 +13,10 @@ learning tasks.
 
 ![](https://github.com/Harmonicahappy/mxboard/blob/master/GeneralArchitecture.PNG)
 
+### 2.2 Backend Architecture
+
+![](https://github.com/Harmonicahappy/mxboard/blob/master/BackendArchitecture.PNG)
+
 ## 3. Open APIs
 
 In my original design, the mxboard will have open APIs in the form of `flask webservice`. I design roughly 3 interfaces.
