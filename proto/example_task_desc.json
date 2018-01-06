@@ -25,7 +25,6 @@
         "train_rec": "train.rec",
         "train_idx": "train.idx",
         "val_rec": "val.rec",
-        "val_idx": "val.idx"
       }
     },
     "label_param": {
