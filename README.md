@@ -9,6 +9,10 @@ learning tasks.
 
 ## 2. Architecture
 
+### 2.1 General Architecture
+
+![](zongtijiagou.png)
+
 ## 3. Open APIs
 
 In my original design, the mxboard will have open APIs in the form of `flask webservice`. I design roughly 3 interfaces.
