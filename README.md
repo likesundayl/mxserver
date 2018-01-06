@@ -11,7 +11,7 @@ learning tasks.
 
 ### 2.1 General Architecture
 
-![](https://github.com/Harmonicahappy/mxboard/tree/master/imgs/GeneralArchitecture.PNG)
+![](https://github.com/Harmonicahappy/mxboard/blob/master/GeneralArchitecture.PNG)
 
 ## 3. Open APIs
 
