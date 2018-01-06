@@ -30,15 +30,15 @@ def parse_task_desc(task_desc):
     exec_type = task_dict['target']
     executor_dict = {}
 
-    # eval metrics
-    eval_metrics = tuple(task_dict['eval_metrics'])
-    executor_dict['eval_metrics'] = eval_metrics
-
     if task_dict['for_training'] == '0':
         # If for training, then get the symbol
         executor_dict['symbol'] = sym.load(net_symbol_json_path)
 
         train_config = task_dict['train_param']
+
+        # eval metrics
+        eval_metrics = tuple(train_config['eval_metrics'])
+        executor_dict['eval_metrics'] = eval_metrics
 
         # data names and label names
         data_config = train_config['data_param']
@@ -74,7 +74,7 @@ def get_data_config(task_desc):
     if task_dict['for_training'] == '0':
         data_config = task_dict['train_param']['data_param']
     else:
-        data_config = task_dict['test_param']['test_imgs']
+        data_config = task_dict['test_param']['test_img_config']
     return data_config
 
 
