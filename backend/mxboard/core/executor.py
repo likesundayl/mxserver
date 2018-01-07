@@ -157,8 +157,10 @@ class Trainer(Executor):
                  eval_metrics=('acc',), begin_epoch=0, num_epoch=250, kvstore='local'):
         super(Trainer, self).__init__(task_id=task_id)
         self._initializer = Trainer._prepare_initializer(init_config)
-        self._lr_scheduler = Trainer._prepare_lr_scheduler(lr_config)
+        lr_scheduler = Trainer._prepare_lr_scheduler(lr_config)
         self._opt_type, self._mxnet_opt_params = Trainer._prepare_optimizer(opt_config)
+        # lr_scheduler is a param of optimizer
+        self._mxnet_opt_params['lr_scheduler'] = lr_scheduler
         self._train_iter = train_iter
         self._val_iter = val_iter
         self._save_prefix = save_prefix

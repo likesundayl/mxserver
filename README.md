@@ -53,3 +53,9 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 ### 4.1 Java Thirdparty Dependency
 
 ### 4.2 Python Thirdparty Dependency
+
+### 5. TODOs
+
+* Data prepare for object detection
+
+* Sub class of `Executor` for object detection
