@@ -5,13 +5,13 @@
   "context": [
     {"device_name": "gpu", "device_id": "0"}
   ],
+  "eval_metrics": ["acc"],
   "train_param": {
     "begin_epoch": "0",
     "num_epoch": "250",
     "kvstore": "local",
     "save_prefix": "alex",
     "save_period": "50",
-    "eval_metrics": ["acc"],
     "resume_config": {
       "is_resume": "1",
       "ckp": {}
@@ -60,6 +60,10 @@
       "epoch": "50"
     },
     "test_img_config": {
+      "label": {
+        "cls_label": "test.txt",
+        "detec_xml_label": "annotations.txt"
+      },
       "img_list": ["xxx.jpg", "yyy.jpg", "zzz.jpg"],
       "img_shapes": ["128", "128"]
     }

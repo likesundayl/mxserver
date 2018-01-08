@@ -30,15 +30,15 @@ def parse_task_desc(task_desc):
     exec_type = task_dict['target']
     executor_dict = {}
 
+    # eval metrics
+    eval_metrics = tuple(task_dict['eval_metrics'])
+    executor_dict['eval_metrics'] = eval_metrics
+
     if task_dict['for_training'] == '0':
         # If for training, then get the symbol
         executor_dict['symbol'] = sym.load(net_symbol_json_path)
 
         train_config = task_dict['train_param']
-
-        # eval metrics
-        eval_metrics = tuple(train_config['eval_metrics'])
-        executor_dict['eval_metrics'] = eval_metrics
 
         # data names and label names
         data_config = train_config['data_param']
@@ -65,6 +65,13 @@ def parse_task_desc(task_desc):
         ckp = test_param['ckp']
         executor_dict['sym_json_path'] = net_symbol_json_path
         executor_dict['params_path'] = osp.join(params_root_path, '%s-%04d.params' % (ckp['prefix'], int(ckp['epoch'])))
+        test_label_config = test_param['label']
+        if exec_type == 'classify':
+            if test_label_config.get('cls_label') is not None:
+                executor_dict['label'] = test_label_config['cls_label']
+        elif exec_type == 'detection':
+            if test_label_config.get('detec_xml_label') is not None:
+                executor_dict['label'] = test_label_config['detec_xml_label']
 
     return for_training, exec_type, executor_dict
 
