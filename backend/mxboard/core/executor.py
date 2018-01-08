@@ -104,19 +104,22 @@ register = Executor.register
 
 
 class Predictor(Executor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas,
-                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
         super(Predictor, self).__init__(task_id=task_id)
         self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
+        self._eval_metrics = eval_metrics
         self._test_datas = test_datas
         self._test_log_recorder = TestLogRecorder()
 
     def _predict(self):
-        self._test_log_recorder.insert_one({
+        basic_msg = {
             'task_id': self._task_id,
-            'test_eval_messages': []
-        })
+            'test_raw_output': [],
+            'test_eval_output': []
+        }
+        self._test_log_recorder.insert_one(basic_msg)
 
     def execute(self):
         self._predict()
@@ -124,28 +127,37 @@ class Predictor(Executor):
 
 @register(for_training=False)
 class Classifier(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas,
-                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
         super(Classifier, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
-                                         test_datas=test_datas, ctx_config=ctx_config)
+                                         test_datas=test_datas, eval_metrics=eval_metrics, ctx_config=ctx_config,
+                                         label=label)
 
     def _predict(self):
         super(Classifier, self)._predict()
+        message = {}
         test_eval_messages = []
+        message['raw'] = test_eval_messages
+        message['eval'] = []
         for img, img_data_batch in self._test_datas.iteritems():
             self._mod.forward(data_batch=img_data_batch, is_train=False)
             prob = self._mod.get_outputs()[0].asnumpy()
             prob = np.squeeze(prob)
             test_eval_messages.append(dict(img=img, predict_probs=prob.tolist()))
-        self._test_log_recorder.update_one(self._task_id, test_eval_messages)
+        if self._eval_metrics:
+            # TODO: According to eval metrics, calculate related results such as accuracy
+            pass
+        else:
+            self._test_log_recorder.update_one(self._task_id, message)
 
 
 @register(for_training=False)
 class ObjectDetector(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas,
-                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
         super(ObjectDetector, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
-                                             test_datas=test_datas, ctx_config=ctx_config)
+                                             test_datas=test_datas, eval_metrics=eval_metrics, ctx_config=ctx_config,
+                                             label=label)
 
     def _predict(self):
         super(ObjectDetector, self)._predict()

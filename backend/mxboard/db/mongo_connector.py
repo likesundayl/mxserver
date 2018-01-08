@@ -79,5 +79,9 @@ class TestLogRecorder(MongoConnector):
     def update_one(self, task_id, msg):
         self._collection.update_one(
             {'task_id': task_id},
-            {'$set': {'test_eval_messages': msg}}
+            {'$set': {'test_raw_output': msg['raw']}}
+        )
+        self._collection.update_one(
+            {'task_id': task_id},
+            {'$set': {'test_eval_output': msg['eval']}}
         )

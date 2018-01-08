@@ -32,7 +32,10 @@ def parse_task_desc(task_desc):
 
     # eval metrics
     eval_metrics = tuple(task_dict['eval_metrics'])
-    executor_dict['eval_metrics'] = eval_metrics
+    if len(eval_metrics) == 0:
+        executor_dict['eval_metrics'] = None
+    else:
+        executor_dict['eval_metrics'] = eval_metrics
 
     if task_dict['for_training'] == '0':
         # If for training, then get the symbol
@@ -66,6 +69,7 @@ def parse_task_desc(task_desc):
         executor_dict['sym_json_path'] = net_symbol_json_path
         executor_dict['params_path'] = osp.join(params_root_path, '%s-%04d.params' % (ckp['prefix'], int(ckp['epoch'])))
         test_label_config = test_param['label']
+        executor_dict['label'] = None
         if exec_type == 'classify':
             if test_label_config.get('cls_label') is not None:
                 executor_dict['label'] = test_label_config['cls_label']
