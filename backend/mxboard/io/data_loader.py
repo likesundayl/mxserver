@@ -46,12 +46,12 @@ def load_data(for_training, exec_type, data_config_dict):
 
             for img in img_list:
                 cv_img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-                if img is not None:
+                if cv_img is not None:
                     cv_img = cv2.resize(cv_img, (img_shape[0], img_shape[1]))
                     cv_img = np.swapaxes(cv_img, 0, 2)
                     cv_img = np.swapaxes(cv_img, 1, 2)
                     cv_img = cv_img[np.newaxis, :]
-                test_datas[img] = Batch([nd.array(cv_img)])
+                    test_datas[img] = Batch([nd.array(cv_img)])
 
             return test_datas
         elif exec_type == 'detection':
