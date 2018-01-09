@@ -110,6 +110,7 @@ class Predictor(Executor):
         self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
         self._eval_metrics = eval_metrics
+        self._label = label
         self._test_datas = test_datas
         self._test_log_recorder = TestLogRecorder()
 
@@ -144,7 +145,7 @@ class Classifier(Predictor):
             prob = self._mod.get_outputs()[0].asnumpy()
             prob = np.squeeze(prob)
             test_eval_messages.append(dict(img=img, predict_probs=prob.tolist()))
-        if self._eval_metrics:
+        if self._eval_metrics and self._label:
             # TODO: According to eval metrics, calculate related results such as accuracy
             pass
         else:
