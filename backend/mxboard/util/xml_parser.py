@@ -63,6 +63,7 @@ class XMLParser(object):
         storage_config = {}
 
         storage_element = self._root.getElementsByTagName('storage-conf')[0]
+        storage_config['rec-root'] = storage_element.getElementsByTagName('rec-root')[0].firstChild.data
         storage_config['symbol-json-root'] = storage_element.getElementsByTagName('symbol-json-root')[0].firstChild.data
         storage_config['params-root'] = storage_element.getElementsByTagName('params-root')[0].firstChild.data
 
