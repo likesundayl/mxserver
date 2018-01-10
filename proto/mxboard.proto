@@ -34,8 +34,7 @@ message TaskState {
 message RecordIORequest {
     required string image_root = 1;
     required string label_lst_path = 2;
-    required bool shuffle = 3 [default=true];
-    repeated int32 shape = 4;
+    map<string, string> config = 4;
 }
 
 message RecordIOCreateState {
