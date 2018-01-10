@@ -25,6 +25,7 @@
         <log-level>INFO</log-level>
     </log-conf>
     <storage-conf>
+        <rec-root>../data_center/classification</rec-root>
         <symbol-json-root>../model_zoo/</symbol-json-root>
         <params-root>../params_zoo</params-root>
     </storage-conf>
