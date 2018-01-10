@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='mxboard.proto',
   package='',
   syntax='proto2',
-  serialized_pb=_b('\n\rmxboard.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"]\n\x11SymbolCreateState\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x03 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN2\x94\x01\n\x0cMXNetService\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
+  serialized_pb=_b('\n\rmxboard.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"]\n\x11SymbolCreateState\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x03 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN\"c\n\x0fRecordIORequest\x12\x12\n\nimage_root\x18\x01 \x02(\t\x12\x16\n\x0elabel_lst_path\x18\x02 \x02(\t\x12\x15\n\x07shuffle\x18\x03 \x02(\x08:\x04true\x12\r\n\x05shape\x18\x04 \x03(\x05\"L\n\x13RecordIOCreateState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x02 \x02(\t:\nSUCCESSFUL2\xd8\x01\n\x0cMXNetService\x12\x42\n\x16\x63reateClsRecordIOFiles\x12\x10.RecordIORequest\x1a\x14.RecordIOCreateState\"\x00\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00\x42\x19\n\x17\x63om.mxboard.service.rpc')
 )
 
 
@@ -38,21 +38,21 @@ _SYMBOLPARAMETER = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='symbol_name', full_name='SymbolParameter.symbol_name', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='symbol_desc', full_name='SymbolParameter.symbol_desc', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -83,21 +83,21 @@ _SYMBOLCREATESTATE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='state_code', full_name='SymbolCreateState.state_code', index=1,
       number=2, type=5, cpp_type=1, label=2,
       has_default_value=True, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='state_desc', full_name='SymbolCreateState.state_desc', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=True, default_value=_b("SUCCESSFUL").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -128,14 +128,14 @@ _TASKPARAMETER = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='task_desc', full_name='TaskParameter.task_desc', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -166,7 +166,7 @@ _TASKID = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -197,21 +197,21 @@ _TASKSTATE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='state_code', full_name='TaskState.state_code', index=1,
       number=2, type=5, cpp_type=1, label=2,
       has_default_value=True, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='state_desc', full_name='TaskState.state_desc', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=True, default_value=_b("OK_TO_RUN").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -228,12 +228,104 @@ _TASKSTATE = _descriptor.Descriptor(
   serialized_end=358,
 )
 
+
+_RECORDIOREQUEST = _descriptor.Descriptor(
+  name='RecordIORequest',
+  full_name='RecordIORequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='image_root', full_name='RecordIORequest.image_root', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='label_lst_path', full_name='RecordIORequest.label_lst_path', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='shuffle', full_name='RecordIORequest.shuffle', index=2,
+      number=3, type=8, cpp_type=7, label=2,
+      has_default_value=True, default_value=True,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='shape', full_name='RecordIORequest.shape', index=3,
+      number=4, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=360,
+  serialized_end=459,
+)
+
+
+_RECORDIOCREATESTATE = _descriptor.Descriptor(
+  name='RecordIOCreateState',
+  full_name='RecordIOCreateState',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='state_code', full_name='RecordIOCreateState.state_code', index=0,
+      number=1, type=5, cpp_type=1, label=2,
+      has_default_value=True, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='state_desc', full_name='RecordIOCreateState.state_desc', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=True, default_value=_b("SUCCESSFUL").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=461,
+  serialized_end=537,
+)
+
 _TASKPARAMETER.fields_by_name['id'].message_type = _TASKID
 DESCRIPTOR.message_types_by_name['SymbolParameter'] = _SYMBOLPARAMETER
 DESCRIPTOR.message_types_by_name['SymbolCreateState'] = _SYMBOLCREATESTATE
 DESCRIPTOR.message_types_by_name['TaskParameter'] = _TASKPARAMETER
 DESCRIPTOR.message_types_by_name['TaskId'] = _TASKID
 DESCRIPTOR.message_types_by_name['TaskState'] = _TASKSTATE
+DESCRIPTOR.message_types_by_name['RecordIORequest'] = _RECORDIOREQUEST
+DESCRIPTOR.message_types_by_name['RecordIOCreateState'] = _RECORDIOCREATESTATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SymbolParameter = _reflection.GeneratedProtocolMessageType('SymbolParameter', (_message.Message,), dict(
@@ -271,7 +363,23 @@ TaskState = _reflection.GeneratedProtocolMessageType('TaskState', (_message.Mess
   ))
 _sym_db.RegisterMessage(TaskState)
 
+RecordIORequest = _reflection.GeneratedProtocolMessageType('RecordIORequest', (_message.Message,), dict(
+  DESCRIPTOR = _RECORDIOREQUEST,
+  __module__ = 'mxboard_pb2'
+  # @@protoc_insertion_point(class_scope:RecordIORequest)
+  ))
+_sym_db.RegisterMessage(RecordIORequest)
 
+RecordIOCreateState = _reflection.GeneratedProtocolMessageType('RecordIOCreateState', (_message.Message,), dict(
+  DESCRIPTOR = _RECORDIOCREATESTATE,
+  __module__ = 'mxboard_pb2'
+  # @@protoc_insertion_point(class_scope:RecordIOCreateState)
+  ))
+_sym_db.RegisterMessage(RecordIOCreateState)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n\027com.mxboard.service.rpc'))
 
 _MXNETSERVICE = _descriptor.ServiceDescriptor(
   name='MXNetService',
@@ -279,13 +387,22 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=361,
-  serialized_end=509,
+  serialized_start=540,
+  serialized_end=756,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='createClsRecordIOFiles',
+    full_name='MXNetService.createClsRecordIOFiles',
+    index=0,
+    containing_service=None,
+    input_type=_RECORDIOREQUEST,
+    output_type=_RECORDIOCREATESTATE,
+    options=None,
+  ),
   _descriptor.MethodDescriptor(
     name='createSymbol',
     full_name='MXNetService.createSymbol',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_SYMBOLPARAMETER,
     output_type=_SYMBOLCREATESTATE,
@@ -294,7 +411,7 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='startTask',
     full_name='MXNetService.startTask',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_TASKPARAMETER,
     output_type=_TASKSTATE,
@@ -303,7 +420,7 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='stopTask',
     full_name='MXNetService.stopTask',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_TASKID,
     output_type=_TASKSTATE,

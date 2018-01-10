@@ -14,6 +14,11 @@ class MXNetServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.createClsRecordIOFiles = channel.unary_unary(
+        '/MXNetService/createClsRecordIOFiles',
+        request_serializer=mxboard__pb2.RecordIORequest.SerializeToString,
+        response_deserializer=mxboard__pb2.RecordIOCreateState.FromString,
+        )
     self.createSymbol = channel.unary_unary(
         '/MXNetService/createSymbol',
         request_serializer=mxboard__pb2.SymbolParameter.SerializeToString,
@@ -34,6 +39,13 @@ class MXNetServiceStub(object):
 class MXNetServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
+
+  def createClsRecordIOFiles(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
   def createSymbol(self, request, context):
     # missing associated documentation comment in .proto file
@@ -59,6 +71,11 @@ class MXNetServiceServicer(object):
 
 def add_MXNetServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'createClsRecordIOFiles': grpc.unary_unary_rpc_method_handler(
+          servicer.createClsRecordIOFiles,
+          request_deserializer=mxboard__pb2.RecordIORequest.FromString,
+          response_serializer=mxboard__pb2.RecordIOCreateState.SerializeToString,
+      ),
       'createSymbol': grpc.unary_unary_rpc_method_handler(
           servicer.createSymbol,
           request_deserializer=mxboard__pb2.SymbolParameter.FromString,

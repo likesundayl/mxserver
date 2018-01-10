@@ -31,7 +31,20 @@ message TaskState {
     required string state_desc = 3 [default = 'OK_TO_RUN'];
 }
 
+message RecordIORequest {
+    required string image_root = 1;
+    required string label_lst_path = 2;
+    required bool shuffle = 3 [default=true];
+    repeated int32 shape = 4;
+}
+
+message RecordIOCreateState {
+    required int32 state_code = 1 [default = 0];
+    required string state_desc = 2 [default = 'SUCCESSFUL'];
+}
+
 service MXNetService {
+    rpc createClsRecordIOFiles(RecordIORequest) returns(RecordIOCreateState){};
     rpc createSymbol(SymbolParameter) returns(SymbolCreateState){};
     rpc startTask(TaskParameter) returns(TaskState){};
     rpc stopTask(TaskId) returns(TaskState){};

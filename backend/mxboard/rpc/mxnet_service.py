@@ -34,6 +34,9 @@ class MXNetService(MXNetServiceServicer):
         self._user_action_recorder = UserActionRecorder()
         self._task_dict = {}
 
+    def createClsRecordIOFiles(self, request, context):
+        pass
+
     def createSymbol(self, request, context):
         symbol_id = request.symbol_id
         symbol_name = request.symbol_name
