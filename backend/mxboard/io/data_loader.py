@@ -44,29 +44,18 @@ def load_data(for_training, exec_type, data_config_dict):
         label = True
         if len(data_config_dict['label']) == 0:
             label = False
-        if label:
-            # If correct label is provided
+
+        if exec_type == 'classify':
+            if label:
+                img_label_txt = data_config_dict['label']['cls_label']
+            else:
+                img_label_txt = None
+            loader = ClsDataBatchLoader(img_list=img_list, config=data_config_dict,
+                                        img_label_txt=img_label_txt)
+            return loader.load_data_batchs()
+        elif exec_type == 'detection':
+            # TODO:
             pass
-        else:
-            # If correct label is not provided, then just generate the data batch
-            if exec_type == 'classify':
-                data_batchs = {}
-                img_shape = [int(shape) for shape in data_config_dict['img_shapes']]
-
-                for img in img_list:
-                    cv_img = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-                    if cv_img is not None:
-                        cv_img = cv2.resize(cv_img, (img_shape[0], img_shape[1]))
-                        cv_img = np.swapaxes(cv_img, 0, 2)
-                        cv_img = np.swapaxes(cv_img, 1, 2)
-                        cv_img = cv_img[np.newaxis, :]
-                        data_batchs[img] = Batch([nd.array(cv_img)])
-
-                return data_batchs
-                # TODO: To finish this part by ClsDataBatchLoader in the future
-            elif exec_type == 'detection':
-                # TODO:
-                pass
 
 
 class ClsRecordIOCreator(object):
@@ -81,9 +70,10 @@ class ClsRecordIOCreator(object):
 
 
 class ClsDataBatchLoader(object):
-    def __init__(self, img_list, config):
+    def __init__(self, img_list, config, img_label_txt=None):
         self._img_list = img_list
         self._img_shapes = [int(shape) for shape in config['img_shapes']]
+        self._img_label_txt = img_label_txt
 
     def load_data_batchs(self):
         data_batchs = {}
@@ -97,7 +87,19 @@ class ClsDataBatchLoader(object):
                 cv_img = cv_img[np.newaxis, :]
                 data_batchs[img] = Batch([nd.array(cv_img)])
 
-        return data_batchs
+        if self._img_label_txt:
+            label_dict = {}
+            cls_label = open(self._img_label_txt, 'r')
+            line = cls_label.readline()
+            while line:
+                contents = line.split('\t')
+                img_name = contents[0]
+                img_label = int(contents[1])
+                label_dict[img_name] = img_label
+                line = cls_label.readline()
+            return data_batchs, label_dict
+        else:
+            return data_batchs
 
 
 class DataIterCreator(object):
