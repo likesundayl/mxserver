@@ -27,15 +27,11 @@ def load_data(for_training, exec_type, data_config_dict):
                 train_idx = file_path.get('train_idx')
                 if train_idx is None:
                     shuffle = False
-            train_iter = ImageIter(batch_size=batch_size, data_shape=data_shapes, shuffle=shuffle,
-                                   path_imgrec=train_rec, path_imgidx=train_idx)
             val_rec = file_path.get('val_rec')
-            if val_rec is None:
-                return tuple(train_iter)
-            else:
-                val_iter = ImageIter(batch_size=batch_size, data_shape=data_shapes, shuffle=False, path_imgrec=val_rec)
-                return train_iter, val_iter
-            # TODO: To finish this part by ClsDataIterCreator in the future
+            data_iter_creator = ClsDataIterCreator(train_rec_path=train_rec, batch_size=batch_size,
+                                                   data_shape=data_shapes, shuffle=shuffle, train_idx_path=train_idx,
+                                                   val_rec_path=val_rec)
+            return data_iter_creator.create()
         elif exec_type == 'detection':
             # TODO: It seems that I have to understanding codes in mxnet/example/rcnn
             pass
@@ -111,11 +107,26 @@ class DataIterCreator(object):
 
 
 class ClsDataIterCreator(DataIterCreator):
-    def __init__(self, data_shape):
+    def __init__(self, train_rec_path, batch_size, data_shape, shuffle=False, train_idx_path=None, val_rec_path=None):
         super(ClsDataIterCreator, self).__init__()
+        self._train_rec_path = train_rec_path
+        self._batch_size = batch_size
+        self._data_shape = data_shape
+        self._shuffle = shuffle
+        self._train_idx_path = train_idx_path
+        self._val_rec_path = val_rec_path
 
     def create(self):
-        pass
+        if self._train_idx_path is None:
+            self._shuffle = False
+        train_iter = ImageIter(batch_size=self._batch_size, data_shape=self._data_shape, shuffle=self._shuffle,
+                               path_imgrec=self._train_rec_path, path_imgidx=self._train_idx_path)
+        if self._val_rec_path is None:
+            return train_iter
+        else:
+            val_iter = ImageIter(batch_size=self._batch_size, data_shape=self._data_shape, shuffle=False,
+                                 path_imgrec=self._val_rec_path)
+            return train_iter, val_iter
 
 
 class DetecDataIterCreator(DataIterCreator):
