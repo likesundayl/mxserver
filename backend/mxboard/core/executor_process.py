@@ -5,7 +5,6 @@
 # ------------------------------
 from multiprocessing import Process
 
-from backend.config import EXCEPTION_MSG_LEVEL
 from backend.mxboard.core.executor import Executor
 from backend.mxboard.db.mongo_connector import TaskProgressRecorder
 from backend.mxboard.io.data_loader import load_data
@@ -44,7 +43,7 @@ class ExecutorProcess(Process):
             self._update_task_state('TASK_PREPARE_DATA_DONE')
         except StandardError, e:
             self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
-            excep_msg = exception_msg(EXCEPTION_MSG_LEVEL, e)
+            excep_msg = exception_msg(e)
             _logger.error('Task_%s\'s DataIter instances creation failed! Because %s' % (self._process_id, excep_msg))
             return
         if for_training:
@@ -63,7 +62,7 @@ class ExecutorProcess(Process):
         except StandardError, e:
             self._update_task_state('TASK_EXECUTOR_CREATION_FAILED')
             _logger.error('Task_%s\'s Executor instances creation failed! Because %s' %
-                          (self._process_id, exception_msg(EXCEPTION_MSG_LEVEL, e)))
+                          (self._process_id, exception_msg(e)))
             return
 
         try:
@@ -74,7 +73,7 @@ class ExecutorProcess(Process):
             _logger.info('Task_%s running is done successfully' % self._process_id)
         except StandardError, e:
             self._update_task_state('TASK_TERMINATED_BY_INTERNAL_ERROR')
-            excep_msg = exception_msg(EXCEPTION_MSG_LEVEL, e)
+            excep_msg = exception_msg(e)
             _logger.error('Task_%s has been terminated by server internal error! Because %s' %
                           (self._process_id, excep_msg))
 

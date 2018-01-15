@@ -15,7 +15,6 @@ index = current_dir.index('backend')
 module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
-from backend.config import EXCEPTION_MSG_LEVEL
 from backend.mxboard.log.logger_generator import get_logger
 from backend.mxboard.core.executor_process_manager import ExecutorProcessManager
 from backend.mxboard.proto import mxboard_pb2_grpc
@@ -47,4 +46,4 @@ if __name__ == '__main__':
             main_logger.warn('MXNet server has been stopped!')
             server.stop(0)
     except StandardError, e:
-        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg(EXCEPTION_MSG_LEVEL, e))
+        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg(e))

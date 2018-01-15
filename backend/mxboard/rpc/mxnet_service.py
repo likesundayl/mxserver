@@ -12,10 +12,7 @@ from backend.mxboard.proto import mxboard_pb2
 from backend.mxboard.proto.mxboard_pb2_grpc import MXNetServiceServicer
 from backend.mxboard.symbol.symbol_creater import create_symbol
 from backend.mxboard.util.time_getter import get_time
-from backend.config import EXCEPTION_MSG_LEVEL
-
-if EXCEPTION_MSG_LEVEL == 'DETAILED':
-    import traceback
+from backend.mxboard.util.exception_handler import exception_msg
 
 MAX_TRY_TIMES = 5
 # symbol state codes and states descs
@@ -106,14 +103,8 @@ class MXNetService(MXNetServiceServicer):
                 return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
                                              state_desc=TASK_STATES[3])
             except StandardError, e:
-                if EXCEPTION_MSG_LEVEL == 'DETAILED':
-                    exception_msg = traceback.format_exc()
-                elif EXCEPTION_MSG_LEVEL == 'BASIC':
-                    exception_msg = repr(e)
-                else:
-                    exception_msg = str(e)
                 self._logger.warn('mxnet_service can not terminate the task with id: %s! Because %s' %
-                                  (task_id, exception_msg))
+                                  (task_id, exception_msg(e)))
                 return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
                                              state_desc=TASK_STATES[4])
 
