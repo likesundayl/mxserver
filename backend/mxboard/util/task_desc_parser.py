@@ -7,6 +7,7 @@ import json
 import os.path as osp
 from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Context
 from backend.mxboard.util.xml_parser import mxboard_storage_config
+from backend.mxboard.core.model_zoo.model_factory import get_symbol
 
 symbol_root_path = mxboard_storage_config['symbol-json-root']
 params_root_path = mxboard_storage_config['params-root']
@@ -15,20 +16,27 @@ params_root_path = mxboard_storage_config['params-root']
 def parse_task_desc(task_desc):
     task_dict = json.loads(task_desc)
 
+    executor_dict = {}
+
     ##########################################
     # Prepare net
     ##########################################
     net_dict = task_dict['net']
+    net_type = net_dict['type']
     net_name = net_dict['name']
-    # TODO: What if there is no such file?
-    net_symbol_json_path = osp.join(symbol_root_path, net_name)
+
+    if net_type == 'built_in':
+        net_config = net_dict['config']
+        executor_dict['sym_json_path'] = get_symbol(name=net_name, config=net_config)
+    else:
+        # TODO: What if there is no such file?
+        executor_dict['sym_json_path'] = osp.join(symbol_root_path, net_name)
 
     for_training = True
     if task_dict['for_training'] == '1':
         for_training = False
 
     exec_type = task_dict['target']
-    executor_dict = {}
 
     # eval metrics
     eval_metrics = tuple(task_dict['eval_metrics'])

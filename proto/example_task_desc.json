@@ -1,5 +1,13 @@
 {
-  "net": {"name": "alexnet_10"},
+  "net": {
+    "type": "created",
+    "name": "alexnet_10"},
+//  If choose a built_in model, the json will looks like this
+//  "net": {
+//    "type": "built_in",
+//    "name": "alexnet",
+//    "config": {}
+//  },
   "for_training": "0",
   "target": "classify",
   "context": [

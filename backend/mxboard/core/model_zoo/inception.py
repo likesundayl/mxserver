@@ -5,3 +5,7 @@
 """
 GoogLeNet
 """
+
+
+def inception():
+    pass

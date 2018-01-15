@@ -4,5 +4,5 @@
 # @Time: 15/01/18 下午 01:22
 
 
-def vgg():
+def vgg(config):
     pass

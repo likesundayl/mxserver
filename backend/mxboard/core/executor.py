@@ -54,7 +54,11 @@ class Executor(object):
         # KIND, either express or implied.  See the License for the
         # specific language governing permissions and limitations
         # under the License.
-        symbol = sym.load(sym_json_path)
+        if not isinstance(sym_json_path, sym.Symbol):
+            symbol = sym.load(sym_json_path)
+        else:
+            # If sym_json_path is already an instance of mxnet.sym.Symbol
+            symbol = sym_json_path
         save_dict = nd.load(params_path)
         arg_params = {}
         aux_params = {}

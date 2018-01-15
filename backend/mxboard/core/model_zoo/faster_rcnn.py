@@ -7,5 +7,5 @@ faster-rcnn
 """
 
 
-def faster_rcnn(num_classes, for_training, backbone='vgg', num_layers='101', **kwargs):
+def faster_rcnn(config):
     pass

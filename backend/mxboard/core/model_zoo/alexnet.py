@@ -8,5 +8,5 @@ See original model at "ImageNet Classification with Deep Convolutional Neural Ne
 """
 
 
-def alexnet():
+def alexnet(config):
     pass
