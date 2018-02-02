@@ -1,6 +1,6 @@
 # MXBoard
 
-MXBoard is the training/testing visualization user interface for [MXNet](https://github.com/apache/incubator-mxnet)
+MXBoard is the training/testing `Http/RPC` interface for [MXNet](https://github.com/apache/incubator-mxnet)
 (currently based `mxnet-0.11.0`). And it is designed to support `image classification` and `object detection` 
 training/test task now. After I finish the basic parts, I will consider to make it possible to support other deep 
 learning tasks.
@@ -50,9 +50,7 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 
 ## 4. Thirdparty Dependency
 
-### 4.1 Java Thirdparty Dependency
-
-### 4.2 Python Thirdparty Dependency
+### 4.1 Python Thirdparty Dependency
 
 ### 5. TODOs
 
