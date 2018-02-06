@@ -10,11 +10,6 @@ import time
 
 from worker.mx.util.xml_parser import mxboard_log_config
 
-log_dir = mxboard_log_config['log-file-root']
-if not exit(log_dir):
-    from os import mkdir
-    mkdir(log_dir)
-
 current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = osp.join(mxboard_log_config['log-file-root'], 'mx-server-' + current_date + '-log.txt')
 

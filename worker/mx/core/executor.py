@@ -92,13 +92,14 @@ class Executor(object):
     _registered_trainer = {}
 
     @staticmethod
-    def register(kclass, for_training):
+    def register(kclass):
         assert (isinstance(kclass, type))
         name = kclass.__name__.lower()
-        if for_training:
+        try:
+            name.index('trainer')
             if name not in Executor._registered_trainer:
                 Executor._registered_trainer[name] = kclass
-        else:
+        except ValueError:
             if name not in Executor._registered_predictor:
                 Executor._registered_predictor[name] = kclass
         return kclass
@@ -130,7 +131,7 @@ class Predictor(Executor):
         self._predict()
 
 
-@register(for_training=False)
+@register
 class Classifier(Predictor):
     def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
@@ -156,7 +157,7 @@ class Classifier(Predictor):
             self._test_log_recorder.update_one(self._task_id, message)
 
 
-@register(for_training=False)
+@register
 class ObjectDetector(Predictor):
     def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
@@ -246,7 +247,7 @@ class Trainer(Executor):
         return generate_lr_scheduler(lr_config)
 
 
-@register(for_training=True)
+@register
 class ClassifyTrainer(Trainer):
     def __init__(self, task_id, symbol, train_iter, ctx_config, data_names, label_names, init_config, lr_config,
                  opt_config, resume_config, val_iter=None):
@@ -300,7 +301,7 @@ class ClassifyTrainer(Trainer):
             return mod
 
 
-@register(for_training=True)
+@register
 class RCNNTrainer(Trainer):
     def __init__(self, task_id, symbol, train_iter, ctx, data_names, label_names, init_config, lr_config, opt_config,
                  resume_config, val_iter=None):

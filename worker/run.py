@@ -23,7 +23,6 @@ from worker.mx.rpc.mxnet_service import MXNetService
 from worker.mx.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
 from worker.mx.util.exception_handler import exception_msg
 
-
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_worker')
 
@@ -35,7 +34,7 @@ if __name__ == '__main__':
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(mxboard_rpc_config['max-thread-num'])))
         mxboard_pb2_grpc.add_MXNetServiceServicer_to_server(MXNetService(task_queue), server)
 
-        uri = mxboard_rpc_config['host'] + ':' + mxboard_rpc_config['port']
+        uri = mxboard_rpc_config['host'] + ':' + str(mxboard_rpc_config['port'])
         server.add_insecure_port(uri)
 
         server.start()

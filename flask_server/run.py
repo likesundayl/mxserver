@@ -20,7 +20,6 @@ from worker.mx.util.xml_parser import mxboard_log_config
 
 # Check log dir
 if not osp.exists('../log/flask'):
-    mkdir('../log')
     mkdir('../log/flask')
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
