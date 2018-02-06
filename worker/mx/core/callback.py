@@ -8,8 +8,8 @@ from worker.mx.db.mongo_connector import TrainLogRecorder, ValLogRecorder
 from worker.mx.util.xml_parser import mxboard_storage_config
 from mxnet import nd, cpu
 
-symbol_root_path = mxboard_storage_config['symbol-root-path']
-params_root_path = mxboard_storage_config['params-root-path']
+symbol_root_path = mxboard_storage_config['symbol-json-root']
+params_root_path = mxboard_storage_config['params-root']
 
 
 def do_checkpoint(prefix, period):
