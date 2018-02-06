@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# ------------------------------
-# Copyright (c) 2017 Terence Wu
-# ------------------------------
+# @Author: Terence Wu
+# @Time: 06/02/18 下午 04:36
+from os import mkdir
+import os.path as osp
 import logging
 import logging.handlers as log_handlers
 import time
@@ -10,19 +11,23 @@ import grpc
 from flask import Flask, request, jsonify
 import sys
 current_dir = sys.path[0]
-index = current_dir.index('worker')
+index = current_dir.index('flask_server')
 module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
 from worker.mx.proto import mxboard_pb2, mxboard_pb2_grpc
 from worker.mx.util.xml_parser import mxboard_log_config
 
+# Check log dir
+if not osp.exists('../log/flask'):
+    mkdir('../log')
+    mkdir('../log/flask')
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
-log_file = '../../log/mx-openapi-server-' + current_date + '-log.txt'
+log_file = '../log/flask/mx-flask-server-' + current_date + '-log.txt'
 
 file_handler = log_handlers.RotatingFileHandler(filename=log_file,
-                                                maxBytes=long(mxboard_log_config['log-max-bytes']),
+                                                maxBytes=int(mxboard_log_config['log-max-bytes']),
                                                 backupCount=int(mxboard_log_config['log-backup-count']))
 console_handler = logging.StreamHandler()
 
@@ -89,4 +94,4 @@ def __task_state_2_json(task_state):
 
 if __name__ == '__main__':
     openapi_logger.info('The mxboard_openapi_server has been started')
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port='5000')

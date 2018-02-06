@@ -1,2 +1,2 @@
-python -m grpc_tools.protoc -I. --python_out=../backend/mxboard/proto/ --grpc_python_out=../backend/mxboard/proto/ ./mxboard.proto
+python -m grpc_tools.protoc -I. --python_out=../worker/mx/proto/ --grpc_python_out=../worker/mx/proto/ ./mxboard.proto
 pause

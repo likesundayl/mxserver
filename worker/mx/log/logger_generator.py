@@ -10,13 +10,18 @@ import time
 
 from worker.mx.util.xml_parser import mxboard_log_config
 
+log_dir = mxboard_log_config['log-file-root']
+if not exit(log_dir):
+    from os import mkdir
+    mkdir(log_dir)
+
 current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = osp.join(mxboard_log_config['log-file-root'], 'mx-server-' + current_date + '-log.txt')
 
 
 def get_logger(logger_name):
     file_handler = log_handlers.RotatingFileHandler(filename=log_file,
-                                                    maxBytes=long(mxboard_log_config['log-max-bytes']),
+                                                    maxBytes=int(mxboard_log_config['log-max-bytes']),
                                                     backupCount=int(mxboard_log_config['log-backup-count']))
     console_handler = logging.StreamHandler()
 

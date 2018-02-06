@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxboard>
     <mxnet-conf>
-        <rcnn-path></rcnn-path>
+        <rcnn-path>rcnn_path_in_your_computer</rcnn-path>
     </mxnet-conf>
     <mongo-conf>
         <host>127.0.0.1</host>
@@ -18,7 +18,7 @@
         <one-day-time-in-seconds>86400</one-day-time-in-seconds>
     </rpc-conf>
     <log-conf>
-        <log-file-root>F:\Java\mxboard\log\</log-file-root>
+        <log-file-root>/home/panyiming/wuzhenan/open_source_projects/mxserver/log/</log-file-root>
         <log-format>%(asctime)s - %(filename)s-%(lineno)s[%(levelname)s]: %(message)s</log-format>
         <log-max-bytes>10485760</log-max-bytes>
         <log-backup-count>5</log-backup-count>
