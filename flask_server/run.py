@@ -8,7 +8,7 @@ import logging
 import logging.handlers as log_handlers
 import time
 import grpc
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 import sys
 current_dir = sys.path[0]
 index = current_dir.index('flask_server')
@@ -17,6 +17,8 @@ sys.path.append(module_dir)
 
 from worker.mx.proto import mxboard_pb2, mxboard_pb2_grpc
 from worker.mx.util.xml_parser import mxserver_log_config
+from worker.mx.util.exception_handler import exception_msg
+from worker.mx.gpu import gpu_monitor
 
 # Check log dir
 if not osp.exists('../log/flask'):
@@ -34,16 +36,16 @@ formatter = logging.Formatter(mxserver_log_config['log-format'])
 file_handler.setFormatter(formatter)
 console_handler.setFormatter(formatter)
 
-openapi_logger = logging.getLogger('mxboard_openapi_server')
+mxserver_flask_logger = logging.getLogger('mxserver_flask_server')
 
-openapi_logger.addHandler(console_handler)
-openapi_logger.addHandler(file_handler)
+mxserver_flask_logger.addHandler(console_handler)
+mxserver_flask_logger.addHandler(file_handler)
 
 level = mxserver_log_config['log-level']
 if level == 'INFO':
-    openapi_logger.setLevel(logging.INFO)
+    mxserver_flask_logger.setLevel(logging.INFO)
 elif level == 'DEBUG':
-    openapi_logger.setLevel(logging.DEBUG)
+    mxserver_flask_logger.setLevel(logging.DEBUG)
 
 # TODO:
 channel = grpc.insecure_channel('127.0.0.1:50051')
@@ -56,7 +58,7 @@ app = Flask(__name__)
 def train():
     task_json = request.json
     task_id = task_json['task_id']
-    openapi_logger.info('The mxboard_openapi_server receives a request to start a train task with id: %s' % task_id)
+    mxserver_flask_logger.info('The mxserver_flask_server receives a request to start a train task with id: %s' % task_id)
     return jsonify(__task_state_2_json(__execute()))
 
 
@@ -64,16 +66,30 @@ def train():
 def predict():
     task_json = request.json
     task_id = task_json['task_id']
-    openapi_logger.info('The mxboard_openapi_server receives a request to start a test task with id: %s' % task_id)
+    mxserver_flask_logger.info('The mxserver_flask_server receives a request to start a test task with id: %s' % task_id)
     return jsonify(__execute())
 
 
 @app.route('/stop', methods=['POST'])
 def stop():
     task_id = request.json['task_id']
-    openapi_logger.info('The mxboard_openapi_server receives a request to stop a task with id: %s' % task_id)
+    mxserver_flask_logger.info('The mxserver_flask_server receives a request to stop a task with id: %s' % task_id)
     return jsonify(
         __task_state_2_json(stub.stopTask(mxboard_pb2.TaskId(id=task_id))))
+
+
+@app.route('/gpu', methods=['GET'])
+def query_gpu():
+    mxserver_flask_logger.info('The mxserver_flask_server receives a request to query local GPU infos')
+    try:
+        result = gpu_monitor.query_gpu()
+        response = make_response(result)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    except StandardError as e:
+        mxserver_flask_logger.error('The mxserver_flask_server fails to query local GPU infos! Error message: %s' %
+                                    exception_msg(e))
+        return jsonify([])
 
 
 def __execute():
@@ -92,5 +108,5 @@ def __task_state_2_json(task_state):
 
 
 if __name__ == '__main__':
-    openapi_logger.info('The mxboard_openapi_server has been started')
+    mxserver_flask_logger.info('The mxboard_openapi_server has been started')
     app.run(host='0.0.0.0', port='5000')
