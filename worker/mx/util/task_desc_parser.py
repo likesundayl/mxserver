@@ -6,11 +6,11 @@
 import json
 import os.path as osp
 from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Context
-from worker.mx.util.xml_parser import mxboard_storage_config
+from worker.mx.util.xml_parser import mxserver_storage_config
 from worker.mx.core.model_zoo.model_factory import get_symbol
 
-symbol_root_path = mxboard_storage_config['symbol-json-root']
-params_root_path = mxboard_storage_config['params-root']
+symbol_root_path = mxserver_storage_config['symbol-json-root']
+params_root_path = mxserver_storage_config['params-root']
 
 
 def parse_task_desc(task_desc):

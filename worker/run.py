@@ -20,28 +20,28 @@ from worker.mx.log.logger_generator import get_logger
 from worker.mx.core.executor_process_manager import ExecutorProcessManager
 from worker.mx.proto import mxboard_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService
-from worker.mx.util.xml_parser import mxboard_rpc_config, mxboard_task_queue_config
+from worker.mx.util.xml_parser import mxserver_rpc_config, mxserver_task_queue_config
 from worker.mx.util.exception_handler import exception_msg
 
 if __name__ == '__main__':
     main_logger = get_logger('mxnet_worker')
 
-    task_queue = Queue(int(mxboard_task_queue_config['queue-max-size']))
+    task_queue = Queue(int(mxserver_task_queue_config['queue-max-size']))
     try:
         executor_process_manager = ExecutorProcessManager(task_queue=task_queue)
         executor_process_manager.start()
 
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(mxboard_rpc_config['max-thread-num'])))
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(mxserver_rpc_config['max-thread-num'])))
         mxboard_pb2_grpc.add_MXNetServiceServicer_to_server(MXNetService(task_queue), server)
 
-        uri = mxboard_rpc_config['host'] + ':' + str(mxboard_rpc_config['port'])
+        uri = mxserver_rpc_config['host'] + ':' + str(mxserver_rpc_config['port'])
         server.add_insecure_port(uri)
 
         server.start()
         main_logger.info('MXNet server has been started at: %s, waiting for request.' % uri)
         try:
             while True:
-                time.sleep(int(mxboard_rpc_config['one-day-time-in-seconds']))
+                time.sleep(int(mxserver_rpc_config['one-day-time-in-seconds']))
         except KeyboardInterrupt:
             main_logger.warn('MXNet server has been stopped manually!')
             server.stop(0)

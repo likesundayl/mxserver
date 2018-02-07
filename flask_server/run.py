@@ -16,7 +16,7 @@ module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
 from worker.mx.proto import mxboard_pb2, mxboard_pb2_grpc
-from worker.mx.util.xml_parser import mxboard_log_config
+from worker.mx.util.xml_parser import mxserver_log_config
 
 # Check log dir
 if not osp.exists('../log/flask'):
@@ -26,11 +26,11 @@ current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = '../log/flask/mx-flask-server-' + current_date + '-log.txt'
 
 file_handler = log_handlers.RotatingFileHandler(filename=log_file,
-                                                maxBytes=int(mxboard_log_config['log-max-bytes']),
-                                                backupCount=int(mxboard_log_config['log-backup-count']))
+                                                maxBytes=int(mxserver_log_config['log-max-bytes']),
+                                                backupCount=int(mxserver_log_config['log-backup-count']))
 console_handler = logging.StreamHandler()
 
-formatter = logging.Formatter(mxboard_log_config['log-format'])
+formatter = logging.Formatter(mxserver_log_config['log-format'])
 file_handler.setFormatter(formatter)
 console_handler.setFormatter(formatter)
 
@@ -39,7 +39,7 @@ openapi_logger = logging.getLogger('mxboard_openapi_server')
 openapi_logger.addHandler(console_handler)
 openapi_logger.addHandler(file_handler)
 
-level = mxboard_log_config['log-level']
+level = mxserver_log_config['log-level']
 if level == 'INFO':
     openapi_logger.setLevel(logging.INFO)
 elif level == 'DEBUG':

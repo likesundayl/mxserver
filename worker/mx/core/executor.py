@@ -6,18 +6,18 @@
 import sys
 import numpy as np
 from os import path as osp
-from worker.mx.util.xml_parser import mxboard_mxnet_config
+from worker.mx.util.xml_parser import mxserver_mxnet_config
 from worker.mx.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
 from worker.mx.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
 from worker.mx.db.mongo_connector import TestLogRecorder
 from mxnet.module import Module
 from mxnet import nd
 from mxnet import sym
-from worker.mx.util.xml_parser import mxboard_storage_config
+from worker.mx.util.xml_parser import mxserver_storage_config
 
-params_root_path = mxboard_storage_config['params-root']
+params_root_path = mxserver_storage_config['params-root']
 
-RCNN_PATH = mxboard_mxnet_config['rcnn-path']
+RCNN_PATH = mxserver_mxnet_config['rcnn-path']
 sys.path.append(RCNN_PATH)
 
 

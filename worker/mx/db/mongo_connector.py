@@ -5,12 +5,12 @@
 # ------------------------------
 from pymongo import MongoClient
 
-from worker.mx.util.xml_parser import mxboard_mongo_config
+from worker.mx.util.xml_parser import mxserver_mongo_config
 
 
 class MongoConnector(object):
     def __init__(self):
-        self._client = MongoClient(host=mxboard_mongo_config['host'], port=int(mxboard_mongo_config['port']))
+        self._client = MongoClient(host=mxserver_mongo_config['host'], port=int(mxserver_mongo_config['port']))
         self._collection = None
 
     def insert_one(self, msg):
@@ -26,19 +26,19 @@ class MongoConnector(object):
 class TaskConfigRecorder(MongoConnector):
     def __init__(self):
         super(TaskConfigRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['basic-db']).get_collection('task-config')
+        self._collection = self._client.get_database(mxserver_mongo_config['basic-db']).get_collection('task-config')
 
 
 class UserActionRecorder(MongoConnector):
     def __init__(self):
         super(UserActionRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['basic-db']).get_collection('user-action')
+        self._collection = self._client.get_database(mxserver_mongo_config['basic-db']).get_collection('user-action')
 
 
 class TaskProgressRecorder(MongoConnector):
     def __init__(self):
         super(TaskProgressRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['task-db']).get_collection('task-progress')
+        self._collection = self._client.get_database(mxserver_mongo_config['task-db']).get_collection('task-progress')
 
     def update_one(self, task_id, msg):
         self._collection.update_one(
@@ -50,7 +50,7 @@ class TaskProgressRecorder(MongoConnector):
 class TrainLogRecorder(MongoConnector):
     def __init__(self):
         super(TrainLogRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['train-db']).get_collection('train-log')
+        self._collection = self._client.get_database(mxserver_mongo_config['train-db']).get_collection('train-log')
 
     def update_one(self, task_id, msg):
         self._collection.update_one(
@@ -62,7 +62,7 @@ class TrainLogRecorder(MongoConnector):
 class ValLogRecorder(MongoConnector):
     def __init__(self):
         super(ValLogRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['train-db']).get_collection('val-log')
+        self._collection = self._client.get_database(mxserver_mongo_config['train-db']).get_collection('val-log')
 
     def update_one(self, task_id, msg):
         self._collection.update_one(
@@ -74,7 +74,7 @@ class ValLogRecorder(MongoConnector):
 class TestLogRecorder(MongoConnector):
     def __init__(self):
         super(TestLogRecorder, self).__init__()
-        self._collection = self._client.get_database(mxboard_mongo_config['test-db']).get_collection('test-log')
+        self._collection = self._client.get_database(mxserver_mongo_config['test-db']).get_collection('test-log')
 
     def update_one(self, task_id, msg):
         self._collection.update_one(
