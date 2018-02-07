@@ -18,6 +18,7 @@
         <one-day-time-in-seconds>86400</one-day-time-in-seconds>
     </rpc-conf>
     <zk-conf>
+        <zk-timeout>5</zk-timeout>
         <zk-host>127.0.0.1:2181</zk-host>
         <zk-host>127.0.0.1:2182</zk-host>
         <zk-host>127.0.0.1:2183</zk-host>
