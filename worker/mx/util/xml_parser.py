@@ -98,14 +98,6 @@ class XMLParser(object):
 
         return data_download_config
 
-    def gpu_config(self):
-        gpu_config = {}
-
-        gpu_element = self._root.getElementsByTagName('gpu-conf')[0]
-        gpu_config['gpu-num'] = int(gpu_element.getElementsByTagName('gpu-num')[0].firstChild.data)
-
-        return gpu_config
-
 
 xml_parser = XMLParser()
 mxserver_mxnet_config = xml_parser.mxnet_config()
@@ -116,4 +108,3 @@ mxserver_log_config = xml_parser.log_config()
 mxserver_storage_config = xml_parser.storage_config()
 mxserver_task_queue_config = xml_parser.task_queue_config()
 mxserver_data_download_config = xml_parser.data_download_config()
-mxserver_gpu_config = xml_parser.gpu_config()
