@@ -47,6 +47,17 @@ class XMLParser(object):
 
         return rpc_config
 
+    def zk_config(self):
+        zk_config = {}
+
+        zk_host_list = []
+        zk_element = self._root.getElementsByTagName('zk-conf')[0]
+        zk_hosts = zk_element.getElementsByTagName('zk-host')
+        for zk_host in zk_hosts:
+            zk_host_list.append(zk_host.firstChild.data)
+        zk_config['zk-hosts'] = zk_host_list
+        return zk_config
+
     def log_config(self):
         log_config = {}
 
@@ -88,10 +99,11 @@ class XMLParser(object):
 
 
 xml_parser = XMLParser()
-mxboard_mxnet_config = xml_parser.mxnet_config()
-mxboard_mongo_config = xml_parser.mongo_config()
-mxboard_rpc_config = xml_parser.rpc_config()
-mxboard_log_config = xml_parser.log_config()
-mxboard_storage_config = xml_parser.storage_config()
-mxboard_task_queue_config = xml_parser.task_queue_config()
-mxboard_data_download_config = xml_parser.data_download_config()
+mxserver_mxnet_config = xml_parser.mxnet_config()
+mxserver_mongo_config = xml_parser.mongo_config()
+mxserver_rpc_config = xml_parser.rpc_config()
+mxsever_zk_config = xml_parser.zk_config()
+mxserver_log_config = xml_parser.log_config()
+mxserver_storage_config = xml_parser.storage_config()
+mxserver_task_queue_config = xml_parser.task_queue_config()
+mxserver_data_download_config = xml_parser.data_download_config()

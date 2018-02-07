@@ -17,6 +17,11 @@
         <max-thread-num>4</max-thread-num>
         <one-day-time-in-seconds>86400</one-day-time-in-seconds>
     </rpc-conf>
+    <zk-conf>
+        <zk-host>127.0.0.1:2181</zk-host>
+        <zk-host>127.0.0.1:2182</zk-host>
+        <zk-host>127.0.0.1:2183</zk-host>
+    </zk-conf>
     <log-conf>
         <log-file-root>/home/panyiming/wuzhenan/open_source_projects/mxserver/log/</log-file-root>
         <log-format>%(asctime)s - %(filename)s-%(lineno)s[%(levelname)s]: %(message)s</log-format>
