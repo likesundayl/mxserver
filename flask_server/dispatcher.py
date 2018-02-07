@@ -16,14 +16,19 @@ class Dispatcher(object):
         else:
             self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'],
                                        timeout=mxsever_zk_config['zk-timeout'])
+            self._zk_cli.start()
 
     def choose_worker(self):
         if self._zk_cli is None:
             return '127.0.0.1:50051'
 
-    def assign_task(self, worker, task_id):
+    def assign_task(self, task_id, worker_host):
         if self._zk_cli is None:
             return
         else:
             # TODO:
             return
+
+    def find_worker_host_by_task_id(self, task_id):
+        if self._zk_cli is None:
+            return '127.0.0.1:50051'
