@@ -42,7 +42,4 @@
     <data-download-conf>
         <max-retry-num>5</max-retry-num>
     </data-download-conf>
-    <gpu-conf>
-        <gpu-num>1</gpu-num>
-    </gpu-conf>
 </mxboard>
