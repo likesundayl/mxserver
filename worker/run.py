@@ -2,10 +2,9 @@
 
 # @Author: Terence Wu
 # @Time: 06/02/18 下午 04:38
-from os import mkdir
-import os.path as osp
 import time
 from multiprocessing import Queue
+from kazoo.exceptions import KazooException
 
 import grpc
 from concurrent import futures
@@ -22,10 +21,17 @@ from worker.mx.proto import mxboard_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService
 from worker.mx.util.xml_parser import mxserver_rpc_config, mxserver_task_queue_config
 from worker.mx.util.exception_handler import exception_msg
+from worker.mx.zk_register import ZkRegister
 
 if __name__ == '__main__':
-    main_logger = get_logger('mxnet_worker')
-
+    main_logger = get_logger('mxserver_worker_logger')
+    try:
+        zk_register = ZkRegister()
+        zk_register.register_worker_to_zk()
+    except KazooException as e:
+        main_logger.error('The mxserver worker can not register to ZooKeeper! System exists! Error message: %s'
+                          % exception_msg(e))
+        sys.exit()
     task_queue = Queue(int(mxserver_task_queue_config['queue-max-size']))
     try:
         executor_process_manager = ExecutorProcessManager(task_queue=task_queue)
@@ -38,12 +44,12 @@ if __name__ == '__main__':
         server.add_insecure_port(uri)
 
         server.start()
-        main_logger.info('MXNet server has been started at: %s, waiting for request.' % uri)
+        main_logger.info('The mxserver worker has been started at: %s, waiting for request.' % uri)
         try:
             while True:
                 time.sleep(int(mxserver_rpc_config['one-day-time-in-seconds']))
         except KeyboardInterrupt:
-            main_logger.warn('MXNet server has been stopped manually!')
+            main_logger.warn('The mxserver worker has been stopped manually!')
             server.stop(0)
     except StandardError as e:
-        main_logger.error('The mxnet_server can not be started! Because %s' % exception_msg(e))
+        main_logger.error('The mxserver worker can not start! Error message: %s' % exception_msg(e))

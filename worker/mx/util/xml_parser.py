@@ -52,6 +52,11 @@ class XMLParser(object):
 
         zk_host_list = []
         zk_element = self._root.getElementsByTagName('zk-conf')[0]
+        use_zk = zk_element.getElementsByTagName('use-zk')[0].firstChild.data
+        if use_zk.lower == 'False':
+            zk_config['use-zk'] = False
+        else:
+            zk_config['use-zk'] = True
         zk_config['zk-timeout'] = zk_element.getElementsByTagName('zk-timeout')[0].firstChild.data
         zk_hosts = zk_element.getElementsByTagName('zk-host')
         for zk_host in zk_hosts:
