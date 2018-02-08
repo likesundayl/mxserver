@@ -18,7 +18,7 @@ def query_gpu():
     for i in range(device_count):
         handle = nvmlDeviceGetHandleByIndex(i)
         gpu_mem_info = nvmlDeviceGetMemoryInfo(handle)
-        local_gpu_infos.append({"device_id": "%s" % (i + 1), "total_mem": "%s" % gpu_mem_info.total,
+        local_gpu_infos.append({"device_id": "%s" % i, "total_mem": "%s" % gpu_mem_info.total,
                                 "used_mem": "%s" % gpu_mem_info.used, "free_mem": "%s" % gpu_mem_info.free})
 
     return dumps(local_gpu_infos)
