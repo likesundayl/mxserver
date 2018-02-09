@@ -1,7 +1,5 @@
 syntax = "proto2";
 
-option java_package = 'com.mx.service.rpc';
-
 message SymbolParameter {
     required string symbol_id = 1;
     required string symbol_name = 2;
