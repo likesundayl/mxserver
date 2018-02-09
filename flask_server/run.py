@@ -16,7 +16,7 @@ index = current_dir.index('flask_server')
 module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
-from worker.mx.proto import mxboard_pb2, mxboard_pb2_grpc
+from worker.mx.proto import mxserver_pb2, mxserver_pb2_grpc
 from worker.mx.util.xml_parser import mxserver_log_config
 from worker.mx.util.exception_handler import exception_msg
 from worker.mx.gpu import gpu_monitor
@@ -84,10 +84,10 @@ def stop():
     worker_host = dispatcher.find_worker_host_by_task_id(task_id)
     mxserver_flask_logger.info('The mxserver_flask_server has found task: %s at worker: %s' % (task_id, worker_host))
     channel = grpc.insecure_channel(worker_host)
-    stub = mxboard_pb2_grpc.MXNetServiceStub(channel)
+    stub = mxserver_pb2_grpc.MXNetServiceStub(channel)
 
     return jsonify(
-        __task_state_2_json(stub.stopTask(mxboard_pb2.TaskId(id=task_id))))
+        __task_state_2_json(stub.stopTask(mxserver_pb2.TaskId(id=task_id))))
 
 
 @app.route('/gpu', methods=['GET'])
@@ -112,9 +112,9 @@ def __execute():
     worker_host = dispatcher.choose_worker()
 
     channel = grpc.insecure_channel(worker_host)
-    stub = mxboard_pb2_grpc.MXNetServiceStub(channel)
+    stub = mxserver_pb2_grpc.MXNetServiceStub(channel)
 
-    task_state = stub.startTask(mxboard_pb2.TaskParameter(id=mxboard_pb2.TaskId(task_id=task_id), task_desc=task_desc))
+    task_state = stub.startTask(mxserver_pb2.TaskParameter(id=mxserver_pb2.TaskId(task_id=task_id), task_desc=task_desc))
     if task_state.state_code == 0:
         dispatcher.assign_task(task_id, worker_host)
     return task_state

@@ -11,11 +11,11 @@ assign_zk_path = '/mxserver/assign'
 
 class Dispatcher(object):
     def __init__(self):
-        if len(mxsever_zk_config['zk-hosts']) == 0:
+        if not mxsever_zk_config['use-zk']:
             self._zk_cli = None
         else:
             self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'],
-                                       timeout=mxsever_zk_config['zk-timeout'])
+                                       timeout=mxsever_zk_config['zk-timeout'], logger=None)
             self._zk_cli.start()
 
     def choose_worker(self):
