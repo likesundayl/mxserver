@@ -3,13 +3,13 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
-from Queue import Full
+from multiprocessing.queues import Full
 
 from worker.mx.log.logger_generator import get_logger
 from worker.mx.db.mongo_connector import TaskConfigRecorder, UserActionRecorder
 from worker.mx.core.executor_process import ExecutorProcess
-from worker.mx.proto import mxboard_pb2
-from worker.mx.proto.mxboard_pb2_grpc import MXNetServiceServicer
+from worker.mx.proto import mxserver_pb2
+from worker.mx.proto.mxserver_pb2_grpc import MXNetServiceServicer
 from worker.mx.symbol.symbol_creater import create_symbol
 from worker.mx.util.time_getter import get_time
 from worker.mx.util.exception_handler import exception_msg
@@ -44,13 +44,13 @@ class MXNetService(MXNetServiceServicer):
         self._record_user_action(symbol_id, 'create_symbol')
 
         if create_symbol(symbol_name, symbol_desc):
-            return mxboard_pb2.SymbolCreateState(symbol_id=symbol_id,
-                                                 state_code=SYMBOL_CREATE_STATE_CODES[0],
-                                                 state_desc=SYMBOL_CREATE_STATES[0])
+            return mxserver_pb2.SymbolCreateState(symbol_id=symbol_id,
+                                                  state_code=SYMBOL_CREATE_STATE_CODES[0],
+                                                  state_desc=SYMBOL_CREATE_STATES[0])
         else:
-            return mxboard_pb2.SymbolCreateState(symbol_id=symbol_id,
-                                                 state_code=SYMBOL_CREATE_STATE_CODES[1],
-                                                 state_desc=SYMBOL_CREATE_STATES[1])
+            return mxserver_pb2.SymbolCreateState(symbol_id=symbol_id,
+                                                  state_code=SYMBOL_CREATE_STATE_CODES[1],
+                                                  state_desc=SYMBOL_CREATE_STATES[1])
 
     def startTask(self, request, context):
         task_id = request.id
@@ -71,8 +71,8 @@ class MXNetService(MXNetServiceServicer):
                 self._task_dict[task_id] = executor_process
                 self._logger.info('The mxnet_service has put an ExecutorProcess instance to task queue')
 
-                return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
-                                             state_desc=TASK_STATES[0])
+                return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
+                                              state_desc=TASK_STATES[0])
             except Full:
                 self._logger.warn('The mxnet_service can not put an ExecutorProcess instance to task queue because task'
                                   ' queue is full right now! Try again, totally has tried %d times!' % try_times)
@@ -80,8 +80,8 @@ class MXNetService(MXNetServiceServicer):
 
         self._logger.error('The mxnet_service failed to put an ExecutorProcess instance to task queue because task is '
                            'full for too long!')
-        return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
-                                     state_desc=TASK_STATES[1])
+        return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
+                                      state_desc=TASK_STATES[1])
 
     def stopTask(self, request, context):
         task_id = request.id
@@ -92,21 +92,21 @@ class MXNetService(MXNetServiceServicer):
         executor_process = self._task_dict.get(task_id)
         if executor_process is None:
             self._logger.warn('mxnet_service can not find a task with id: %s' % task_id)
-            return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
-                                         state_desc=TASK_STATES[2])
+            return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
+                                          state_desc=TASK_STATES[2])
         else:
             try:
                 executor_process.terminate()
                 self._logger.warn('mxnet_service has terminated the task with id: %s' % task_id)
                 # After terminate, the key-value should be deleted
                 del self._task_dict[task_id]
-                return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
-                                             state_desc=TASK_STATES[3])
-            except StandardError, e:
+                return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
+                                              state_desc=TASK_STATES[3])
+            except StandardError as e:
                 self._logger.warn('mxnet_service can not terminate the task with id: %s! Because %s' %
                                   (task_id, exception_msg(e)))
-                return mxboard_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
-                                             state_desc=TASK_STATES[4])
+                return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
+                                              state_desc=TASK_STATES[4])
 
     def _record_user_action(self, task_id, action_name):
         action_occur_time = get_time()

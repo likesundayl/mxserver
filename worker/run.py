@@ -17,7 +17,7 @@ sys.path.append(module_dir)
 
 from worker.mx.log.logger_generator import get_logger
 from worker.mx.core.executor_process_manager import ExecutorProcessManager
-from worker.mx.proto import mxboard_pb2_grpc
+from worker.mx.proto import mxserver_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService
 from worker.mx.util.xml_parser import mxserver_rpc_config, mxserver_task_queue_config
 from worker.mx.util.exception_handler import exception_msg
@@ -38,7 +38,7 @@ if __name__ == '__main__':
         executor_process_manager.start()
 
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=int(mxserver_rpc_config['max-thread-num'])))
-        mxboard_pb2_grpc.add_MXNetServiceServicer_to_server(MXNetService(task_queue), server)
+        mxserver_pb2_grpc.add_MXNetServiceServicer_to_server(MXNetService(task_queue), server)
 
         uri = mxserver_rpc_config['host'] + ':' + str(mxserver_rpc_config['port'])
         server.add_insecure_port(uri)
