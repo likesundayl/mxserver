@@ -23,7 +23,7 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 
 ### 3.1 train
 
-* URL: `ip_address:5000/train`
+* URL: `http://ip_address:5000/train`
 * Method: `POST`
 * Param type: `JSON`
 * Param example: please refer to *example_task_desc.json* in folder proto
@@ -32,7 +32,7 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 
 ### 3.2 predict
 
-* URL: `ip_address:5000/predict`
+* URL: `http://ip_address:5000/predict`
 * Method: `POST`
 * Param type: `JSON`
 * Param example: please refer to *example_task_desc.json* in folder proto
@@ -41,16 +41,32 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 
 ### 3.3 stop
 
-* URL: `ip_address:5000/stop`
+* URL: `http://ip_address:5000/stop`
 * Method: `POST`
 * Param type: `JSON`
 * Param example: `{"task_id": "19700101"}`
 * Return type: `JSON`
 * Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "STOP_SUCCESSFULLY"}`
 
+### 3.4 query local gpu info
+
+* URL: `http://ip_address:5000/gpu`
+* Method: `GET`
+* Param: `No param`
+* Return type: `JSON`
+* Return example(Success): `[{"free_mem": "8154316800", "used_mem": "378404864", "total_mem": "8532721664", "device_id": "0"}]`
+* Return example(Failure): `[]`
+
 ## 4. Thirdparty Dependency
 
 ### 4.1 Python Thirdparty Dependency
+
+* [MXNet and its dependencies](https://github.com/apache/incubator-mxnet)
+* grpc and its dependencies
+* nvidia-ml-py
+* Flask
+* pymongo
+* kazoo
 
 ### 5. TODOs
 
