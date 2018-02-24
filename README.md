@@ -7,6 +7,56 @@ learning tasks.
 
 ## 1. How to Use
 
+### 1.1 Download Source Codes
+Clone source codes to your computer and extract it. Assume the extracted path is `MXSERVER_HOME`.
+
+```bash
+git clone https://github.com/Harmonicahappy/mxserver.git
+```
+
+### 1.2 Modify config file
+
+Find `config.py`, it is in `MXSERVER_HOME`, open it by any editor. Modify following things:
+
+* `RCNN_PACKAGE`: Line 16, change it to your rcnn package's path of `MXNet`
+
+* `MONGO_HOST` & `MONGO_PORT`: Line 21 & line 22, change them according to your own config
+
+* `RPC_HOST` & `RPC_PORT`: Line 31 & line 32, change them according to your own config
+
+* `ZooKeeper config`: Line 39 to 41, change them according to your own config
+
+* `LOG_FILE_ROOT`: Line 46, change it to `MXSERVER_HOME/log/`
+
+* `REC_ROOT`: Line 55, change it to `MXSERVER_HOME/data_center/`
+
+* `SYMBOL_JSON_ROOT`: Line 56, change it to `MXSERVER_HOME/model_zoo/`
+
+* `PARAMS_ROOT`: Line 57, change it to `MXSERVER_HOME/params_zoo/`
+
+Of course, you can modify other fields in `config.py` if you are not satisfied with the default config.
+
+### 1.3 Start RPC server and Flask server
+
+Locate folder `bin` in `MXSERVER_HOME`
+
+#### 1.3.1 Windows
+Double click `start_worker_server.bat` and `start_flask_server.bat`
+
+#### 1.3.2 Linux
+Open terminal in `MXSERVER_HOME/bin`
+```bash
+sh ./start_worker_server.sh
+```
+Open another terminal in `MXSERVER_HOME/bin`
+```bash
+sh ./start_flask_server.sh
+```
+
+#### 1.4 Other
+
+Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don't forget to start `ZooKeeper` service.
+
 ## 2. Architecture
 
 ### 2.1 General Architecture
@@ -69,6 +119,8 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 * kazoo
 
 ### 5. TODOs
+
+* Release an beta version before the end of March.
 
 * Data prepare for object detection
 
