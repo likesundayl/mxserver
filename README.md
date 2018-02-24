@@ -67,9 +67,7 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 
 ![](https://github.com/Harmonicahappy/mxboard/blob/master/BackendArchitecture.PNG)
 
-## 3. Open APIs
-
-In my original design, the mxboard will have open APIs in the form of `flask webservice`. I design roughly 3 interfaces.
+## 3. Flask Restful APIs
 
 ### 3.1 train
 
@@ -108,8 +106,6 @@ In my original design, the mxboard will have open APIs in the form of `flask web
 * Return example(Failure): `[]`
 
 ## 4. Thirdparty Dependency
-
-### 4.1 Python Thirdparty Dependency
 
 * [MXNet and its dependencies](https://github.com/apache/incubator-mxnet)
 * grpc and its dependencies
