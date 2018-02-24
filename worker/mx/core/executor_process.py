@@ -5,9 +5,9 @@
 # ------------------------------
 from multiprocessing import Process
 
-from util import exception_msg
-from util import get_time
-from util import parse_task_desc, get_data_config
+from util.exception_handler import exception_msg
+from util.time_getter import get_time
+from worker.mx.task_desc_parser import parse_task_desc, get_data_config
 from worker.mx.core.executor import Executor
 from worker.mx.db.mongo_connector import TaskProgressRecorder
 from worker.mx.io.data_loader import load_data

@@ -20,7 +20,7 @@ sys.path.append(module_dir)
 
 from worker.mx.proto import mxserver_pb2, mxserver_pb2_grpc
 from util.xml_parser import mxserver_log_config
-from util import exception_msg
+from util.exception_handler import exception_msg
 from worker.mx.gpu import gpu_monitor
 from dispatcher import Dispatcher
 

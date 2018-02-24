@@ -20,7 +20,7 @@ from worker.mx.core.executor_process_manager import ExecutorProcessManager
 from worker.mx.proto import mxserver_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService
 from util.xml_parser import mxserver_rpc_config, mxserver_task_queue_config
-from util import exception_msg
+from util.exception_handler import exception_msg
 from worker.mx.zk_register import ZkRegister
 
 if __name__ == '__main__':

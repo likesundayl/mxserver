@@ -5,8 +5,8 @@
 # ------------------------------
 from multiprocessing.queues import Full
 
-from util import exception_msg
-from util import get_time
+from util.exception_handler import exception_msg
+from util.time_getter import get_time
 from worker.mx.core.executor_process import ExecutorProcess
 from worker.mx.db.mongo_connector import TaskConfigRecorder, UserActionRecorder
 from worker.mx.log.logger_generator import get_logger
