@@ -3,6 +3,8 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+from os.path import exists
+from os import mkdir
 import config as cfg
 
 mxserver_mxnet_config = {
@@ -31,6 +33,9 @@ mxsever_zk_config = {
     'zk-timeout': cfg.ZK_TIMEOUT,
     'zk-hosts': cfg.ZK_HOSTS
 }
+# Check work
+if not exists(cfg.LOG_FILE_ROOT):
+    mkdir(cfg.LOG_FILE_ROOT)
 mxserver_log_config = {
     'log-file-root': cfg.LOG_FILE_ROOT,
     'log-format': cfg.LOG_FORMAT,
@@ -38,6 +43,13 @@ mxserver_log_config = {
     'log-backup-count': cfg.LOG_BACKUP_COUNT,
     'log-level': cfg.LOG_LEVEL
 }
+# Check work
+if not exists(cfg.REC_ROOT):
+    mkdir(cfg.REC_ROOT)
+if not exists(cfg.SYMBOL_JSON_ROOT):
+    mkdir(cfg.SYMBOL_JSON_ROOT)
+if not exists(cfg.PARAMS_ROOT):
+    mkdir(cfg.PARAMS_ROOT)
 mxserver_storage_config = {
     'rec-root': cfg.REC_ROOT,
     'symbol-json-root': cfg.SYMBOL_JSON_ROOT,
