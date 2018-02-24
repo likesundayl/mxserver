@@ -4,11 +4,10 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import time
-
-from multiprocessing import Process
 from Queue import Empty
+from multiprocessing import Process
 
-from worker.mx.log.logger_generator import get_logger
+from util.logger_generator import get_logger
 
 _logger = get_logger('executor_process_manager')
 

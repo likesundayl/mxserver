@@ -15,7 +15,7 @@ index = current_dir.index('worker')
 module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
-from worker.mx.log.logger_generator import get_logger
+from util.logger_generator import get_logger
 from worker.mx.core.executor_process_manager import ExecutorProcessManager
 from worker.mx.proto import mxserver_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService

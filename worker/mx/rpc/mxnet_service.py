@@ -6,10 +6,10 @@
 from multiprocessing.queues import Full
 
 from util.exception_handler import exception_msg
+from util.logger_generator import get_logger
 from util.time_getter import get_time
 from worker.mx.core.executor_process import ExecutorProcess
 from worker.mx.db.mongo_connector import TaskConfigRecorder, UserActionRecorder
-from worker.mx.log.logger_generator import get_logger
 from worker.mx.proto import mxserver_pb2
 from worker.mx.proto.mxserver_pb2_grpc import MXNetServiceServicer
 from worker.mx.symbol.symbol_creater import create_symbol
