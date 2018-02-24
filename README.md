@@ -18,21 +18,15 @@ git clone https://github.com/Harmonicahappy/mxserver.git
 
 Find `config.py`, it is in `MXSERVER_HOME`, open it by any editor. Modify following things:
 
-* `RCNN_PACKAGE`: Line 16, change it to your rcnn package's path of `MXNet`
+* `MXSERVER_HOME`: Line 12, change its value to the root path of your extracted `mxserver`
 
-* `MONGO_HOST` & `MONGO_PORT`: Line 21 & line 22, change them according to your own config
+* `RCNN_PACKAGE`: Line 22, change it to your rcnn package's path of `MXNet`
 
-* `RPC_HOST` & `RPC_PORT`: Line 31 & line 32, change them according to your own config
+* `MONGO_HOST` & `MONGO_PORT`: Line 27 & line 28, change them according to your own config
 
-* `ZooKeeper config`: Line 39 to 41, change them according to your own config
+* `RPC_HOST` & `RPC_PORT`: Line 37 & line 38, change them according to your own config
 
-* `LOG_FILE_ROOT`: Line 46, change it to `MXSERVER_HOME/log/`
-
-* `REC_ROOT`: Line 55, change it to `MXSERVER_HOME/data_center/`
-
-* `SYMBOL_JSON_ROOT`: Line 56, change it to `MXSERVER_HOME/model_zoo/`
-
-* `PARAMS_ROOT`: Line 57, change it to `MXSERVER_HOME/params_zoo/`
+* `ZooKeeper config`: Line 51 to 53, change them according to your own config
 
 Of course, you can modify other fields in `config.py` if you are not satisfied with the default config.
 
