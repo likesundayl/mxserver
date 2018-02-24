@@ -3,12 +3,12 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
-import os.path as osp
 import logging
 import logging.handlers as log_handlers
+import os.path as osp
 import time
 
-from worker.mx.util.xml_parser import mxserver_log_config
+from util.xml_parser import mxserver_log_config
 
 current_date = time.strftime('%Y-%m-%d', time.localtime())
 log_file = osp.join(mxserver_log_config['log-file-root'], 'mx-server-' + current_date + '-log.txt')

@@ -3,8 +3,10 @@
 # @Author: Terence Wu
 # @Time: 08/02/18 上午 09:11
 from socket import gethostname, getfqdn, gethostbyname
+
 from kazoo.client import KazooClient
-from worker.mx.util.xml_parser import mxsever_zk_config, mxserver_rpc_config
+
+from util.xml_parser import mxsever_zk_config, mxserver_rpc_config
 
 zk_worker_root_path = '/mxserver/worker'
 worker_name = '%s_%s' % (gethostname(), gethostbyname(getfqdn(gethostname())))

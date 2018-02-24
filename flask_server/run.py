@@ -2,23 +2,25 @@
 
 # @Author: Terence Wu
 # @Time: 06/02/18 下午 04:36
-from os import mkdir
-import os.path as osp
 import logging
 import logging.handlers as log_handlers
-import time
-import grpc
-from flask import Flask, request, jsonify, make_response
-from kazoo.handlers.threading import KazooTimeoutError
+import os.path as osp
 import sys
+import time
+from flask import Flask, request, jsonify, make_response
+from os import mkdir
+
+import grpc
+from kazoo.handlers.threading import KazooTimeoutError
+
 current_dir = sys.path[0]
 index = current_dir.index('flask_server')
 module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
 from worker.mx.proto import mxserver_pb2, mxserver_pb2_grpc
-from worker.mx.util.xml_parser import mxserver_log_config
-from worker.mx.util.exception_handler import exception_msg
+from util.xml_parser import mxserver_log_config
+from util import exception_msg
 from worker.mx.gpu import gpu_monitor
 from dispatcher import Dispatcher
 

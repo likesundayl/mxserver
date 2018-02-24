@@ -5,13 +5,13 @@
 # ------------------------------
 from multiprocessing import Process
 
+from util import exception_msg
+from util import get_time
+from util import parse_task_desc, get_data_config
 from worker.mx.core.executor import Executor
 from worker.mx.db.mongo_connector import TaskProgressRecorder
 from worker.mx.io.data_loader import load_data
 from worker.mx.log.logger_generator import get_logger
-from worker.mx.util.task_desc_parser import parse_task_desc, get_data_config
-from worker.mx.util.time_getter import get_time
-from worker.mx.util.exception_handler import exception_msg
 
 _logger = get_logger('executor_process')
 

@@ -3,7 +3,7 @@
 # @Time    : 2018/1/6 19:48
 # @Author  : Terence Wu
 # @License : Copyright (c) Terence Wu
-from worker.config import EXCEPTION_MSG_LEVEL
+from config import EXCEPTION_MSG_LEVEL
 
 
 def exception_msg(exception):

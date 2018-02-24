@@ -4,9 +4,11 @@
 # @Author  : Terence Wu
 # @License : Copyright (c) Terence Wu
 from os import path as osp
-from worker.mx.db.mongo_connector import TrainLogRecorder, ValLogRecorder
-from worker.mx.util.xml_parser import mxserver_storage_config
+
 from mxnet import nd, cpu
+
+from util.xml_parser import mxserver_storage_config
+from worker.mx.db.mongo_connector import TrainLogRecorder, ValLogRecorder
 
 symbol_root_path = mxserver_storage_config['symbol-json-root']
 params_root_path = mxserver_storage_config['params-root']

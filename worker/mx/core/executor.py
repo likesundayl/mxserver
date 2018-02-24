@@ -4,16 +4,18 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import sys
-import numpy as np
 from os import path as osp
-from worker.mx.util.xml_parser import mxserver_mxnet_config
-from worker.mx.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
-from worker.mx.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
-from worker.mx.db.mongo_connector import TestLogRecorder
-from mxnet.module import Module
+
+import numpy as np
 from mxnet import nd
 from mxnet import sym
-from worker.mx.util.xml_parser import mxserver_storage_config
+from mxnet.module import Module
+from worker.mx.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
+
+from util.xml_parser import mxserver_mxnet_config
+from util.xml_parser import mxserver_storage_config
+from worker.mx.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
+from worker.mx.db.mongo_connector import TestLogRecorder
 
 params_root_path = mxserver_storage_config['params-root']
 

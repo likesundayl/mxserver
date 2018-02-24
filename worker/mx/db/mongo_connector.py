@@ -5,7 +5,7 @@
 # ------------------------------
 from pymongo import MongoClient
 
-from worker.mx.util.xml_parser import mxserver_mongo_config
+from util.xml_parser import mxserver_mongo_config
 
 
 class MongoConnector(object):

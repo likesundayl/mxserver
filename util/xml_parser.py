@@ -4,7 +4,8 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import xml.dom.minidom as xdm
-from worker.config import CONFIG_XML_PATH
+
+from config import CONFIG_XML_PATH
 
 xml_path = CONFIG_XML_PATH
 

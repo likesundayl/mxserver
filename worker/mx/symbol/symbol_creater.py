@@ -4,12 +4,11 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import json
-
 import os
 
 from mxnet import symbol as sym
 
-from worker.mx.util.xml_parser import mxserver_storage_config
+from util.xml_parser import mxserver_storage_config
 
 
 def create_symbol(symbol_name, net_define_json):
