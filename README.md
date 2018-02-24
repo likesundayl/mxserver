@@ -3,7 +3,14 @@
 `MXServer` is a training/testing `Http/RPC` interface for [MXNet](https://github.com/apache/incubator-mxnet)
 (currently based `mxnet-0.11.0`). And it is designed to support `image classification` and `object detection` 
 training/test task right now. After I finish the basic parts, I will consider to make it possible to support other deep
-learning tasks.
+learning tasks. 
+
+In `MXServer`, the training/testing logs/results will be stored in `MongoDB`, you can export or query them through `task_id` 
+by send a query request to `MongoDB`. `MXServer` can be integrated with `ZooKeeper` in distribution environment, these 
+features are useful when integrate `MXServer` with traditional Web development(I will consider to put logs/results to 
+`Message Queue` plugins such as `Kafka`). Besides, all your action will be stored, for example, if you start a `image 
+classification` training task via `MXServer`, the hyper parameters, the datasets, the net, all these infos will be stored 
+in local `MongoDB`, and you can query them and find best combination through comparing those experiments' settings.
 
 ## 1. How to Use
 
@@ -72,7 +79,7 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * Return type: `JSON`
 * Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
 
-### 3.2 predict
+### 3.2 predict(inference)
 
 * URL: `http://ip_address:5000/predict`
 * Method: `POST`
@@ -99,7 +106,19 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * Return example(Success): `[{"free_mem": "8154316800", "used_mem": "378404864", "total_mem": "8532721664", "device_id": "0"}]`
 * Return example(Failure): `[]`
 
-## 4. Thirdparty Dependency
+## 4. Runtime Mode
+
+### 4.1 Single machine for flask server and worker server
+
+In this mode, both flask server and worker server will be running on the same machine, it is suitable for personal use.
+
+### 4.2 Single machine for flask server, multi-machine for worker server
+
+This mode is a typical distribution system, service registry and discovery will be accomplished via `ZooKeeper`. Once there
+is a request to start a deep learning task, the dispatcher in flask server will find all available workers via `ZooKeeper` and choose a 
+worker and assign the task to it according to each worker's `GPU` info.
+
+## 5. Thirdparty Dependency
 
 * [MXNet and its dependencies](https://github.com/apache/incubator-mxnet)
 * grpc and its dependencies
@@ -108,7 +127,7 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * pymongo
 * kazoo
 
-### 5. TODOs
+### 6. TODOs
 
 * Release an beta version before the end of March.
 
