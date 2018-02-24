@@ -10,8 +10,6 @@ import logging
 #################################################
 EXCEPTION_MSG_LEVEL = 'DETAILED'
 
-CONFIG_XML_PATH = '/home/panyiming/wuzhenan/open_source_projects/mxserver/conf/mxserver.xml'
-
 ##################################
 # RCNN Package path in MXNet
 ##################################
@@ -34,6 +32,12 @@ RPC_HOST = '127.0.0.1'
 RPC_PORT = 50051
 RPC_MAX_THREAD_NUM = 4
 RPC_ONE_DAY_TIME_IN_SECONDS = 86400
+
+##################################
+# Flask Config
+##################################
+FLASK_HOST = '0.0.0.0'
+FLASK_PORT = 5000
 
 ##################################
 # ZooKeeper Config

@@ -22,6 +22,10 @@ mxserver_rpc_config = {
     'max-thread-num': cfg.RPC_MAX_THREAD_NUM,
     'one-day-time-in-seconds': cfg.RPC_ONE_DAY_TIME_IN_SECONDS
 }
+mxserver_flask_config = {
+    'host': cfg.FLASK_HOST,
+    'port': str(cfg.FLASK_PORT)
+}
 mxsever_zk_config = {
     'use-zk': cfg.USE_ZK,
     'zk-timeout': cfg.ZK_TIMEOUT,

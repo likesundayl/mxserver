@@ -19,7 +19,7 @@ module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
 from worker.mx.proto import mxserver_pb2, mxserver_pb2_grpc
-from util.conf_parser import mxserver_log_config
+from util.conf_parser import mxserver_flask_config, mxserver_log_config
 from util.exception_handler import exception_msg
 from worker.mx.gpu import gpu_monitor
 from dispatcher import Dispatcher
@@ -130,5 +130,5 @@ def __task_state_2_json(task_state):
 
 
 if __name__ == '__main__':
-    mxserver_flask_logger.info('The mxboard_openapi_server has been started')
-    app.run(host='0.0.0.0', port='5000')
+    mxserver_flask_logger.info('The mxserver flask server has been started')
+    app.run(host=mxserver_flask_config['host'], port=mxserver_flask_config['port'])
