@@ -29,10 +29,6 @@ def get_logger(logger_name):
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
 
-    level = mxserver_log_config['log-level']
-    if level == 'INFO':
-        logger.setLevel(logging.INFO)
-    elif level == 'DEBUG':
-        logger.setLevel(logging.DEBUG)
+    logger.setLevel(mxserver_log_config['log-level'])
 
     return logger
