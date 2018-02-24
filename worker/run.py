@@ -19,7 +19,7 @@ from worker.mx.log.logger_generator import get_logger
 from worker.mx.core.executor_process_manager import ExecutorProcessManager
 from worker.mx.proto import mxserver_pb2_grpc
 from worker.mx.rpc.mxnet_service import MXNetService
-from util.xml_parser import mxserver_rpc_config, mxserver_task_queue_config
+from util.conf_parser import mxserver_rpc_config, mxserver_task_queue_config
 from util.exception_handler import exception_msg
 from worker.mx.zk_register import ZkRegister
 

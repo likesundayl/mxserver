@@ -4,7 +4,7 @@
 # @Time: 07/02/18 上午 11:48
 from kazoo.client import KazooClient
 
-from util.xml_parser import mxsever_zk_config
+from util.conf_parser import mxsever_zk_config
 
 worker_zk_path = '/mxserver/worker'
 assign_zk_path = '/mxserver/assign'

@@ -8,7 +8,7 @@ import os.path as osp
 
 from mxnet import symbol as sym, initializer as init, lr_scheduler as ls, Context
 
-from util.xml_parser import mxserver_storage_config
+from util.conf_parser import mxserver_storage_config
 from worker.mx.core.model_zoo.model_factory import get_symbol
 
 symbol_root_path = mxserver_storage_config['symbol-json-root']
