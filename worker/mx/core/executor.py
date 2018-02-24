@@ -10,7 +10,7 @@ import numpy as np
 from mxnet import nd
 from mxnet import sym
 from mxnet.module import Module
-from worker.mx.util.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
+from worker.mx.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
 
 from util.conf_parser import mxserver_mxnet_config
 from util.conf_parser import mxserver_storage_config
