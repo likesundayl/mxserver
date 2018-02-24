@@ -45,11 +45,7 @@ mxserver_flask_logger = logging.getLogger('mxserver_flask_server')
 mxserver_flask_logger.addHandler(console_handler)
 mxserver_flask_logger.addHandler(file_handler)
 
-level = mxserver_log_config['log-level']
-if level == 'INFO':
-    mxserver_flask_logger.setLevel(logging.INFO)
-elif level == 'DEBUG':
-    mxserver_flask_logger.setLevel(logging.DEBUG)
+mxserver_flask_logger.setLevel(mxserver_log_config['log-level'])
 
 try:
     dispatcher = Dispatcher()
