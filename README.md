@@ -129,7 +129,7 @@ worker and assign the task to it according to each worker's `GPU` info.
 
 ### 6. TODOs
 
-* Release an beta version before the end of March.
+* Release a beta version before the end of March.
 
 * Data prepare for object detection
 
