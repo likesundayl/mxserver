@@ -18,7 +18,7 @@ params_root_path = mxserver_storage_config['params-root']
 def parse_task_desc(task_desc):
     task_dict = json.loads(task_desc)
 
-    executor_dict = {}
+    executor_params_dict = {}
 
     ##########################################
     # Prepare net
@@ -29,10 +29,10 @@ def parse_task_desc(task_desc):
 
     if net_type == 'built_in':
         net_config = net_dict['config']
-        executor_dict['sym_json_path'] = get_symbol(name=net_name, config=net_config)
+        executor_params_dict['sym_json_path'] = get_symbol(name=net_name, config=net_config)
     else:
         # TODO: What if there is no such file?
-        executor_dict['sym_json_path'] = osp.join(symbol_root_path, net_name)
+        executor_params_dict['sym_json_path'] = osp.join(symbol_root_path, net_name)
 
     for_training = True
     if task_dict['for_training'] == '1':
@@ -43,51 +43,50 @@ def parse_task_desc(task_desc):
     # eval metrics
     eval_metrics = tuple(task_dict['eval_metrics'])
     if len(eval_metrics) == 0:
-        executor_dict['eval_metrics'] = None
+        executor_params_dict['eval_metrics'] = None
     else:
-        executor_dict['eval_metrics'] = eval_metrics
+        executor_params_dict['eval_metrics'] = eval_metrics
 
-    if task_dict['for_training'] == '0':
+    if for_training:
         # If for training, then get the symbol
-        executor_dict['symbol'] = sym.load(net_symbol_json_path)
+        executor_params_dict['symbol'] = sym.load(osp.join(symbol_root_path, net_name))
 
         train_config = task_dict['train_param']
 
         # data names and label names
         data_config = train_config['data_param']
         label_config = train_config['label_param']
-        executor_dict['data_names'] = tuple(data_config['name'])
-        executor_dict['label_names'] = tuple(label_config['name'])
+        executor_params_dict['data_names'] = tuple(data_config['name'])
+        executor_params_dict['label_names'] = tuple(label_config['name'])
 
         # context
-        executor_dict['ctx_config'] = task_dict['context']
+        executor_params_dict['ctx_config'] = task_dict['context']
 
         # initializer
-        executor_dict['init_config'] = train_config['initializer']
+        executor_params_dict['init_config'] = train_config['initializer']
 
         # optimizer
-        executor_dict['opt_config'] = train_config['optimizer']
+        executor_params_dict['opt_config'] = train_config['optimizer']
 
         # lr scheduler
-        executor_dict['lr_config'] = train_config['lr_scheduler']
+        executor_params_dict['lr_config'] = train_config['lr_scheduler']
 
         # resume config
-        executor_dict['resume_config'] = train_config['resume_config']
+        executor_params_dict['resume_config'] = train_config['resume_config']
     else:
         test_param = task_dict['test_param']
         ckp = test_param['ckp']
-        executor_dict['sym_json_path'] = net_symbol_json_path
-        executor_dict['params_path'] = osp.join(params_root_path, '%s-%04d.params' % (ckp['prefix'], int(ckp['epoch'])))
+        executor_params_dict['params_path'] = osp.join(params_root_path, '%s-%04d.params' % (ckp['prefix'], int(ckp['epoch'])))
         test_label_config = test_param['label']
-        executor_dict['label'] = None
+        executor_params_dict['label'] = None
         if exec_type == 'classify':
             if test_label_config.get('cls_label') is not None:
-                executor_dict['label'] = test_label_config['cls_label']
+                executor_params_dict['label'] = test_label_config['cls_label']
         elif exec_type == 'detection':
             if test_label_config.get('detec_xml_label') is not None:
-                executor_dict['label'] = test_label_config['detec_xml_label']
+                executor_params_dict['label'] = test_label_config['detec_xml_label']
 
-    return for_training, exec_type, executor_dict
+    return for_training, exec_type, executor_params_dict
 
 
 def get_data_config(task_desc):

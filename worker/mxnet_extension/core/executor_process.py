@@ -33,8 +33,8 @@ class ExecutorProcess(Process):
             'task_progresses': []
         })
 
-        for_training, exec_type, executor_dict = parse_task_desc(self._task_desc)
-        executor_dict['task_id'] = self._process_id
+        for_training, exec_type, executor_params_dict = parse_task_desc(self._task_desc)
+        executor_params_dict['task_id'] = self._process_id
         data_config = get_data_config(self._task_desc)
 
         self._update_task_state('TASK_BEGIN_PREPARE_DATA')
@@ -47,16 +47,16 @@ class ExecutorProcess(Process):
             _logger.error('Task_%s\'s DataIter instances creation failed! Because %s' % (self._process_id, excep_msg))
             return
         if for_training:
-            executor_dict['train_iter'] = data_iters[0]
+            executor_params_dict['train_iter'] = data_iters[0]
             if len(data_iters) == 1:
-                executor_dict['val_iter'] = None
+                executor_params_dict['val_iter'] = None
             else:
-                executor_dict['val_iter'] = data_iters[1]
+                executor_params_dict['val_iter'] = data_iters[1]
         else:
-            executor_dict['data_batch_list'] = data_iters
+            executor_params_dict['data_batch_list'] = data_iters
 
         try:
-            executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_dict)
+            executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_params_dict)
             self._update_task_state('TASK_EXECUTOR_CREATION_DONE')
             _logger.error('Task_%s\'s Executor instances creation done!' % self._process_id)
         except StandardError, e:

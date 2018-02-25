@@ -59,7 +59,7 @@ class Executor(object):
         if not isinstance(sym_json_path, sym.Symbol):
             symbol = sym.load(sym_json_path)
         else:
-            # If sym_json_path is already an instance of mxnet_extension.sym.Symbol
+            # If sym_json_path is already an instance of mxnet.sym.Symbol
             symbol = sym_json_path
         save_dict = nd.load(params_path)
         arg_params = {}
