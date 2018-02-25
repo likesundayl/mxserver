@@ -28,7 +28,7 @@ mxserver_flask_config = {
     'host': cfg.FLASK_HOST,
     'port': str(cfg.FLASK_PORT)
 }
-mxsever_zk_config = {
+mxserver_zk_config = {
     'use-zk': cfg.USE_ZK,
     'zk-timeout': cfg.ZK_TIMEOUT,
     'zk-hosts': cfg.ZK_HOSTS

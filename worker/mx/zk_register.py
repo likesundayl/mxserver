@@ -6,7 +6,7 @@ from socket import gethostname, getfqdn, gethostbyname
 
 from kazoo.client import KazooClient
 
-from util.conf_parser import mxsever_zk_config, mxserver_rpc_config
+from util.conf_parser import mxserver_zk_config, mxserver_rpc_config
 
 zk_worker_root_path = '/mxserver/worker'
 worker_name = '%s_%s' % (gethostname(), gethostbyname(getfqdn(gethostname())))
@@ -14,13 +14,13 @@ worker_name = '%s_%s' % (gethostname(), gethostbyname(getfqdn(gethostname())))
 
 class ZkRegister(object):
     def __init__(self):
-        if mxsever_zk_config['use-zk']:
-            self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'], timeout=mxsever_zk_config['zk-timeout'])
-            self._zk_cli.start(timeout=mxsever_zk_config['zk-timeout'])
+        if mxserver_zk_config['use-zk']:
+            self._zk_cli = KazooClient(hosts=mxserver_zk_config['zk-hosts'], timeout=mxserver_zk_config['zk-timeout'])
+            self._zk_cli.start(timeout=mxserver_zk_config['zk-timeout'])
             self._zk_cli.ensure_path(zk_worker_root_path)
 
     def register_worker_to_zk(self):
-        if not mxsever_zk_config['use-zk']:
+        if not mxserver_zk_config['use-zk']:
             return
         rpc_host = mxserver_rpc_config['host']
         rpc_port = mxserver_rpc_config['port']

@@ -6,7 +6,7 @@ from kazoo.client import KazooClient
 from kazoo.exceptions import KazooException
 from kazoo.handlers.threading import KazooTimeoutError
 
-from util.conf_parser import mxsever_zk_config, mxserver_rpc_config
+from util.conf_parser import mxserver_zk_config, mxserver_rpc_config
 
 worker_zk_path = '/mxserver/worker'
 assign_zk_path = '/mxserver/assign'
@@ -31,7 +31,7 @@ class Dispatcher(object):
 
     @staticmethod
     def create_dispatcher():
-        if mxsever_zk_config['use-zk']:
+        if mxserver_zk_config['use-zk']:
             try:
                 return ZkDispatcher()
             except KazooException:
@@ -62,8 +62,8 @@ class DefaultDispatcher(Dispatcher):
 class ZkDispatcher(Dispatcher):
     def __init__(self):
         super(ZkDispatcher, self).__init__()
-        self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'],
-                                   timeout=mxsever_zk_config['zk-timeout'], logger=None)
+        self._zk_cli = KazooClient(hosts=mxserver_zk_config['zk-hosts'],
+                                   timeout=mxserver_zk_config['zk-timeout'], logger=None)
         self._zk_cli.start()
 
     def type(self):
