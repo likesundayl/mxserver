@@ -8,7 +8,7 @@ from os import path as osp
 from mxnet import nd, cpu
 
 from util.conf_parser import mxserver_storage_config
-from worker.mx.db.mongo_connector import TrainLogRecorder, ValLogRecorder
+from worker.db.mongo_connector import TrainLogRecorder, ValLogRecorder
 
 symbol_root_path = mxserver_storage_config['symbol-json-root']
 params_root_path = mxserver_storage_config['params-root']

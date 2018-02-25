@@ -33,7 +33,7 @@ def load_data(for_training, exec_type, data_config_dict):
                                                    val_rec_path=val_rec)
             return data_iter_creator.create()
         elif exec_type == 'detection':
-            # TODO: It seems that I have to understanding codes in mxnet/example/rcnn
+            # TODO: It seems that I have to understanding codes in mxnet_extension/example/rcnn
             pass
     else:
         img_list = data_config_dict['img_list']

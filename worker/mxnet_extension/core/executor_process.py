@@ -8,10 +8,10 @@ from multiprocessing import Process
 from util.exception_handler import exception_msg
 from util.logger_generator import get_logger
 from util.time_getter import get_time
-from worker.mx.core.executor import Executor
-from worker.mx.db.mongo_connector import TaskProgressRecorder
-from worker.mx.io.data_loader import load_data
-from worker.mx.task_desc_parser import parse_task_desc, get_data_config
+from worker.db.mongo_connector import TaskProgressRecorder
+from worker.mxnet_extension.core.executor import Executor
+from worker.mxnet_extension.io.data_loader import load_data
+from worker.task_desc_parser import parse_task_desc, get_data_config
 
 _logger = get_logger('executor_process')
 

@@ -2,7 +2,7 @@
 
 # @Author: Terence Wu
 # @Time: 15/01/18 下午 01:33
-from worker.mx.core.model_zoo import alexnet, vgg, inception, resnet, densenet, faster_rcnn
+from worker.mxnet_extension.core.model_zoo import alexnet, vgg, inception, resnet, densenet, faster_rcnn
 
 registered_model = {
     'alexnet': alexnet.alexnet,
