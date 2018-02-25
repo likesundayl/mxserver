@@ -47,15 +47,10 @@ mxserver_flask_logger.addHandler(file_handler)
 
 mxserver_flask_logger.setLevel(mxserver_log_config['log-level'])
 
-try:
-    dispatcher = Dispatcher()
-    mxserver_flask_logger.info('The mxserver flask server has created a dispatcher')
-except KazooTimeoutError:
-    mxserver_flask_logger.error('The mxserver flask server failed to create a dispatcher! Timeout when connect to '
-                                'ZooKeeper')
-    sys.exit(0)
+dispatcher = Dispatcher.create_dispatcher()
+mxserver_flask_logger.info('The mxserver flask server has created a dispatcher with type: %s' % dispatcher.type())
 
-app = Flask(__name__)
+app = Flask('MXServer-Flask-Server')
 
 
 @app.route('/train', methods=['POST'])

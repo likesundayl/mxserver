@@ -3,8 +3,10 @@
 # @Author: Terence Wu
 # @Time: 07/02/18 上午 11:48
 from kazoo.client import KazooClient
+from kazoo.exceptions import KazooException
+from kazoo.handlers.threading import KazooTimeoutError
 
-from util.conf_parser import mxsever_zk_config
+from util.conf_parser import mxsever_zk_config, mxserver_rpc_config
 
 worker_zk_path = '/mxserver/worker'
 assign_zk_path = '/mxserver/assign'
@@ -12,24 +14,67 @@ assign_zk_path = '/mxserver/assign'
 
 class Dispatcher(object):
     def __init__(self):
-        if not mxsever_zk_config['use-zk']:
-            self._zk_cli = None
-        else:
-            self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'],
-                                       timeout=mxsever_zk_config['zk-timeout'], logger=None)
-            self._zk_cli.start()
+        self._name = 'dispatcher'
+
+    @property
+    def type(self):
+        NotImplemented
 
     def choose_worker(self):
-        if self._zk_cli is None:
-            return '127.0.0.1:50051'
+        NotImplemented
 
     def assign_task(self, task_id, worker_host):
-        if self._zk_cli is None:
-            return
-        else:
-            # TODO:
-            return
+        NotImplemented
 
     def find_worker_host_by_task_id(self, task_id):
-        if self._zk_cli is None:
-            return '127.0.0.1:50051'
+        NotImplemented
+
+    @staticmethod
+    def create_dispatcher():
+        if mxsever_zk_config['use-zk']:
+            try:
+                return ZkDispatcher()
+            except KazooException:
+                return DefaultDispatcher()
+            except KazooTimeoutError:
+                return DefaultDispatcher()
+        else:
+            return DefaultDispatcher()
+
+
+class DefaultDispatcher(Dispatcher):
+    def __init__(self):
+        super(DefaultDispatcher, self).__init__()
+
+    def type(self):
+        return 'DefaultDispatcher'
+
+    def choose_worker(self):
+        return mxserver_rpc_config['host'] + ':' + str(mxserver_rpc_config['port'])
+
+    def assign_task(self, task_id, worker_host):
+        return
+
+    def find_worker_host_by_task_id(self, task_id):
+        return mxserver_rpc_config['host'] + ':' + str(mxserver_rpc_config['port'])
+
+
+class ZkDispatcher(Dispatcher):
+    def __init__(self):
+        super(ZkDispatcher, self).__init__()
+        self._zk_cli = KazooClient(hosts=mxsever_zk_config['zk-hosts'],
+                                   timeout=mxsever_zk_config['zk-timeout'], logger=None)
+        self._zk_cli.start()
+
+    def type(self):
+        return 'ZkDispatcher'
+
+    def choose_worker(self):
+        pass
+
+    def assign_task(self, task_id, worker_host):
+        pass
+
+    def find_worker_host_by_task_id(self, task_id):
+        pass
+
