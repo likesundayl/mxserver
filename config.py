@@ -55,18 +55,10 @@ ZK_HOSTS = ['127.0.0.1:2181']
 ##################################
 # Logger Config
 ##################################
-LOG_FILE_ROOT = join(MXSERVER_HOME, 'log')
 LOG_FORMAT = '%(asctime)s - %(filename)s-%(lineno)s[%(levelname)s]: %(message)s'
 LOG_MAX_BYTES = 10485760
 LOG_BACKUP_COUNT = 5
 LOG_LEVEL = logging.INFO
-
-##################################
-# Storage Config
-##################################
-REC_ROOT = join(MXSERVER_HOME, 'data_center')
-SYMBOL_JSON_ROOT = join(MXSERVER_HOME, 'model_zoo')
-PARAMS_ROOT = join(MXSERVER_HOME, 'params_zoo')
 
 ##################################
 # Task Queue Config

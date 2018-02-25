@@ -3,7 +3,7 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
-from os.path import exists
+from os.path import exists, join
 from os import mkdir
 import config as cfg
 
@@ -34,26 +34,34 @@ mxsever_zk_config = {
     'zk-hosts': cfg.ZK_HOSTS
 }
 # Check work
-if not exists(cfg.LOG_FILE_ROOT):
-    mkdir(cfg.LOG_FILE_ROOT)
+LOG_FILE_ROOT = join(cfg.MXSERVER_HOME, 'log')
+if not exists(LOG_FILE_ROOT):
+    mkdir(LOG_FILE_ROOT)
+
 mxserver_log_config = {
-    'log-file-root': cfg.LOG_FILE_ROOT,
+    'log-file-root': LOG_FILE_ROOT,
     'log-format': cfg.LOG_FORMAT,
     'log-max-bytes': cfg.LOG_MAX_BYTES,
     'log-backup-count': cfg.LOG_BACKUP_COUNT,
     'log-level': cfg.LOG_LEVEL
 }
 # Check work
-if not exists(cfg.REC_ROOT):
-    mkdir(cfg.REC_ROOT)
-if not exists(cfg.SYMBOL_JSON_ROOT):
-    mkdir(cfg.SYMBOL_JSON_ROOT)
-if not exists(cfg.PARAMS_ROOT):
-    mkdir(cfg.PARAMS_ROOT)
+REC_ROOT = join(cfg.MXSERVER_HOME, 'data_center')
+if not exists(REC_ROOT):
+    mkdir(REC_ROOT)
+
+SYMBOL_JSON_ROOT = join(cfg.MXSERVER_HOME, 'model_zoo')
+if not exists(SYMBOL_JSON_ROOT):
+    mkdir(SYMBOL_JSON_ROOT)
+
+PARAMS_ROOT = join(cfg.MXSERVER_HOME, 'params_zoo')
+if not exists(PARAMS_ROOT):
+    mkdir(PARAMS_ROOT)
+
 mxserver_storage_config = {
-    'rec-root': cfg.REC_ROOT,
-    'symbol-json-root': cfg.SYMBOL_JSON_ROOT,
-    'params-root': cfg.PARAMS_ROOT
+    'rec-root': REC_ROOT,
+    'symbol-json-root': SYMBOL_JSON_ROOT,
+    'params-root': PARAMS_ROOT
 }
 mxserver_task_queue_config = {
     'queue-max-size': cfg.TASK_QUEUE_MAX_SIZE,
