@@ -41,7 +41,7 @@ class ExecutorProcess(Process):
         try:
             data_iters = load_data(for_training, exec_type, data_config)
             self._update_task_state('TASK_PREPARE_DATA_DONE')
-        except StandardError, e:
+        except BaseException as e:
             self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
             excep_msg = exception_msg(e)
             _logger.error('Task_%s\'s DataIter instances creation failed! Because %s' % (self._process_id, excep_msg))
@@ -59,7 +59,7 @@ class ExecutorProcess(Process):
             executor = Executor.create_executor(for_training=for_training, exec_type=exec_type, **executor_params_dict)
             self._update_task_state('TASK_EXECUTOR_CREATION_DONE')
             _logger.error('Task_%s\'s Executor instances creation done!' % self._process_id)
-        except StandardError, e:
+        except BaseException as e:
             self._update_task_state('TASK_EXECUTOR_CREATION_FAILED')
             _logger.error('Task_%s\'s Executor instances creation failed! Because %s' %
                           (self._process_id, exception_msg(e)))
@@ -71,7 +71,7 @@ class ExecutorProcess(Process):
             executor.execute()
             self._update_task_state('TASK_DONE_SUCCESSFULLY')
             _logger.info('Task_%s running is done successfully' % self._process_id)
-        except StandardError, e:
+        except BaseException as e:
             self._update_task_state('TASK_TERMINATED_BY_INTERNAL_ERROR')
             excep_msg = exception_msg(e)
             _logger.error('Task_%s has been terminated by server internal error! Because %s' %

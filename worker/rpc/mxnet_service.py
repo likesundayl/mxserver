@@ -103,7 +103,7 @@ class MXNetService(MXNetServiceServicer):
                 del self._task_dict[task_id]
                 return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[0],
                                               state_desc=TASK_STATES[3])
-            except StandardError as e:
+            except BaseException as e:
                 self._logger.warn('mxnet_service can not terminate the task with id: %s! Because %s' %
                                   (task_id, exception_msg(e)))
                 return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
