@@ -262,7 +262,7 @@ class ClassifyTrainer(Trainer):
     def _prepare_module(symbol, ctx_config, data_names, label_names, resume_config):
         if not resume_config['is_resume'] == '0':
             return Module(symbol=symbol, context=Executor._prepare_ctx(ctx_config), data_names=data_names,
-                          label_names=label_names)
+                          label_names=label_names, logger=None)
         else:
             ckp = resume_config['ckp']
             prefix = ckp['prefix']
