@@ -54,6 +54,7 @@ ZK_HOSTS = ['127.0.0.1:2181']
 ##################################
 # Logger Config
 ##################################
+LOG_TO_FILE = False
 LOG_FORMAT = '%(asctime)s - %(filename)s-%(lineno)s[%(levelname)s]: %(message)s'
 LOG_MAX_BYTES = 10485760
 LOG_BACKUP_COUNT = 5

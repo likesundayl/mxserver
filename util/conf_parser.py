@@ -35,10 +35,12 @@ mxserver_zk_config = {
 }
 # Check work
 LOG_FILE_ROOT = join(cfg.MXSERVER_HOME, 'log')
-if not exists(LOG_FILE_ROOT):
-    mkdir(LOG_FILE_ROOT)
+if cfg.LOG_TO_FILE:
+    if not exists(LOG_FILE_ROOT):
+        mkdir(LOG_FILE_ROOT)
 
 mxserver_log_config = {
+    'log-to-file': cfg.LOG_TO_FILE,
     'log-file-root': LOG_FILE_ROOT,
     'log-format': cfg.LOG_FORMAT,
     'log-max-bytes': cfg.LOG_MAX_BYTES,
