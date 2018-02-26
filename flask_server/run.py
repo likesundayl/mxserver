@@ -2,13 +2,8 @@
 
 # @Author: Terence Wu
 # @Time: 06/02/18 下午 04:36
-import logging
-import logging.handlers as log_handlers
-import os.path as osp
 import sys
-import time
 from flask import Flask, request, jsonify, make_response
-from os import mkdir
 
 import grpc
 
@@ -23,6 +18,7 @@ from util.exception_handler import exception_msg
 from util.logger_generator import get_logger
 from worker.gpu import gpu_monitor
 from dispatcher import Dispatcher
+from flask_server.zk_register import ZkRegister
 
 mxserver_flask_logger = get_logger('mxserver_flask_server')
 
@@ -100,5 +96,17 @@ def __task_state_2_json(task_state):
 
 
 if __name__ == '__main__':
+    try:
+        if ZkRegister.use_zk():
+            mxserver_flask_logger.info('The mxserver flask server is trying to register to ZooKeeper')
+        zk_register = ZkRegister()
+        zk_register.register_flask_to_zk()
+        if ZkRegister.use_zk():
+            mxserver_flask_logger.info('The mxserver flask server has registered to ZooKeeper')
+    except BaseException as e:
+        mxserver_flask_logger.error('The mxserver flask server can not register to ZooKeeper! System exists! '
+                                    'Error message: \n%s' % exception_msg(e))
+        sys.exit('Failed to register to ZooKeeper')
+
     mxserver_flask_logger.info('The mxserver flask server has been started')
     app.run(host=mxserver_flask_config['host'], port=mxserver_flask_config['port'])

@@ -8,7 +8,6 @@ from multiprocessing import Queue
 
 import grpc
 from concurrent import futures
-from kazoo.exceptions import KazooException
 
 current_dir = sys.path[0]
 index = current_dir.index('worker')
@@ -26,12 +25,16 @@ from worker.zk_register import ZkRegister
 if __name__ == '__main__':
     main_logger = get_logger('mxserver_worker_logger')
     try:
+        if ZkRegister.use_zk():
+            main_logger.info('The mxserver worker is trying to register to ZooKeeper')
         zk_register = ZkRegister()
         zk_register.register_worker_to_zk()
-    except KazooException as e:
-        main_logger.error('The mxserver worker can not register to ZooKeeper! System exists! Error message: %s'
+        if ZkRegister.use_zk():
+            main_logger.info('The mxserver worker has registered to ZooKeeper')
+    except BaseException as e:
+        main_logger.error('The mxserver worker can not register to ZooKeeper! System exists! Error message: \n%s'
                           % exception_msg(e))
-        sys.exit()
+        sys.exit('Failed to register to ZooKeeper')
     task_queue = Queue(int(mxserver_task_queue_config['queue-max-size']))
     try:
         executor_process_manager = ExecutorProcessManager(task_queue=task_queue)
@@ -51,5 +54,5 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             main_logger.warn('The mxserver worker has been stopped manually!')
             server.stop(0)
-    except StandardError as e:
+    except BaseException as e:
         main_logger.error('The mxserver worker can not start! Error message: %s' % exception_msg(e))
