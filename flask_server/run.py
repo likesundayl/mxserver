@@ -66,7 +66,7 @@ def query_gpu():
         response = make_response(result)
         response.headers['Content-Type'] = 'application/json'
         return response
-    except StandardError as e:
+    except BaseException as e:
         mxserver_flask_logger.error('The mxserver_flask_server fails to query local GPU infos! Error message: %s' %
                                     exception_msg(e))
         return jsonify([])
