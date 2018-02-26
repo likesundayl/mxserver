@@ -4,7 +4,6 @@
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
 import logging
-from os.path import join
 
 ##################################
 # MXServer root path
