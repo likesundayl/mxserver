@@ -18,30 +18,13 @@ module_dir = current_dir[0:index]
 sys.path.append(module_dir)
 
 from worker.proto import mxserver_pb2, mxserver_pb2_grpc
-from util.conf_parser import mxserver_flask_config, mxserver_log_config
+from util.conf_parser import mxserver_flask_config
 from util.exception_handler import exception_msg
+from util.logger_generator import get_logger
 from worker.gpu import gpu_monitor
 from dispatcher import Dispatcher
 
-formatter = logging.Formatter(mxserver_log_config['log-format'])
-mxserver_flask_logger = logging.getLogger('mxserver_flask_server')
-mxserver_flask_logger.setLevel(mxserver_log_config['log-level'])
-# Check log dir
-if mxserver_log_config['log-to-file']:
-    if not osp.exists('../log/flask'):
-        mkdir('../log/flask')
-    current_date = time.strftime('%Y-%m-%d', time.localtime())
-    log_file = '../log/flask/mx-flask-server-' + current_date + '-log.txt'
-    file_handler = log_handlers.RotatingFileHandler(filename=log_file,
-                                                    maxBytes=int(mxserver_log_config['log-max-bytes']),
-                                                    backupCount=int(mxserver_log_config['log-backup-count']))
-    file_handler.setFormatter(formatter)
-    mxserver_flask_logger.addHandler(file_handler)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-
-mxserver_flask_logger.addHandler(console_handler)
+mxserver_flask_logger = get_logger('mxserver_flask_server')
 
 dispatcher = Dispatcher.create_dispatcher()
 mxserver_flask_logger.info('The mxserver flask server has created a dispatcher with type: %s' % dispatcher.type())
