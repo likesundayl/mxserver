@@ -11,6 +11,7 @@ STOP_TEST_URL = TEST_BASE_URL + '/stop'
 QUERY_GPU_TEST_URL = TEST_BASE_URL + '/gpu'
 
 TRAIN_REQUEST_JSON = {
+  "classes": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],
   "net": {
     "type": "built_in",
     "name": "alexnet",
@@ -76,6 +77,7 @@ TRAIN_REQUEST_JSON = {
 }
 
 TEST_REQUEST_JSON = {
+  "classes": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],
   "net": {
     "type": "built_in",
     "name": "alexnet",
