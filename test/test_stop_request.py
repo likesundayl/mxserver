@@ -17,5 +17,5 @@ if __name__ == '__main__':
         logger.info('Receive a response')
         logger.info('Response\'s status code: %s' % response.status_code)
         logger.info('Response\'s content: %s' % response.content)
-    except StandardError as e:
+    except BaseException as e:
         logger.error('Fail! Error message: %s\n' % exception_msg(e))
