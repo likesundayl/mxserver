@@ -32,6 +32,7 @@ TRAIN_REQUEST_JSON = {
     "save_prefix": "alex",
     "save_period": "50",
     "resume_config": {
+      # 0 for True, 1 for False
       "is_resume": "1",
       "ckp": {}
     },
@@ -85,6 +86,7 @@ TEST_REQUEST_JSON = {
         "num_classes": "10"
     }
   },
+  # 0 for True, 1 for false
   "for_training": "1",
   "target": "classify",
   "context": [
@@ -98,6 +100,8 @@ TEST_REQUEST_JSON = {
       "epoch": "50"
     },
     "test_img_config": {
+      # 0 for True(correct labels are provided), 1 for False(correct labels are not provided)
+      "use_label": "1",
       "label": {
         "cls_label": "test.txt",
         "detec_xml_label": "annotations.txt"
