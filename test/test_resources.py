@@ -76,7 +76,34 @@ TRAIN_REQUEST_JSON = {
 }
 
 TEST_REQUEST_JSON = {
-
+  "net": {
+    "type": "built_in",
+    "name": "alexnet",
+    "config": {
+        "num_classes": "10"
+    }
+  },
+  "for_training": "1",
+  "target": "classify",
+  "context": [
+    {"device_name": "gpu", "device_id": "0"}
+  ],
+  "eval_metrics": ["acc"],
+  "train_param": {},
+  "test_param": {
+    "ckp": {
+      "prefix": "alexnet",
+      "epoch": "50"
+    },
+    "test_img_config": {
+      "label": {
+        "cls_label": "test.txt",
+        "detec_xml_label": "annotations.txt"
+      },
+      "img_list": ["xxx.jpg", "yyy.jpg", "zzz.jpg"],
+      "img_shapes": ["128", "128"]
+    }
+  }
 }
 
 STOP_REQUEST_JSON = {
