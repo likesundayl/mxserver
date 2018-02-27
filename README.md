@@ -75,7 +75,7 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * URL: `http://ip_address:5000/train`
 * Method: `POST`
 * Param type: `JSON`
-* Param example: please refer to *example_task_desc.json* in folder proto
+* Param example: please refer to field: `TRAIN_REQUEST_JSON` in *test_resources.py* in folder test
 * Return type: `JSON`
 * Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
 
@@ -84,7 +84,7 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * URL: `http://ip_address:5000/predict`
 * Method: `POST`
 * Param type: `JSON`
-* Param example: please refer to *example_task_desc.json* in folder proto
+* Param example: please refer to field: `TEST_REQUEST_JSON` in *test_resources.py* in folder test
 * Return type: `JSON`
 * Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
 
