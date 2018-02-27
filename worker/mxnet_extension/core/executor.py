@@ -24,8 +24,9 @@ sys.path.append(RCNN_PATH)
 
 
 class Executor(object):
-    def __init__(self, task_id):
+    def __init__(self, task_id, classes):
         self._task_id = task_id
+        self._classes = classes
         self._mod = None
 
     def execute(self):
@@ -111,9 +112,9 @@ register = Executor.register
 
 
 class Predictor(Executor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+    def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(Predictor, self).__init__(task_id=task_id)
+        super(Predictor, self).__init__(task_id=task_id, classes=classes)
         self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
         self._eval_metrics = eval_metrics
@@ -135,11 +136,11 @@ class Predictor(Executor):
 
 @register
 class Classifier(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+    def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(Classifier, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
-                                         test_datas=test_datas, eval_metrics=eval_metrics, ctx_config=ctx_config,
-                                         label=label)
+        super(Classifier, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
+                                         params_path=params_path, test_datas=test_datas, eval_metrics=eval_metrics,
+                                         ctx_config=ctx_config, label=label)
 
     def _predict(self):
         super(Classifier, self)._predict()
@@ -161,11 +162,11 @@ class Classifier(Predictor):
 
 @register
 class ObjectDetector(Predictor):
-    def __init__(self, task_id, sym_json_path, params_path, test_datas, eval_metrics=None,
+    def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(ObjectDetector, self).__init__(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
-                                             test_datas=test_datas, eval_metrics=eval_metrics, ctx_config=ctx_config,
-                                             label=label)
+        super(ObjectDetector, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
+                                             params_path=params_path, test_datas=test_datas, eval_metrics=eval_metrics,
+                                             ctx_config=ctx_config, label=label)
 
     def _predict(self):
         super(ObjectDetector, self)._predict()
@@ -173,9 +174,9 @@ class ObjectDetector(Predictor):
 
 
 class Trainer(Executor):
-    def __init__(self, task_id, train_iter, init_config, lr_config, opt_config, save_prefix, save_period, val_iter=None,
-                 eval_metrics=('acc',), begin_epoch=0, num_epoch=250, kvstore='local'):
-        super(Trainer, self).__init__(task_id=task_id)
+    def __init__(self, task_id, classes, train_iter, init_config, lr_config, opt_config, save_prefix, save_period,
+                 val_iter=None, eval_metrics=('acc',), begin_epoch=0, num_epoch=250, kvstore='local'):
+        super(Trainer, self).__init__(task_id=task_id, classes=classes)
         self._initializer = Trainer._prepare_initializer(init_config)
         lr_scheduler = Trainer._prepare_lr_scheduler(lr_config)
         self._opt_type, self._mxnet_opt_params = Trainer._prepare_optimizer(opt_config)
@@ -251,10 +252,11 @@ class Trainer(Executor):
 
 @register
 class ClassifyTrainer(Trainer):
-    def __init__(self, task_id, symbol, train_iter, ctx_config, data_names, label_names, init_config, lr_config,
-                 opt_config, resume_config, val_iter=None):
-        super(ClassifyTrainer, self).__init__(task_id, train_iter, init_config, lr_config, opt_config,
-                                              val_iter=val_iter)
+    def __init__(self, task_id, classes, symbol, train_iter, ctx_config, data_names, label_names, init_config,
+                 lr_config, save_prefix, save_period, opt_config, resume_config, val_iter=None):
+        super(ClassifyTrainer, self).__init__(task_id=task_id, classes=classes, train_iter=train_iter,
+                                              init_config=init_config, lr_config=lr_config, opt_config=opt_config,
+                                              save_prefix=save_prefix, save_period=save_period, val_iter=val_iter)
         self._mod = ClassifyTrainer._prepare_module(symbol=symbol, ctx_config=ctx_config, data_names=data_names,
                                                     label_names=label_names, resume_config=resume_config)
 
@@ -305,9 +307,10 @@ class ClassifyTrainer(Trainer):
 
 @register
 class RCNNTrainer(Trainer):
-    def __init__(self, task_id, symbol, train_iter, ctx, data_names, label_names, init_config, lr_config, opt_config,
+    def __init__(self, task_id, classes, symbol, train_iter, ctx, data_names, label_names, init_config, lr_config, opt_config,
                  resume_config, val_iter=None):
-        super(RCNNTrainer, self).__init__(train_iter, init_config, lr_config, opt_config, val_iter=val_iter,
+        super(RCNNTrainer, self).__init__(train_iter=train_iter, init_config=init_config, lr_config=lr_config,
+                                          opt_config=opt_config, val_iter=val_iter,
                                           task_id=task_id)
         pass
 

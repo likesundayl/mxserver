@@ -18,7 +18,9 @@ params_root_path = mxserver_storage_config['params-root']
 def parse_task_desc(task_desc):
     task_dict = json.loads(task_desc)
 
-    executor_params_dict = {}
+    executor_params_dict = dict()
+
+    executor_params_dict['classes'] = [class_name for class_name in task_desc['classes']]
 
     ##########################################
     # Prepare net
