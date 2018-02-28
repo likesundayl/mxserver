@@ -18,6 +18,9 @@ mxserver_mongo_config = {
     'train-db': cfg.MONGO_TRAIN_DB_NAME,
     'test-db': cfg.MONGO_TEST_DB_NAME
 }
+mxserver_kafka_config = {
+    'hosts': cfg.KAFKA_HOSTS
+}
 mxserver_rpc_config = {
     'host': cfg.RPC_HOST,
     'port': cfg.RPC_PORT,
