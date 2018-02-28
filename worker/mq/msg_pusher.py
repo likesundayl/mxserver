@@ -7,8 +7,9 @@ from util.conf_parser import mxserver_kafka_config
 
 
 class MsgPusher(object):
-    def __init__(self):
+    def __init__(self, task_id):
         self._producer = KafkaProducer(bootstrap_servers=mxserver_kafka_config['hosts'])
+        self._task_id = task_id
         self._msg_topic = ''
 
     def push_msg(self, msg):
@@ -16,19 +17,19 @@ class MsgPusher(object):
 
 
 class TrainLogMsgPusher(MsgPusher):
-    def __init__(self):
-        super(TrainLogMsgPusher, self).__init__()
-        self._msg_topic = 'train_log'
+    def __init__(self, task_id):
+        super(TrainLogMsgPusher, self).__init__(task_id=task_id)
+        self._msg_topic = 'train_log_%s' % self._task_id
 
 
 class ValLogMsgPusher(MsgPusher):
-    def __init__(self):
-        super(ValLogMsgPusher, self).__init__()
-        self._msg_topic = 'val_log'
+    def __init__(self, task_id):
+        super(ValLogMsgPusher, self).__init__(task_id=task_id)
+        self._msg_topic = 'val_log_%s' % self._task_id
 
 
 class TestLogPusher(MsgPusher):
-    def __init__(self):
-        super(TestLogPusher, self).__init__()
-        self._msg_topic = 'test_log'
+    def __init__(self, task_id):
+        super(TestLogPusher, self).__init__(task_id=task_id)
+        self._msg_topic = 'test_log_%s' % self._task_id
 
