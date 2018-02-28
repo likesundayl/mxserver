@@ -10,7 +10,7 @@ from util.logger_generator import get_logger
 from util.time_getter import get_time
 from worker.db.mongo_connector import TaskProgressRecorder
 from worker.mxnet_extension.core.executor import Executor
-from worker.mxnet_extension.io.data_loader import load_data
+from worker.mxnet_extension.io.data_manager import DataManager
 from worker.task_desc_parser import parse_task_desc, get_data_config
 
 _logger = get_logger('executor_process')
@@ -39,7 +39,8 @@ class ExecutorProcess(Process):
 
         self._update_task_state('TASK_BEGIN_PREPARE_DATA')
         try:
-            data_iters = load_data(for_training, exec_type, data_config)
+            data_manager = DataManager(for_training=for_training, target=exec_type, data_config=data_config)
+            data_iters = data_manager.prepare_data()
             self._update_task_state('TASK_PREPARE_DATA_DONE')
         except BaseException as e:
             self._update_task_state('TASK_BEGIN_PREPARE_DATA_FAILED')
