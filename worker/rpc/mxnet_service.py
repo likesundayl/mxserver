@@ -3,6 +3,9 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+"""
+The implementation of gRPC's interfaces
+"""
 from multiprocessing.queues import Full
 
 from worker.db.mongo_connector import TaskConfigRecorder, UserActionRecorder

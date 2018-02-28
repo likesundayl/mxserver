@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # ------------------------------
-# Copyright (c) 2017 Terence Wu
+# Copyright (c) 2017-present Terence Wu
 # ------------------------------
 from multiprocessing import Process
 

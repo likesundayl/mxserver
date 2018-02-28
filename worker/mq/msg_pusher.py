@@ -2,6 +2,9 @@
 
 # @Author: Terence Wu
 # @Time: 28/02/18 上午 10:22
+"""
+Push messages to Kafka
+"""
 from kafka import KafkaProducer
 from util.conf_parser import mxserver_kafka_config
 

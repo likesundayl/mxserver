@@ -2,6 +2,9 @@
 
 # @Author: Terence Wu
 # @Time: 07/02/18 下午 02:42
+"""
+Use nvidia-ml-py to query local machine's GPU infos
+"""
 from json import dumps
 from pynvml import nvmlInit, nvmlDeviceGetCount, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
 

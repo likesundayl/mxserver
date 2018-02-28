@@ -2,6 +2,9 @@
 
 # @Author: Terence Wu
 # @Time: 08/02/18 上午 09:11
+"""
+Register worker to ZooKeeper
+"""
 from socket import gethostname, getfqdn, gethostbyname
 
 from kazoo.client import KazooClient

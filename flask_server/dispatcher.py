@@ -2,6 +2,10 @@
 
 # @Author: Terence Wu
 # @Time: 07/02/18 上午 11:48
+"""
+When a deep learning task request is received, the dispatcher will choose the best in-work worker, and
+send a gRPC request to worker.
+"""
 from kazoo.client import KazooClient
 from kazoo.exceptions import KazooException
 from kazoo.handlers.threading import KazooTimeoutError
@@ -77,4 +81,3 @@ class ZkDispatcher(Dispatcher):
 
     def find_worker_host_by_task_id(self, task_id):
         pass
-

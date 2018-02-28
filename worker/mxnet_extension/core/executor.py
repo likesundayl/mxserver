@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # ------------------------------
-# Copyright (c) 2017 Terence Wu
+# Copyright (c) 2017-present Terence Wu
 # ------------------------------
-import sys
+"""
+The extension of standard mxnet.module.Module
+"""
 from os import path as osp
 
 import numpy as np
@@ -11,7 +13,6 @@ from mxnet import nd
 from mxnet import sym
 from mxnet.module import Module
 
-from util.conf_parser import mxserver_mxnet_config
 from util.conf_parser import mxserver_storage_config
 from util.logger_generator import get_logger
 from worker.db.mongo_connector import TestLogRecorder
@@ -19,9 +20,6 @@ from worker.mxnet_extension.core.callback import do_checkpoint, MongoTrainEvalMs
 from worker.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
 
 params_root_path = mxserver_storage_config['params-root']
-
-RCNN_PATH = mxserver_mxnet_config['rcnn-path']
-sys.path.append(RCNN_PATH)
 
 
 class Executor(object):

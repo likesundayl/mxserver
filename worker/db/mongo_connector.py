@@ -3,6 +3,9 @@
 # ------------------------------
 # Copyright (c) 2017 Terence Wu
 # ------------------------------
+"""
+Store messages to MongoDB
+"""
 from pymongo import MongoClient
 
 from util.conf_parser import mxserver_mongo_config

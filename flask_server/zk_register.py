@@ -2,6 +2,9 @@
 
 # @Author: Terence Wu
 # @Time: 26/02/18 下午 03:44
+"""
+Register flask server to ZooKeeper
+"""
 from socket import gethostname, getfqdn, gethostbyname
 
 from kazoo.client import KazooClient

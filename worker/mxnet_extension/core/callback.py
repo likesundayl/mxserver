@@ -3,6 +3,9 @@
 # @Time    : 2018/1/3 16:22
 # @Author  : Terence Wu
 # @License : Copyright (c) Terence Wu
+"""
+Callbacks when training
+"""
 from os import path as osp
 
 from mxnet import nd, cpu
