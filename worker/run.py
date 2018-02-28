@@ -18,9 +18,13 @@ from util.logger_generator import get_logger
 from worker.mxnet_extension.core.executor_process_manager import ExecutorProcessManager
 from worker.proto import mxserver_pb2_grpc
 from worker.rpc.mxnet_service import MXNetService
-from util.conf_parser import mxserver_rpc_config, mxserver_task_queue_config
+from util.conf_parser import mxserver_mxnet_config, mxserver_rpc_config, mxserver_task_queue_config
 from util.exception_handler import exception_msg
 from worker.zk_register import ZkRegister
+
+# Add rcnn package to sys.path
+sys.path.append(mxserver_mxnet_config['rcnn-path'])
+print sys.path
 
 if __name__ == '__main__':
     main_logger = get_logger('mxserver_worker_logger')

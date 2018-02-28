@@ -18,7 +18,7 @@ EXCEPTION_MSG_LEVEL = 'DETAILED'
 ##################################
 # RCNN Package path in MXNet
 ##################################
-RCNN_PACKAGE_PATH = ''
+RCNN_PACKAGE_PATH = '/home/panyiming/mxnet/example/rcnn'
 
 ##################################
 # Mongo Config
