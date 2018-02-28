@@ -13,6 +13,7 @@ from mxnet.module import Module
 
 from util.conf_parser import mxserver_mxnet_config
 from util.conf_parser import mxserver_storage_config
+from util.logger_generator import get_logger
 from worker.db.mongo_connector import TestLogRecorder
 from worker.mxnet_extension.core.callback import do_checkpoint, MongoTrainEvalMsgRecorder, MongoValEvalMsgRecorder
 from worker.task_desc_parser import generate_ctx, generate_initializer, generate_lr_scheduler
@@ -37,7 +38,7 @@ class Executor(object):
         return generate_ctx(ctx_config)
 
     @staticmethod
-    def load_check_point(sym_json_path, params_path, ctx_config_tuple):
+    def load_check_point(sym_json_path, params_path, ctx_config_tuple, task_id):
         ctx_config = list(ctx_config_tuple)
         # Copyed from MXNet
 
@@ -71,7 +72,9 @@ class Executor(object):
                 arg_params[name] = v
             if tp == 'aux':
                 aux_params[name] = v
-        mod = Module(symbol=symbol, context=generate_ctx(ctx_config), logger=None)
+        mod = Module(symbol=symbol, context=generate_ctx(ctx_config), logger=get_logger('mxnet_logger[tid=%s]' % task_id,
+                                                                                        log_to_console=False,
+                                                                                        log_to_file=True))
         mod._arg_params = arg_params
         mod._aux_params = aux_params
         mod.params_initialized = True
@@ -115,7 +118,7 @@ class Predictor(Executor):
     def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
         super(Predictor, self).__init__(task_id=task_id, classes=classes)
-        self._mod = Executor.load_check_point(sym_json_path=sym_json_path, params_path=params_path,
+        self._mod = Executor.load_check_point(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
         self._eval_metrics = eval_metrics
         self._label = label
@@ -257,14 +260,16 @@ class ClassifyTrainer(Trainer):
         super(ClassifyTrainer, self).__init__(task_id=task_id, classes=classes, train_iter=train_iter,
                                               init_config=init_config, lr_config=lr_config, opt_config=opt_config,
                                               save_prefix=save_prefix, save_period=save_period, val_iter=val_iter)
-        self._mod = ClassifyTrainer._prepare_module(symbol=symbol, ctx_config=ctx_config, data_names=data_names,
+        self._mod = ClassifyTrainer._prepare_module(task_id=task_id, symbol=symbol, ctx_config=ctx_config,
+                                                    data_names=data_names,
                                                     label_names=label_names, resume_config=resume_config)
 
     @staticmethod
-    def _prepare_module(symbol, ctx_config, data_names, label_names, resume_config):
+    def _prepare_module(task_id, symbol, ctx_config, data_names, label_names, resume_config):
         if not resume_config['is_resume'] == '0':
             return Module(symbol=symbol, context=Executor._prepare_ctx(ctx_config), data_names=data_names,
-                          label_names=label_names, logger=None)
+                          label_names=label_names, logger=get_logger('mxnet_logger[tid=%s]' % task_id,
+                                                                     log_to_console=False, log_to_file=True))
         else:
             ckp = resume_config['ckp']
             prefix = ckp['prefix']
@@ -297,7 +302,8 @@ class ClassifyTrainer(Trainer):
                     arg_params[name] = v
                 if tp == 'aux':
                     aux_params[name] = v
-            mod = Module(symbol=symbol, context=Executor._prepare_ctx(ctx_config), logger=None)
+            mod = Module(symbol=symbol, context=Executor._prepare_ctx(ctx_config),
+                         logger=get_logger('mxnet_logger[tid=%s]' % task_id, log_to_console=False, log_to_file=True))
             mod._arg_params = arg_params
             mod._aux_params = aux_params
             mod.params_initialized = True

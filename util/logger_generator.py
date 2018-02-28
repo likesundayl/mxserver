@@ -18,13 +18,13 @@ if mxserver_log_config['log-to-file']:
         mkdir(new_log_file_root)
 
 
-def get_logger(logger_name):
+def get_logger(logger_name, log_to_console=True, log_to_file=False):
     logger = logging.getLogger(logger_name)
     logger.setLevel(mxserver_log_config['log-level'])
 
     formatter = logging.Formatter(mxserver_log_config['log-format'])
 
-    if mxserver_log_config['log-to-file']:
+    if mxserver_log_config['log-to-file'] or log_to_file:
         log_file = osp.join(new_log_file_root, logger_name + '.txt')
         file_handler = log_handlers.RotatingFileHandler(filename=log_file,
                                                         maxBytes=int(mxserver_log_config['log-max-bytes']),
@@ -32,9 +32,10 @@ def get_logger(logger_name):
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
+    if log_to_console:
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
 
-    logger.addHandler(console_handler)
+        logger.addHandler(console_handler)
 
     return logger

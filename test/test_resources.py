@@ -37,11 +37,22 @@ TRAIN_REQUEST_JSON = {
       "ckp": {}
     },
     "data_param": {
+      # "local" or "internet"
+      "source": "local",
+      # "rec" or "raw"
+      "ftype": "rec",
       "batch_size": "32",
       "shuffle": "0",
       "name": "data",
       "shapes": ["3", "128", "128"],
-      "file_path": {
+      "file_url": {
+        # If ftype is raw
+        # "train_img_path": "",
+        # "train_lst_path": "",
+        # "val_img_path": "",
+        # "val_lst_path": "",
+
+        # if ftype if rec
         "train_rec": "train.rec",
         "train_idx": "train.idx",
         "val_rec": "val.rec",
