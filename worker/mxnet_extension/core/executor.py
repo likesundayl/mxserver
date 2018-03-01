@@ -21,6 +21,9 @@ from worker.task_desc_parser import generate_ctx, generate_initializer, generate
 
 params_root_path = mxserver_storage_config['params-root']
 
+SUPPORTED_CLASSIFY_EVAL_METRICS = ['acc']
+SUPPORTED_DETECTION_EVAL_METRICS = ['map']
+
 
 class Executor(object):
     def __init__(self, task_id, classes):
@@ -145,20 +148,21 @@ class Classifier(Predictor):
 
     def _predict(self):
         super(Classifier, self)._predict()
-        message = {}
-        test_eval_messages = []
-        message['raw'] = test_eval_messages
+        message = dict()
+        message['raw'] = []
         message['eval'] = []
-        for img, img_data_batch in self._test_datas.iteritems():
-            self._mod.forward(data_batch=img_data_batch, is_train=False)
-            prob = self._mod.get_outputs()[0].asnumpy()
-            prob = np.squeeze(prob)
-            test_eval_messages.append(dict(img=img, predict_probs=prob.tolist()))
-        if self._eval_metrics and self._label:
-            # TODO: According to eval metrics, calculate related results such as accuracy
-            pass
+        # TODO: Rewrite
+
+        self._test_log_recorder.update_one(self._task_id, message)
+
+    @staticmethod
+    def __eval(predicts, labels, eval_metric):
+        if eval_metric in SUPPORTED_CLASSIFY_EVAL_METRICS:
+            # TODO:
+            return 0
         else:
-            self._test_log_recorder.update_one(self._task_id, message)
+            return None
+
 
 
 @register
