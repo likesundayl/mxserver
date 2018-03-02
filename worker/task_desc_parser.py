@@ -62,13 +62,13 @@ def parse_task_desc(task_desc):
         executor_params_dict['label_names'] = tuple(label_config['name'])
 
         # context
-        executor_params_dict['ctx_config'] = task_dict['context']
+        executor_params_dict['ctx_config'] = task_dict.get('context')
 
         # initializer
-        executor_params_dict['init_config'] = train_config['initializer']
+        executor_params_dict['init_config'] = train_config.get('initializer')
 
         # optimizer
-        executor_params_dict['opt_config'] = train_config['optimizer']
+        executor_params_dict['opt_config'] = train_config.get('optimizer')
 
         # lr scheduler
         executor_params_dict['lr_config'] = train_config['lr_scheduler']
@@ -103,6 +103,9 @@ def get_data_config(task_desc):
 def generate_ctx(ctx_config):
     ctx_list = []
 
+    if ctx_config is None:
+        ctx_list.append(Context(device_type='gpu', device_id=0))
+        return ctx_list
     for ctx in ctx_config:
         name = ctx['device_name']
         if name == 'cpu':
@@ -115,6 +118,8 @@ def generate_ctx(ctx_config):
 
 
 def generate_initializer(init_dict):
+    if init_dict is None:
+        return init.Normal()
     init_type = init_dict['type']
     init_param = init_dict['init_config']
 
