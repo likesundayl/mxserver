@@ -58,6 +58,16 @@ def stop():
         __task_state_2_json(stub.stopTask(mxserver_pb2.TaskId(id=task_id))))
 
 
+@app.route('/deploy', methods=['POST'])
+def deploy():
+    pass
+
+
+@app.route('/apply', methods=['GET'])
+def apply_model():
+    pass
+
+
 @app.route('/gpu', methods=['GET'])
 def query_gpu():
     mxserver_flask_logger.info('The mxserver_flask_server receives a request to query local GPU infos')
