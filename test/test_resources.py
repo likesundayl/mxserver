@@ -11,7 +11,8 @@ STOP_TEST_URL = TEST_BASE_URL + '/stop'
 QUERY_GPU_TEST_URL = TEST_BASE_URL + '/gpu'
 
 TRAIN_REQUEST_JSON = {
-  "classes": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],
+  "classes": {"0": "airplane", "1": "automobile", "2": "bird", "3": "cat", "4": "deer", "5": "dog", "6": "frog",
+              "7": "horse", "8": "ship", "9": "truck"},
   "net": {
     "type": "built_in",
     "name": "alexnet",
@@ -89,7 +90,8 @@ TRAIN_REQUEST_JSON = {
 }
 
 TEST_REQUEST_JSON = {
-  "classes": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],
+  "classes": {"0": "airplane", "1": "automobile", "2": "bird", "3": "cat", "4": "deer", "5": "dog", "6": "frog",
+              "7": "horse", "8": "ship", "9": "truck"},
   "net": {
     "type": "built_in",
     "name": "alexnet",
@@ -111,6 +113,8 @@ TEST_REQUEST_JSON = {
       "epoch": "50"
     },
     "test_img_config": {
+      # "local" or "internet"
+      "source": "local",
       # 0 for True(correct labels are provided), 1 for False(correct labels are not provided)
       "use_label": "1",
       "label": {
@@ -125,4 +129,25 @@ TEST_REQUEST_JSON = {
 
 STOP_REQUEST_JSON = {
     "task_id": "19700101"
+}
+
+DEPLOY_REQUEST_JSON = {
+    "target": "",
+    "classes": {},
+    "net": {
+        "type": "built_in",
+        "name": "alexnet",
+        "config": {
+            "num_classes": "10"
+        }
+    },
+    "ckp": {
+        "prefix": "",
+        "epoch": ""
+    }
+}
+
+APPLY_REQUEST_JSON = {
+    "deploy_model_id": "",
+    "img_urls": []
 }
