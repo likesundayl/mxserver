@@ -8,7 +8,6 @@ The extension of standard mxnet.module.Module
 """
 from os import path as osp
 
-import numpy as np
 from mxnet import nd
 from mxnet import sym
 from mxnet.module import Module
@@ -115,10 +114,10 @@ class Executor(object):
 register = Executor.register
 
 
-class Predictor(Executor):
+class Evaluator(Executor):
     def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(Predictor, self).__init__(task_id=task_id, classes=classes)
+        super(Evaluator, self).__init__(task_id=task_id, classes=classes)
         self._mod = Executor.load_check_point(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
                                               ctx_config_tuple=ctx_config)
         self._eval_metrics = eval_metrics
@@ -126,7 +125,7 @@ class Predictor(Executor):
         self._test_datas = test_datas
         self._test_log_recorder = TestLogRecorder()
 
-    def _predict(self):
+    def _eval(self):
         basic_msg = {
             'task_id': self._task_id,
             'test_raw_output': [],
@@ -135,19 +134,20 @@ class Predictor(Executor):
         self._test_log_recorder.insert_one(basic_msg)
 
     def execute(self):
-        self._predict()
+        self._eval()
 
 
 @register
-class Classifier(Predictor):
+class ClassifyEvaluator(Evaluator):
     def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(Classifier, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
-                                         params_path=params_path, test_datas=test_datas, eval_metrics=eval_metrics,
-                                         ctx_config=ctx_config, label=label)
+        super(ClassifyEvaluator, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
+                                                params_path=params_path, test_datas=test_datas,
+                                                eval_metrics=eval_metrics,
+                                                ctx_config=ctx_config, label=label)
 
-    def _predict(self):
-        super(Classifier, self)._predict()
+    def _eval(self):
+        super(ClassifyEvaluator, self)._eval()
         message = dict()
         message['raw'] = []
         message['eval'] = []
@@ -164,17 +164,17 @@ class Classifier(Predictor):
             return None
 
 
-
 @register
-class ObjectDetector(Predictor):
+class ObjectDetectEvaluator(Evaluator):
     def __init__(self, task_id, classes, sym_json_path, params_path, test_datas, eval_metrics=None,
                  ctx_config=({"device_name": "gpu", "device_id": "0"},), label=None):
-        super(ObjectDetector, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
-                                             params_path=params_path, test_datas=test_datas, eval_metrics=eval_metrics,
-                                             ctx_config=ctx_config, label=label)
+        super(ObjectDetectEvaluator, self).__init__(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
+                                                    params_path=params_path, test_datas=test_datas,
+                                                    eval_metrics=eval_metrics,
+                                                    ctx_config=ctx_config, label=label)
 
-    def _predict(self):
-        super(ObjectDetector, self)._predict()
+    def _eval(self):
+        super(ObjectDetectEvaluator, self)._eval()
         # TODO: more work to do with object detection task
 
 
