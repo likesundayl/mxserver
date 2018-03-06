@@ -178,6 +178,23 @@ class ObjectDetectEvaluator(Evaluator):
         # TODO: more work to do with object detection task
 
 
+class Inferencer(Executor):
+    def __init__(self, task_id, classes, ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+        super(Executor, self).__init__(task_id=task_id, classes=classes)
+        self._ctx_config = ctx_config
+
+    def inference(self):
+        pass
+
+
+class ClassifyInferencer(Inferencer):
+    pass
+
+
+class ObjectDetectInference(Inferencer):
+    pass
+
+
 class Trainer(Executor):
     def __init__(self, task_id, classes, train_iter, init_config, lr_config, opt_config, save_prefix, save_period,
                  val_iter=None, eval_metrics=('acc',), begin_epoch=0, num_epoch=250, kvstore='local'):
