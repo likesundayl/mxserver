@@ -79,9 +79,9 @@ Don't forget to start `MongoDB` service, and if you want to use `ZooKeeper`, don
 * Return type: `JSON`
 * Return example: `{"task_id": "19700101", "state_code": "0", "state_desc": "OK_TO_RUN"}`
 
-### 3.2 predict(inference)
+### 3.2 evaluation
 
-* URL: `http://ip_address:5000/predict`
+* URL: `http://ip_address:5000/eval`
 * Method: `POST`
 * Param type: `JSON`
 * Param example: please refer to field: `TEST_REQUEST_JSON` in *test_resources.py* in folder test

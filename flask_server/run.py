@@ -36,12 +36,18 @@ def train():
     return jsonify(__task_state_2_json(__execute()))
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/eval', methods=['POST'])
+def evaluate():
     task_json = request.json
     task_id = task_json['task_id']
-    mxserver_flask_logger.info('The mxserver_flask_server receives a request to start a test task with id: %s' % task_id)
+    mxserver_flask_logger.info('The mxserver_flask_server receives a request to start a evaluation task with id: %s'
+                               % task_id)
     return jsonify(__execute())
+
+
+@app.route('/inference', methods=['POST'])
+def inference():
+    pass
 
 
 @app.route('/stop', methods=['POST'])
@@ -60,11 +66,6 @@ def stop():
 
 @app.route('/deploy', methods=['POST'])
 def deploy():
-    pass
-
-
-@app.route('/apply', methods=['GET'])
-def apply_model():
     pass
 
 
