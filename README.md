@@ -129,6 +129,8 @@ worker and assign the task to it according to each worker's `GPU` info.
 
 ### 6. TODOs
 
+* 2018-03-08: I decide to redesign some parts of worker
+
 * Release a beta version before the end of March.
 
 * Data prepare for object detection
