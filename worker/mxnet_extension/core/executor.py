@@ -179,7 +179,8 @@ class ObjectDetectEvaluator(Evaluator):
 
 
 class Inferencer(Executor):
-    def __init__(self, task_id, classes, ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+    def __init__(self, task_id, classes, sym_json_path, params_path, test_datas,
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
         super(Executor, self).__init__(task_id=task_id, classes=classes)
         self._ctx_config = ctx_config
 
