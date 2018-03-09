@@ -29,6 +29,23 @@ message TaskState {
     required string state_desc = 3 [default = 'OK_TO_RUN'];
 }
 
+message ClsInferenceRequest {
+    required string net = 1;
+    required string prefix = 2;
+    required string epoch = 3;
+    required int32 batch_size = 4 [default = 1];
+    repeated string urls = 5;
+}
+
+message ClsInferenceResult {
+    map<string, SingleImgClsResult> result = 1;
+}
+
+message SingleImgClsResult {
+    repeated float top_k_probs = 1;
+    repeated string top_k_categorys = 2;
+}
+
 message RecordIORequest {
     required string image_root = 1;
     required string label_lst_path = 2;
@@ -44,5 +61,6 @@ service MXNetService {
     rpc createClsRecordIOFiles(RecordIORequest) returns(RecordIOCreateState){};
     rpc createSymbol(SymbolParameter) returns(SymbolCreateState){};
     rpc startTask(TaskParameter) returns(TaskState){};
+    rpc clsInference(ClsInferenceRequest) returns(ClsInferenceResult){};
     rpc stopTask(TaskId) returns(TaskState){};
 }

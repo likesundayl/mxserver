@@ -29,6 +29,11 @@ class MXNetServiceStub(object):
         request_serializer=mxserver__pb2.TaskParameter.SerializeToString,
         response_deserializer=mxserver__pb2.TaskState.FromString,
         )
+    self.clsInference = channel.unary_unary(
+        '/MXNetService/clsInference',
+        request_serializer=mxserver__pb2.ClsInferenceRequest.SerializeToString,
+        response_deserializer=mxserver__pb2.ClsInferenceResult.FromString,
+        )
     self.stopTask = channel.unary_unary(
         '/MXNetService/stopTask',
         request_serializer=mxserver__pb2.TaskId.SerializeToString,
@@ -61,6 +66,13 @@ class MXNetServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def clsInference(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def stopTask(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -85,6 +97,11 @@ def add_MXNetServiceServicer_to_server(servicer, server):
           servicer.startTask,
           request_deserializer=mxserver__pb2.TaskParameter.FromString,
           response_serializer=mxserver__pb2.TaskState.SerializeToString,
+      ),
+      'clsInference': grpc.unary_unary_rpc_method_handler(
+          servicer.clsInference,
+          request_deserializer=mxserver__pb2.ClsInferenceRequest.FromString,
+          response_serializer=mxserver__pb2.ClsInferenceResult.SerializeToString,
       ),
       'stopTask': grpc.unary_unary_rpc_method_handler(
           servicer.stopTask,

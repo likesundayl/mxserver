@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='mxserver.proto',
   package='',
   syntax='proto2',
-  serialized_pb=_b('\n\x0emxserver.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"]\n\x11SymbolCreateState\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x03 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN\"\x9a\x01\n\x0fRecordIORequest\x12\x12\n\nimage_root\x18\x01 \x02(\t\x12\x16\n\x0elabel_lst_path\x18\x02 \x02(\t\x12,\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1c.RecordIORequest.ConfigEntry\x1a-\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"L\n\x13RecordIOCreateState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x02 \x02(\t:\nSUCCESSFUL2\xd8\x01\n\x0cMXNetService\x12\x42\n\x16\x63reateClsRecordIOFiles\x12\x10.RecordIORequest\x1a\x14.RecordIOCreateState\"\x00\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
+  serialized_pb=_b('\n\x0emxserver.proto\"N\n\x0fSymbolParameter\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x13\n\x0bsymbol_name\x18\x02 \x02(\t\x12\x13\n\x0bsymbol_desc\x18\x03 \x02(\t\"]\n\x11SymbolCreateState\x12\x11\n\tsymbol_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x03 \x02(\t:\nSUCCESSFUL\"7\n\rTaskParameter\x12\x13\n\x02id\x18\x01 \x02(\x0b\x32\x07.TaskId\x12\x11\n\ttask_desc\x18\x02 \x02(\t\"\x19\n\x06TaskId\x12\x0f\n\x07task_id\x18\x01 \x02(\t\"R\n\tTaskState\x12\x0f\n\x07task_id\x18\x01 \x02(\t\x12\x15\n\nstate_code\x18\x02 \x02(\x05:\x01\x30\x12\x1d\n\nstate_desc\x18\x03 \x02(\t:\tOK_TO_RUN\"f\n\x13\x43lsInferenceRequest\x12\x0b\n\x03net\x18\x01 \x02(\t\x12\x0e\n\x06prefix\x18\x02 \x02(\t\x12\r\n\x05\x65poch\x18\x03 \x02(\t\x12\x15\n\nbatch_size\x18\x04 \x02(\x05:\x01\x31\x12\x0c\n\x04urls\x18\x05 \x03(\t\"\x89\x01\n\x12\x43lsInferenceResult\x12/\n\x06result\x18\x01 \x03(\x0b\x32\x1f.ClsInferenceResult.ResultEntry\x1a\x42\n\x0bResultEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\"\n\x05value\x18\x02 \x01(\x0b\x32\x13.SingleImgClsResult:\x02\x38\x01\"B\n\x12SingleImgClsResult\x12\x13\n\x0btop_k_probs\x18\x01 \x03(\x02\x12\x17\n\x0ftop_k_categorys\x18\x02 \x03(\t\"\x9a\x01\n\x0fRecordIORequest\x12\x12\n\nimage_root\x18\x01 \x02(\t\x12\x16\n\x0elabel_lst_path\x18\x02 \x02(\t\x12,\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1c.RecordIORequest.ConfigEntry\x1a-\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"L\n\x13RecordIOCreateState\x12\x15\n\nstate_code\x18\x01 \x02(\x05:\x01\x30\x12\x1e\n\nstate_desc\x18\x02 \x02(\t:\nSUCCESSFUL2\x95\x02\n\x0cMXNetService\x12\x42\n\x16\x63reateClsRecordIOFiles\x12\x10.RecordIORequest\x1a\x14.RecordIOCreateState\"\x00\x12\x36\n\x0c\x63reateSymbol\x12\x10.SymbolParameter\x1a\x12.SymbolCreateState\"\x00\x12)\n\tstartTask\x12\x0e.TaskParameter\x1a\n.TaskState\"\x00\x12;\n\x0c\x63lsInference\x12\x14.ClsInferenceRequest\x1a\x13.ClsInferenceResult\"\x00\x12!\n\x08stopTask\x12\x07.TaskId\x1a\n.TaskState\"\x00')
 )
 
 
@@ -229,6 +229,171 @@ _TASKSTATE = _descriptor.Descriptor(
 )
 
 
+_CLSINFERENCEREQUEST = _descriptor.Descriptor(
+  name='ClsInferenceRequest',
+  full_name='ClsInferenceRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='net', full_name='ClsInferenceRequest.net', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='prefix', full_name='ClsInferenceRequest.prefix', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='epoch', full_name='ClsInferenceRequest.epoch', index=2,
+      number=3, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='batch_size', full_name='ClsInferenceRequest.batch_size', index=3,
+      number=4, type=5, cpp_type=1, label=2,
+      has_default_value=True, default_value=1,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='urls', full_name='ClsInferenceRequest.urls', index=4,
+      number=5, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=361,
+  serialized_end=463,
+)
+
+
+_CLSINFERENCERESULT_RESULTENTRY = _descriptor.Descriptor(
+  name='ResultEntry',
+  full_name='ClsInferenceResult.ResultEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='ClsInferenceResult.ResultEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='ClsInferenceResult.ResultEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=537,
+  serialized_end=603,
+)
+
+_CLSINFERENCERESULT = _descriptor.Descriptor(
+  name='ClsInferenceResult',
+  full_name='ClsInferenceResult',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='result', full_name='ClsInferenceResult.result', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_CLSINFERENCERESULT_RESULTENTRY, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=466,
+  serialized_end=603,
+)
+
+
+_SINGLEIMGCLSRESULT = _descriptor.Descriptor(
+  name='SingleImgClsResult',
+  full_name='SingleImgClsResult',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='top_k_probs', full_name='SingleImgClsResult.top_k_probs', index=0,
+      number=1, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='top_k_categorys', full_name='SingleImgClsResult.top_k_categorys', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=605,
+  serialized_end=671,
+)
+
+
 _RECORDIOREQUEST_CONFIGENTRY = _descriptor.Descriptor(
   name='ConfigEntry',
   full_name='RecordIORequest.ConfigEntry',
@@ -262,8 +427,8 @@ _RECORDIOREQUEST_CONFIGENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=471,
-  serialized_end=516,
+  serialized_start=783,
+  serialized_end=828,
 )
 
 _RECORDIOREQUEST = _descriptor.Descriptor(
@@ -306,8 +471,8 @@ _RECORDIOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=362,
-  serialized_end=516,
+  serialized_start=674,
+  serialized_end=828,
 )
 
 
@@ -344,11 +509,14 @@ _RECORDIOCREATESTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=518,
-  serialized_end=594,
+  serialized_start=830,
+  serialized_end=906,
 )
 
 _TASKPARAMETER.fields_by_name['id'].message_type = _TASKID
+_CLSINFERENCERESULT_RESULTENTRY.fields_by_name['value'].message_type = _SINGLEIMGCLSRESULT
+_CLSINFERENCERESULT_RESULTENTRY.containing_type = _CLSINFERENCERESULT
+_CLSINFERENCERESULT.fields_by_name['result'].message_type = _CLSINFERENCERESULT_RESULTENTRY
 _RECORDIOREQUEST_CONFIGENTRY.containing_type = _RECORDIOREQUEST
 _RECORDIOREQUEST.fields_by_name['config'].message_type = _RECORDIOREQUEST_CONFIGENTRY
 DESCRIPTOR.message_types_by_name['SymbolParameter'] = _SYMBOLPARAMETER
@@ -356,6 +524,9 @@ DESCRIPTOR.message_types_by_name['SymbolCreateState'] = _SYMBOLCREATESTATE
 DESCRIPTOR.message_types_by_name['TaskParameter'] = _TASKPARAMETER
 DESCRIPTOR.message_types_by_name['TaskId'] = _TASKID
 DESCRIPTOR.message_types_by_name['TaskState'] = _TASKSTATE
+DESCRIPTOR.message_types_by_name['ClsInferenceRequest'] = _CLSINFERENCEREQUEST
+DESCRIPTOR.message_types_by_name['ClsInferenceResult'] = _CLSINFERENCERESULT
+DESCRIPTOR.message_types_by_name['SingleImgClsResult'] = _SINGLEIMGCLSRESULT
 DESCRIPTOR.message_types_by_name['RecordIORequest'] = _RECORDIOREQUEST
 DESCRIPTOR.message_types_by_name['RecordIOCreateState'] = _RECORDIOCREATESTATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -395,6 +566,35 @@ TaskState = _reflection.GeneratedProtocolMessageType('TaskState', (_message.Mess
   ))
 _sym_db.RegisterMessage(TaskState)
 
+ClsInferenceRequest = _reflection.GeneratedProtocolMessageType('ClsInferenceRequest', (_message.Message,), dict(
+  DESCRIPTOR = _CLSINFERENCEREQUEST,
+  __module__ = 'mxserver_pb2'
+  # @@protoc_insertion_point(class_scope:ClsInferenceRequest)
+  ))
+_sym_db.RegisterMessage(ClsInferenceRequest)
+
+ClsInferenceResult = _reflection.GeneratedProtocolMessageType('ClsInferenceResult', (_message.Message,), dict(
+
+  ResultEntry = _reflection.GeneratedProtocolMessageType('ResultEntry', (_message.Message,), dict(
+    DESCRIPTOR = _CLSINFERENCERESULT_RESULTENTRY,
+    __module__ = 'mxserver_pb2'
+    # @@protoc_insertion_point(class_scope:ClsInferenceResult.ResultEntry)
+    ))
+  ,
+  DESCRIPTOR = _CLSINFERENCERESULT,
+  __module__ = 'mxserver_pb2'
+  # @@protoc_insertion_point(class_scope:ClsInferenceResult)
+  ))
+_sym_db.RegisterMessage(ClsInferenceResult)
+_sym_db.RegisterMessage(ClsInferenceResult.ResultEntry)
+
+SingleImgClsResult = _reflection.GeneratedProtocolMessageType('SingleImgClsResult', (_message.Message,), dict(
+  DESCRIPTOR = _SINGLEIMGCLSRESULT,
+  __module__ = 'mxserver_pb2'
+  # @@protoc_insertion_point(class_scope:SingleImgClsResult)
+  ))
+_sym_db.RegisterMessage(SingleImgClsResult)
+
 RecordIORequest = _reflection.GeneratedProtocolMessageType('RecordIORequest', (_message.Message,), dict(
 
   ConfigEntry = _reflection.GeneratedProtocolMessageType('ConfigEntry', (_message.Message,), dict(
@@ -418,6 +618,8 @@ RecordIOCreateState = _reflection.GeneratedProtocolMessageType('RecordIOCreateSt
 _sym_db.RegisterMessage(RecordIOCreateState)
 
 
+_CLSINFERENCERESULT_RESULTENTRY.has_options = True
+_CLSINFERENCERESULT_RESULTENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 _RECORDIOREQUEST_CONFIGENTRY.has_options = True
 _RECORDIOREQUEST_CONFIGENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 
@@ -427,8 +629,8 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=597,
-  serialized_end=813,
+  serialized_start=909,
+  serialized_end=1186,
   methods=[
   _descriptor.MethodDescriptor(
     name='createClsRecordIOFiles',
@@ -458,9 +660,18 @@ _MXNETSERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='clsInference',
+    full_name='MXNetService.clsInference',
+    index=3,
+    containing_service=None,
+    input_type=_CLSINFERENCEREQUEST,
+    output_type=_CLSINFERENCERESULT,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='stopTask',
     full_name='MXNetService.stopTask',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_TASKID,
     output_type=_TASKSTATE,
