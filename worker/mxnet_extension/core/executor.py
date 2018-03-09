@@ -12,6 +12,10 @@ from mxnet import nd
 from mxnet import sym
 from mxnet.module import Module
 
+from numpy import squeeze, argsort
+
+from worker.proto import mxserver_pb2
+
 from util.conf_parser import mxserver_storage_config
 from util.logger_generator import get_logger
 from worker.db.mongo_connector import TestLogRecorder
@@ -180,20 +184,35 @@ class ObjectDetectEvaluator(Evaluator):
 
 class Inferencer(Executor):
     def __init__(self, task_id, classes, sym_json_path, params_path, test_datas,
-                 ctx_config=({"device_name": "gpu", "device_id": "0"},)):
+                 ctx_config=({"device_name": "gpu", "device_id": "0"},), top_k=1):
         super(Executor, self).__init__(task_id=task_id, classes=classes)
+        self._mod = Executor.load_check_point(task_id=task_id, sym_json_path=sym_json_path, params_path=params_path,
+                                              ctx_config_tuple=ctx_config)
         self._ctx_config = ctx_config
+        self._test_datas = test_datas
+        self._top_k = abs(top_k)
 
     def inference(self):
-        pass
+        raise NotImplementedError()
 
 
 class ClassifyInferencer(Inferencer):
-    pass
+    def inference(self):
+        cls_result = mxserver_pb2.ClsInferenceResult()
+        for img, img_batch in self._test_datas.iteritems():
+            self._mod.forward(img_batch, is_train=False)
+            probs = self._mod.get_outputs()[0].asnumpy()
+            probs = squeeze(probs)
+            sorted_index = argsort(a=probs)
+            for i in range(self._top_k):
+                cls_result.result[img].top_k_probs.append(probs[i])
+                cls_result.result[img].top_k_categorys.append(self._classes[str(sorted_index[i])])
+        return cls_result
 
 
 class ObjectDetectInference(Inferencer):
-    pass
+    def inference(self):
+        pass
 
 
 class Trainer(Executor):

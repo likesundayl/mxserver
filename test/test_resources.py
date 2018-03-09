@@ -138,24 +138,20 @@ INFERENCE_REQUEST_JSON = {
             "num_classes": "10"
         }
     },
-    # 0 for True, 1 for false
-    "for_training": "1",
     "target": "classify",
+    "batch_size": "1",
+    "top_k": "1",
     "context": [
         {"device_name": "gpu", "device_id": "0"}
     ],
-    "test_param": {
-        "ckp": {
-            "prefix": "alexnet",
-            "epoch": "50"
-        },
-        "test_img_config": {
-            # "local" or "internet"
-            "source": "local",
-            "img_list": ["xxx.jpg", "yyy.jpg", "zzz.jpg"],
-            "img_shapes": ["128", "128"]
-        }
-    }
+    "ckp": {
+        "prefix": "test",
+        "epoch": "40"
+    },
+    "urls": [
+        "a.png",
+        "b.png"
+    ]
 }
 
 STOP_REQUEST_JSON = {

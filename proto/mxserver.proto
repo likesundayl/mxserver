@@ -35,6 +35,8 @@ message ClsInferenceRequest {
     required string epoch = 3;
     required int32 batch_size = 4 [default = 1];
     repeated string urls = 5;
+    required int32 top_k = 6 [default = 1];
+    map<string, int32> ctx = 7;
 }
 
 message ClsInferenceResult {

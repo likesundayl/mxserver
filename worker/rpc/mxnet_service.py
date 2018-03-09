@@ -10,6 +10,7 @@ from multiprocessing.queues import Full
 
 from worker.db.mongo_connector import TaskConfigRecorder, UserActionRecorder
 from worker.proto import mxserver_pb2
+from worker.mxnet_extension.core.executor import ClassifyInferencer
 
 from util.exception_handler import exception_msg
 from util.logger_generator import get_logger
@@ -87,6 +88,14 @@ class MXNetService(MXNetServiceServicer):
         return mxserver_pb2.TaskState(task_id=task_id, state_code=TASK_STATE_CODES[1],
                                       state_desc=TASK_STATES[1])
 
+    def clsInference(self, request, context):
+        task_id, classes, sym_json_path, params_path, test_datas, ctx_config, top_k = \
+            parse_cls_inference_request(request)
+        inferencer = ClassifyInferencer(task_id=task_id, classes=classes, sym_json_path=sym_json_path,
+                                        params_path=params_path, test_datas=test_datas, ctx_config=ctx_config,
+                                        top_k=top_k)
+        return inferencer.inference()
+
     def stopTask(self, request, context):
         task_id = request.id
 
@@ -120,3 +129,9 @@ class MXNetService(MXNetServiceServicer):
             'action_name': action_name
         }
         self._user_action_recorder.insert_one(action_desc)
+
+
+def parse_cls_inference_request(request):
+    # TODO:
+    return '', '', '', ''
+
