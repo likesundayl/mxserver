@@ -133,5 +133,5 @@ class MXNetService(MXNetServiceServicer):
 
 def parse_cls_inference_request(request):
     # TODO:
-    return '', '', '', ''
+    return '', '', '', '', '', '', ''
 

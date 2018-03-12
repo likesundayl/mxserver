@@ -129,25 +129,12 @@ TEST_REQUEST_JSON = {
 }
 
 INFERENCE_REQUEST_JSON = {
-    "classes": {"0": "airplane", "1": "automobile", "2": "bird", "3": "cat", "4": "deer", "5": "dog", "6": "frog",
-                "7": "horse", "8": "ship", "9": "truck"},
-    "net": {
-        "type": "built_in",
-        "name": "alexnet",
-        "config": {
-            "num_classes": "10"
-        }
-    },
-    "target": "classify",
+    "deploy_id": "",
     "batch_size": "1",
     "top_k": "1",
     "context": [
         {"device_name": "gpu", "device_id": "0"}
     ],
-    "ckp": {
-        "prefix": "test",
-        "epoch": "40"
-    },
     "urls": [
         "a.png",
         "b.png"
@@ -172,9 +159,4 @@ DEPLOY_REQUEST_JSON = {
         "prefix": "",
         "epoch": ""
     }
-}
-
-APPLY_REQUEST_JSON = {
-    "deploy_model_id": "",
-    "img_urls": []
 }

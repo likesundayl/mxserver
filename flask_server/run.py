@@ -45,11 +45,6 @@ def evaluate():
     return jsonify(__execute())
 
 
-@app.route('/inference', methods=['POST'])
-def inference():
-    pass
-
-
 @app.route('/stop', methods=['POST'])
 def stop():
     task_id = request.json['task_id']
@@ -66,6 +61,16 @@ def stop():
 
 @app.route('/deploy', methods=['POST'])
 def deploy():
+    pass
+
+
+@app.route('/classify', methods=['POST'])
+def classify():
+    pass
+
+
+@app.route('/detect', methods=['POST'])
+def object_detect():
     pass
 
 
