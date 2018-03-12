@@ -19,6 +19,8 @@ if mxserver_log_config['log-to-file']:
 
 
 def get_logger(logger_name, log_to_console=True, log_to_file=False):
+    if (not log_to_console) and (not log_to_file):
+        log_to_console = True
     logger = logging.getLogger(logger_name)
     logger.setLevel(mxserver_log_config['log-level'])
 
